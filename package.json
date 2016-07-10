@@ -6,6 +6,7 @@
   "scripts": {
     "commit": "git-cz",
     "test": "mocha src/index.spec.js -w",
+    "test:single": "mocha src/index.spec.js",
     "prebuild": "rimraf dist",
     "build": "babel --copy-files --out-dir dist --ignore *.spec.js src",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
