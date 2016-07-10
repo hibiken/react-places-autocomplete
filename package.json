@@ -4,6 +4,7 @@
   "description": "A React component for Google Maps Places Autocomplete",
   "main": "dist/index.js",
   "scripts": {
+    "commit": "git-cz",
     "test": "mocha src/index.spec.js -w",
     "prebuild": "rimraf dist",
     "build": "babel --copy-files --out-dir dist --ignore *.spec.js src",
@@ -32,9 +33,14 @@
     "babel-preset-react": "6.11.1",
     "babel-preset-stage-2": "6.11.0",
     "chai": "3.5.0",
+    "commitizen": "2.8.2",
+    "cz-conventional-changelog": "1.1.6",
     "mocha": "2.5.3",
     "rimraf": "2.5.3",
     "semantic-release": "^4.3.5"
+  },
+  "czConfig": {
+    "path": "node_modules/cz-conventional-changelog"
   },
   "babel": {
     "presets": [
