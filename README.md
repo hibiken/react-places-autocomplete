@@ -85,9 +85,7 @@ class SimpleForm extends React.Component {
 export default SimpleForm
 ```
 
-### Props
-
-`PlacesAutocomplete`
+### Props for `PlacesAutocomplete`
 
 #### value
 Type: `String`
@@ -95,11 +93,34 @@ Required: `true`
 
 Value displayed in the input field
 
-### setAddress
+#### setAddress
 Type: `function`
 Required: `true`
 
 Please see the example above
+
+
+
+### `geocodeByAddress` API
+
+```js
+geocodeByAddress(address, callback)
+```
+
+#### address
+Type: `String`
+Required: `true`
+
+String that gets passed to Google Maps Geocoder
+
+#### callback
+Type: `function`
+Required: `true`
+
+Two arguments will be passed to the callback.
+First argument is an error object.
+Second argument is an object with `lat` and `lng` keys
+
 
 
 ### License
