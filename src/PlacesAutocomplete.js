@@ -156,14 +156,13 @@ class PlacesAutocomplete extends React.Component {
     const { placeAutocomplete } = this.state
     if (placeAutocomplete.length === 0) { return null }
     return (
-      <div className={styles.autocompleteWrapper}>
+      <div styles={styles.autocompleteWrapper}>
         {placeAutocomplete.map((p, idx) => (
           <div
             key={p.placeId}
-            className={styles.autocompleteItem}
             onMouseOver={() => this.handleItemMouseOver(p.index)}
             onClick={() => this.selectAddress(p.suggestion)}
-            style={this.autocompleteItemStyle(p.active)}>
+            style={{ ...this.autocompleteItemStyle(p.active), ...styles.autocompleteItem }>
             <i className="fa fa-map-marker" style={{color: '#b87d4e', marginRight: '5px'}}/> {p.suggestion}
           </div>
         ))}
@@ -173,7 +172,7 @@ class PlacesAutocomplete extends React.Component {
 
   render() {
     return (
-      <fieldset className={`form-group ${styles.autocompleteContainer}`}>
+      <fieldset styles={styles.autocompleteContainer}>
         <label className="form-label--simple">Location</label>
         <input
           type="text"
