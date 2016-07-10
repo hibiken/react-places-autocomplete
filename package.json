@@ -22,6 +22,10 @@
     "google",
     "maps"
   ],
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "author": "Ken Hibino <ken.hibino7@gmail.com> (http://www.kenhibino.com/)",
   "license": "MIT",
   "bugs": {
