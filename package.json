@@ -1,0 +1,45 @@
+{
+  "name": "react-places-autocomplete",
+  "version": "1.0.0",
+  "description": "A React component for Google Maps Places Autocomplete",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prebuild": "rimraf dist",
+    "build": "babel --copy-files --out-dir dist --ignore *.spec.js src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kenny-hibino/react-places-autocomplete.git"
+  },
+  "keywords": [
+    "React",
+    "place",
+    "autocomplete",
+    "google",
+    "maps"
+  ],
+  "author": "Ken Hibino <ken.hibino7@gmail.com> (http://www.kenhibino.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kenny-hibino/react-places-autocomplete/issues"
+  },
+  "homepage": "https://github.com/kenny-hibino/react-places-autocomplete#readme",
+  "devDependencies": {
+    "babel-cli": "6.10.1",
+    "babel-preset-es2015": "6.9.0",
+    "babel-preset-react": "6.11.1",
+    "babel-preset-stage-2": "6.11.0",
+    "rimraf": "2.5.3"
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "react",
+      "stage-2"
+    ]
+  },
+  "dependencies": {
+    "react": "15.2.1"
+  }
+}
