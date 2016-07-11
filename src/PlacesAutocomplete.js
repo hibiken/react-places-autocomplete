@@ -156,7 +156,7 @@ class PlacesAutocomplete extends React.Component {
     const { placeAutocomplete } = this.state
     if (placeAutocomplete.length === 0) { return null }
     return (
-      <div style={styles.autocompleteWrapper}>
+      <div className="autocomplete__wrapper" style={styles.autocompleteWrapper}>
         {placeAutocomplete.map((p, idx) => (
           <div
             key={p.placeId}
