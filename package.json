@@ -6,7 +6,7 @@
   "scripts": {
     "commit": "git-cz",
     "watch:test": "npm t -- -w",
-    "test": "mocha src/index.spec.js --compilers js:babel-register",
+    "test": "mocha src/tests/index.spec.js --compilers js:babel-register",
     "prebuild": "rimraf dist",
     "build": "npm-run-all --parallel build:*",
     "build:main": "babel --copy-files --out-dir dist --ignore *.spec.js src",
@@ -50,6 +50,7 @@
     "mocha": "2.5.3",
     "npm-run-all": "2.3.0",
     "nyc": "7.0.0",
+    "react-addons-test-utils": "15.2.1",
     "rimraf": "2.5.3",
     "semantic-release": "^4.3.5",
     "webpack": "1.13.1"

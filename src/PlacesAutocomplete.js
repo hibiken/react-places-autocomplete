@@ -172,7 +172,10 @@ class PlacesAutocomplete extends React.Component {
 
   render() {
     return (
-      <fieldset style={styles.autocompleteContainer}>
+      <fieldset
+        style={styles.autocompleteContainer}
+        className={this.props.classNames.container || ''}
+      >
         <label className="form-label--simple">Location</label>
         <input
           type="text"
@@ -191,6 +194,11 @@ class PlacesAutocomplete extends React.Component {
 PlacesAutocomplete.propTypes = {
   value: React.PropTypes.string.isRequired,
   setAddress: React.PropTypes.func.isRequired,
+  classNames: React.PropTypes.obj,
 };
+
+PlacesAutocomplete.defaultProps = {
+  classNames: {},
+}
 
 export default PlacesAutocomplete
