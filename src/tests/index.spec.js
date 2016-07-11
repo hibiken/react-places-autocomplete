@@ -1,6 +1,6 @@
 import React from 'react'
 import TestUtils from 'react-addons-test-utils'
-import { expect } from 'chai'
+import { renderComponent, expect } from './testHelper'
 import PlacesAutocomplete, { geocodeByAddress } from '../index.js'
 
 describe('PlacesAutocomplete', () => {
