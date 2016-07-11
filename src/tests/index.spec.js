@@ -1,29 +1,77 @@
 import React from 'react'
 import TestUtils from 'react-addons-test-utils'
-import { shallow } from 'enzyme'
+import { mount, shallow } from 'enzyme'
 import sinon from 'sinon'
 import { expect } from './testHelper'
 import PlacesAutocomplete, { geocodeByAddress } from '../index.js'
 
-/*** Enzyme ***/
+/*** Enzyme Rocks ***/
 describe('<PlacesAutocomplete />', () => {
   let wrapper;
   beforeEach(() => {
-    wrapper = shallow(<PlacesAutocomplete value="San Francisco, Ca" setAddress={() => {}} />)
+    wrapper = shallow(<PlacesAutocomplete value="San Francisco, CA" setAddress={() => {}} />)
   })
 
   it('renders an input element', () => {
     expect(wrapper.find('input')).to.have.length(1)
   })
 
-  it('initially does not have autocomplete dropdown', () => {
-    expect(wrapper.find('.autocomplete__wrapper')).to.have.length(0)
-  })
-
   it('renderes an label element', () => {
     expect(wrapper.find('label')).to.have.length(1)
   })
 });
+
+describe('PlacesAutocomplete callbacks', () => {
+  it('calls componentDidMount', () => {
+    sinon.spy(PlacesAutocomplete.prototype, 'componentDidMount')
+    const wrapper = mount(<PlacesAutocomplete value="San Francisco, Ca" setAddress={() => {}} />)
+    expect(PlacesAutocomplete.prototype.componentDidMount.calledOnce).to.equal(true)
+  })
+});
+
+describe('PlacesAutocomplete props', () => {
+  it('allows user to set the value of the input through prop', () => {
+    const wrapper = mount(<PlacesAutocomplete value="San Francisco, CA" setAddress={() => {}} />)
+    expect(wrapper.find('input').props().value).to.equal("San Francisco, CA")
+  })
+});
+
+describe('autocomplete dropdown', () => {
+  let wrapper;
+  beforeEach(() => {
+    wrapper = shallow(<PlacesAutocomplete value="San Francisco, CA" setAddress={() => {}} />)
+  })
+
+  it('initially does not have an autocomplete dropdown', () => {
+    expect(wrapper.find('.autocomplete__wrapper')).to.have.length(0)
+  })
+
+  it('renders autocomplete dropdown once it receives data from google maps', () => {
+    const data = [
+      {
+        suggestion: 'San Francisco, CA',
+        placeId: 1,
+        active: false,
+        index: 0
+      },
+      {
+        suggestion: 'San Jose, CA',
+        placeId: 2,
+        active: false,
+        index: 1
+      },
+      {
+        suggestion: 'San Diego, CA',
+        placeId: 3,
+        active: false,
+        index: 2
+      }
+    ]
+    wrapper.setState({ autocompleteItems: data })
+    expect(wrapper.find('.autocomplete__wrapper')).to.have.length(1)
+    expect(wrapper.find('.autocomplete__item')).to.have.length(3)
+  })
+})
 
 
 

@@ -24,7 +24,7 @@ class PlacesAutocomplete extends React.Component {
     super(props)
 
     this.state = {
-      placeAutocomplete: []
+      autocompleteItems: []
     }
 
     this.autocompleteCallback = this.autocompleteCallback.bind(this)
@@ -40,7 +40,7 @@ class PlacesAutocomplete extends React.Component {
   autocompleteCallback(predictions, status) {
     if (status != this.autocompleteOK) { console.error('place autocomplete failed'); return; }
     this.setState({
-      placeAutocomplete: predictions.map((p, idx) => ({
+      autocompleteItems: predictions.map((p, idx) => ({
         suggestion: p.description,
         placeId: p.place_id,
         active: false,
@@ -50,7 +50,7 @@ class PlacesAutocomplete extends React.Component {
   }
 
   clearAutocomplete() {
-    this.setState({ placeAutocomplete: [] })
+    this.setState({ autocompleteItems: [] })
   }
 
   selectAddress(address) {
@@ -59,9 +59,9 @@ class PlacesAutocomplete extends React.Component {
   }
 
   _setActiveItem(index) {
-    const activeName = this.state.placeAutocomplete.find(item => item.index === index).suggestion
+    const activeName = this.state.autocompleteItems.find(item => item.index === index).suggestion
     this.setState({
-      placeAutocomplete: this.state.placeAutocomplete.map((item, idx) => {
+      autocompleteItems: this.state.autocompleteItems.map((item, idx) => {
         if (idx === index) {
           return { ...item, active: true }
         } else {
@@ -73,7 +73,7 @@ class PlacesAutocomplete extends React.Component {
   }
 
   _handleEnterKey() {
-    const activeItem = this.state.placeAutocomplete.find(item => item.active)
+    const activeItem = this.state.autocompleteItems.find(item => item.active)
     if (activeItem === undefined) { return }
 
     this.clearAutocomplete()
@@ -81,25 +81,25 @@ class PlacesAutocomplete extends React.Component {
   }
 
   _handleDownKey() {
-    const activeItem = this.state.placeAutocomplete.find(item => item.active)
+    const activeItem = this.state.autocompleteItems.find(item => item.active)
     if (activeItem === undefined) {
       this._setActiveItem(0)
     } else {
-      const nextId = (activeItem.index + 1) % this.state.placeAutocomplete.length
+      const nextId = (activeItem.index + 1) % this.state.autocompleteItems.length
       this._setActiveItem(nextId)
     }
   }
 
   _handleUpKey() {
-    const activeItem = this.state.placeAutocomplete.find(item => item.active)
+    const activeItem = this.state.autocompleteItems.find(item => item.active)
     if (activeItem === undefined) {
-      this._setActiveItem(this.state.placeAutocomplete.length - 1)
+      this._setActiveItem(this.state.autocompleteItems.length - 1)
     } else {
       let prevId
       if (activeItem.index === 0) {
-        prevId = this.state.placeAutocomplete.length - 1
+        prevId = this.state.autocompleteItems.length - 1
       } else {
-        prevId = (activeItem.index - 1) % this.state.placeAutocomplete.length
+        prevId = (activeItem.index - 1) % this.state.autocompleteItems.length
       }
       this._setActiveItem(prevId)
     }
@@ -125,7 +125,7 @@ class PlacesAutocomplete extends React.Component {
 
   handleItemMouseOver(index) {
     this.setState({
-      placeAutocomplete: this.state.placeAutocomplete.map((item, idx) => {
+      autocompleteItems: this.state.autocompleteItems.map((item, idx) => {
         if (idx === index) {
           return { ...item, active: true }
         } else {
@@ -153,13 +153,14 @@ class PlacesAutocomplete extends React.Component {
   }
 
   renderAutocomplete() {
-    const { placeAutocomplete } = this.state
-    if (placeAutocomplete.length === 0) { return null }
+    const { autocompleteItems } = this.state
+    if (autocompleteItems.length === 0) { return null }
     return (
       <div className="autocomplete__wrapper" style={styles.autocompleteWrapper}>
-        {placeAutocomplete.map((p, idx) => (
+        {autocompleteItems.map((p, idx) => (
           <div
             key={p.placeId}
+            className="autocomplete__item"
             onMouseOver={() => this.handleItemMouseOver(p.index)}
             onClick={() => this.selectAddress(p.suggestion)}
             style={{ ...this.autocompleteItemStyle(p.active), ...styles.autocompleteItem }}>
