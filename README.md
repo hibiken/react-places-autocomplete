@@ -88,22 +88,22 @@ export default SimpleForm
 ### Props for `PlacesAutocomplete`
 
 #### value
-Type: `String`
+Type: `String`,
 Required: `true`
 
 Value displayed in the input field
 
 #### setAddress
-Type: `function`
+Type: `Function`,
 Required: `true`
 
 Please see the example above
 
 #### classNames
-Type: `object`
+Type: `Object`,
 Require: `false`
 
-You can give a custom css classes to elements
+You can give a custom css classes to elements.
 Accepted keys are `container`, `label`, `input`, `autocompleteContainer`
 
 ```js
@@ -128,11 +128,11 @@ render() {
 Now you can easily apply custom CSS styles using the classNames!
 
 #### placeholder
-Type: `String`
-Required: `false`
+Type: `String`,
+Required: `false`,
 Default: `"Address"`
 
-You can pass placeholder prop to customize input's placeholder text
+You can pass `placeholder` prop to customize input's placeholder text
 
 
 ### `geocodeByAddress` API
@@ -142,17 +142,19 @@ geocodeByAddress(address, callback)
 ```
 
 #### address
-Type: `String`
+Type: `String`,
 Required: `true`
 
 String that gets passed to Google Maps Geocoder
 
 #### callback
-Type: `function`
+Type: `Function`,
 Required: `true`
 
 Two arguments will be passed to the callback.
-First argument is an error object.
+
+First argument is an error object, set to `null` when there's no error.
+
 Second argument is an object with `lat` and `lng` keys
 
 
