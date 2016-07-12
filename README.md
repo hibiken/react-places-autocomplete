@@ -101,7 +101,7 @@ Please see the example above
 
 #### classNames
 Type: `Object`,
-Require: `false`
+Required: `false`
 
 You can give a custom css classes to elements.
 Accepted keys are `container`, `label`, `input`, `autocompleteContainer`
@@ -133,6 +133,13 @@ Required: `false`,
 Default: `"Address"`
 
 You can pass `placeholder` prop to customize input's placeholder text
+
+#### hideLabel
+Type: `Boolean`
+Required: `false`,
+Default: `false`
+
+You can set `hideLabel` to `true` to not render the label element
 
 
 ### `geocodeByAddress` API

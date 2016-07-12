@@ -1,6 +1,6 @@
 import React from 'react'
 
-const styles = {
+const defaultStyles = {
   autocompleteContainer: {
     position: 'relative',
     paddingBottom: '0px',
@@ -153,6 +153,11 @@ class PlacesAutocomplete extends React.Component {
     }
   }
 
+  renderLabel() {
+    if (this.props.hideLabel) { return null }
+    return (<label className={this.props.classNames.label || ''}>Location</label>)
+  }
+
   // TODO: Autocomplete item should be customizable.
   renderAutocomplete() {
     const { autocompleteItems } = this.state
@@ -161,14 +166,14 @@ class PlacesAutocomplete extends React.Component {
       <div
         id="PlacesAutocomplete__autocomplete-container"
         className={this.props.classNames.autocompleteContainer || ''}
-        style={styles.autocompleteWrapper}>
+        style={defaultStyles.autocompleteWrapper}>
         {autocompleteItems.map((p, idx) => (
           <div
             key={p.placeId}
             className="autocomplete__item"
             onMouseOver={() => this.handleItemMouseOver(p.index)}
             onClick={() => this.selectAddress(p.suggestion)}
-            style={{ ...this.autocompleteItemStyle(p.active), ...styles.autocompleteItem }}>
+            style={{ ...this.autocompleteItemStyle(p.active), ...defaultStyles.autocompleteItem }}>
             <i className="fa fa-map-marker" style={{color: '#b87d4e', marginRight: '5px'}}/> {p.suggestion}
           </div>
         ))}
@@ -180,10 +185,10 @@ class PlacesAutocomplete extends React.Component {
     const { classNames, placeholder, value } = this.props
     return (
       <fieldset
-        style={styles.autocompleteContainer}
+        style={defaultStyles.autocompleteContainer}
         className={classNames.container || ''}
       >
-        <label className={classNames.label || ''}>Location</label>
+        {this.renderLabel()}
         <input
           type="text"
           placeholder={placeholder}
@@ -202,6 +207,7 @@ PlacesAutocomplete.propTypes = {
   value: React.PropTypes.string.isRequired,
   setAddress: React.PropTypes.func.isRequired,
   placeholder: React.PropTypes.string,
+  hideLabel: React.PropTypes.bool,
   classNames: React.PropTypes.shape({
     container: React.PropTypes.string,
     label: React.PropTypes.string,
@@ -212,6 +218,7 @@ PlacesAutocomplete.propTypes = {
 
 PlacesAutocomplete.defaultProps = {
   placeholder: 'Address',
+  hideLabel: false,
   classNames: {},
 }
 

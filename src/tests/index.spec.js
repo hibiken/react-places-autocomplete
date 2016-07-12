@@ -114,6 +114,13 @@ describe('custom classNames, placeholder', () => {
   })
 });
 
+describe('hideLabel prop', () => {
+  it('lets you hide label element', () => {
+    const wrapper = shallow(<PlacesAutocomplete value="New York, NY" setAddress={() => {}} hideLabel={true} />)
+    expect(wrapper.find('label')).to.have.length(0)
+  })
+});
+
 
 // TODO: test geocodeByAddress function
 describe('geocodeByAddress', () => {
