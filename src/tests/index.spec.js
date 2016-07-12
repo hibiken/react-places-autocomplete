@@ -110,25 +110,9 @@ describe('custom classNames, placeholder', () => {
   })
 
   it('lets you set a custom placeholder for the input', () => {
-    //console.log(wrapper.find('input').props().placeholder)
     expect(wrapper.find('input').props().placeholder).to.equal('Your Address')
   })
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 // TODO: test geocodeByAddress function

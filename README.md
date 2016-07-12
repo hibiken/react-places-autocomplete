@@ -99,6 +99,40 @@ Required: `true`
 
 Please see the example above
 
+#### classNames
+Type: `object`
+Require: `false`
+
+You can give a custom css classes to elements
+Accepted keys are `container`, `label`, `input`, `autocompleteContainer`
+
+```js
+// classNames example
+render() {
+  const cssClasses = {
+    container: 'form-group',
+    label: 'form-label',
+    input: 'form-control',
+    autocompleteContainer: 'my-autocomplete-container'
+  }
+
+  return (
+    <PlacesAutocomplete
+      value={this.state.address}
+      setAddress={this.setAddress}
+      classNames={cssClasses}
+    />
+  )
+}
+```
+Now you can easily apply custom CSS styles using the classNames!
+
+#### placeholder
+Type: `String`
+Required: `false`
+Default: `"Address"`
+
+You can pass placeholder prop to customize input's placeholder text
 
 
 ### `geocodeByAddress` API
