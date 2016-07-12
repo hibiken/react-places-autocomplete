@@ -109,7 +109,7 @@ We highly recommend that you create your own custom `AutocompleteItem` and pass 
 ```js
 // autocompleteItem example (with font-awesome icon)
 render() {
-  const AutocompleteItem = ({ suggestion }) => (<div><i className="fa fa-map-marker">{suggestion}</div>)
+  const AutocompleteItem = ({ suggestion }) => (<div><i className="fa fa-map-marker"/>{suggestion}</div>)
 
   return (
     <PlacesAutocomplete
