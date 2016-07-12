@@ -158,7 +158,6 @@ class PlacesAutocomplete extends React.Component {
     return (<label className={this.props.classNames.label || ''}>Location</label>)
   }
 
-  // TODO: Autocomplete item should be customizable.
   renderAutocomplete() {
     const { autocompleteItems } = this.state
     if (autocompleteItems.length === 0) { return null }
@@ -170,11 +169,10 @@ class PlacesAutocomplete extends React.Component {
         {autocompleteItems.map((p, idx) => (
           <div
             key={p.placeId}
-            className="autocomplete__item"
             onMouseOver={() => this.handleItemMouseOver(p.index)}
             onClick={() => this.selectAddress(p.suggestion)}
             style={{ ...this.autocompleteItemStyle(p.active), ...defaultStyles.autocompleteItem }}>
-            <i className="fa fa-map-marker" style={{color: '#b87d4e', marginRight: '5px'}}/> {p.suggestion}
+            {this.props.autocompleteItem({ suggestion: p.suggestion })}
           </div>
         ))}
       </div>
@@ -208,6 +206,7 @@ PlacesAutocomplete.propTypes = {
   setAddress: React.PropTypes.func.isRequired,
   placeholder: React.PropTypes.string,
   hideLabel: React.PropTypes.bool,
+  autocompleteItem: React.PropTypes.func,
   classNames: React.PropTypes.shape({
     container: React.PropTypes.string,
     label: React.PropTypes.string,
@@ -220,6 +219,7 @@ PlacesAutocomplete.defaultProps = {
   placeholder: 'Address',
   hideLabel: false,
   classNames: {},
+  autocompleteItem: ({ suggestion }) => (<div>{suggestion}</div>)
 }
 
 export default PlacesAutocomplete

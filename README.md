@@ -99,6 +99,28 @@ Required: `true`
 
 Please see the example above
 
+#### autocompleteItem
+Type: `Functional React Component`,
+Required: `false`
+
+The function takes props with `suggestion` key (see the example below).
+We highly recommend that you create your own custom `AutocompleteItem` and pass it as a prop.
+
+```js
+// autocompleteItem example (with font-awesome icon)
+render() {
+  const AutocompleteItem = ({ suggestion }) => (<div><i className="fa fa-map-marker">{suggestion}</div>)
+
+  return (
+    <PlacesAutocomplete
+      value={this.state.value}
+      setAddress={this.setAddress}
+      autocompleteItem={AutocompleteItem}
+    />
+  )
+}
+```
+
 #### classNames
 Type: `Object`,
 Required: `false`
