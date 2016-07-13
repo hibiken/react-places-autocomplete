@@ -48,12 +48,8 @@ class SimpleForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = { address: 'San Francisco, CA' }
-    this.setAddress = this.setAddress.bind(this)
+    this.onChange = (address) => this.setState({ address })
     this.handleFormSubmit = this.handleFormSubmit.bind(this)
-  }
-
-  setAddress(address) {
-    this.setState({ address })
   }
 
   handleFormSubmit(event) {
@@ -74,7 +70,7 @@ class SimpleForm extends React.Component {
       <form onSubmit={this.handleFormSubmit}>
         <PlacesAutocomplete
           value={this.state.address}
-          setAddress={this.setAddress}
+          onChange={this.onChange}
         />
         <button type="submit">Submit</button>
       </form>
@@ -93,7 +89,7 @@ Required: `true`
 
 Value displayed in the input field
 
-#### setAddress
+#### onChange
 Type: `Function`,
 Required: `true`
 
@@ -114,7 +110,7 @@ render() {
   return (
     <PlacesAutocomplete
       value={this.state.value}
-      setAddress={this.setAddress}
+      onChange={this.onChange}
       autocompleteItem={AutocompleteItem}
     />
   )
@@ -141,7 +137,7 @@ render() {
   return (
     <PlacesAutocomplete
       value={this.state.address}
-      setAddress={this.setAddress}
+      onChange={this.onChange}
       classNames={cssClasses}
     />
   )

@@ -23,13 +23,11 @@ class PlacesAutocomplete extends React.Component {
   constructor(props) {
     super(props)
 
-    this.state = {
-      autocompleteItems: []
-    }
+    this.state = { autocompleteItems: [] }
 
     this.autocompleteCallback = this.autocompleteCallback.bind(this)
-    this.handleAddressKeyDown = this.handleAddressKeyDown.bind(this)
-    this.handleAddressChange = this.handleAddressChange.bind(this)
+    this.handleInputKeyDown = this.handleInputKeyDown.bind(this)
+    this.handleInputChange = this.handleInputChange.bind(this)
   }
 
   componentDidMount() {
@@ -55,57 +53,53 @@ class PlacesAutocomplete extends React.Component {
 
   selectAddress(address) {
     this.clearAutocomplete()
-    this.props.setAddress(address)
+    this.props.onChange(address)
   }
 
-  _setActiveItem(index) {
-    const activeName = this.state.autocompleteItems.find(item => item.index === index).suggestion
-    this.setState({
-      autocompleteItems: this.state.autocompleteItems.map((item, idx) => {
-        if (idx === index) {
-          return { ...item, active: true }
-        } else {
-          return { ...item, active: false }
-        }
-      }),
-    })
-    this.props.setAddress(activeName)
+  _getActiveItem() {
+    return this.state.autocompleteItems.find(item => item.index === index)
+  }
+
+  _selectActiveItemAtIndex(index) {
+    const activeItem = this._getActiveItem()
+    this._setActiveItemAtIndex(index)
+    this.props.onChange(activeItem.suggestion)
   }
 
   _handleEnterKey() {
-    const activeItem = this.state.autocompleteItems.find(item => item.active)
+    const activeItem = this._getActiveItem()
     if (activeItem === undefined) { return }
 
     this.clearAutocomplete()
-    this.props.setAddress(activeItem.suggestion)
+    this.props.onChange(activeItem.suggestion)
   }
 
   _handleDownKey() {
-    const activeItem = this.state.autocompleteItems.find(item => item.active)
+    const activeItem = this._getActiveItem()
     if (activeItem === undefined) {
-      this._setActiveItem(0)
+      this._selectActiveItemAtIndex(0)
     } else {
-      const nextId = (activeItem.index + 1) % this.state.autocompleteItems.length
-      this._setActiveItem(nextId)
+      const nextIndex = (activeItem.index + 1) % this.state.autocompleteItems.length
+      this._selectActiveItemAtIndex(nextIndex)
     }
   }
 
   _handleUpKey() {
-    const activeItem = this.state.autocompleteItems.find(item => item.active)
+    const activeItem = this._getActiveItem()
     if (activeItem === undefined) {
-      this._setActiveItem(this.state.autocompleteItems.length - 1)
+      this._selectActiveItemAtIndex(this.state.autocompleteItems.length - 1)
     } else {
-      let prevId
+      let prevIndex
       if (activeItem.index === 0) {
-        prevId = this.state.autocompleteItems.length - 1
+        prevIndex = this.state.autocompleteItems.length - 1
       } else {
-        prevId = (activeItem.index - 1) % this.state.autocompleteItems.length
+        prevIndex = (activeItem.index - 1) % this.state.autocompleteItems.length
       }
-      this._setActiveItem(prevId)
+      this._selectActiveItemAtIndex(prevIndex)
     }
   }
 
-  handleAddressKeyDown(event) {
+  handleInputKeyDown(event) {
     const ARROW_UP = 38
     const ARROW_DOWN = 40
     const ENTER_KEY = 13
@@ -123,7 +117,7 @@ class PlacesAutocomplete extends React.Component {
     }
   }
 
-  handleItemMouseOver(index) {
+  _setActiveItemAtIndex(index) {
     this.setState({
       autocompleteItems: this.state.autocompleteItems.map((item, idx) => {
         if (idx === index) {
@@ -135,8 +129,8 @@ class PlacesAutocomplete extends React.Component {
     })
   }
 
-  handleAddressChange(event) {
-    this.props.setAddress(event.target.value)
+  handleInputChange(event) {
+    this.props.onChange(event.target.value)
     if (!event.target.value) {
       this.clearAutocomplete()
       return;
@@ -169,7 +163,7 @@ class PlacesAutocomplete extends React.Component {
         {autocompleteItems.map((p, idx) => (
           <div
             key={p.placeId}
-            onMouseOver={() => this.handleItemMouseOver(p.index)}
+            onMouseOver={() => this._setActiveItemAtIndex(p.index)}
             onClick={() => this.selectAddress(p.suggestion)}
             style={{ ...this.autocompleteItemStyle(p.active), ...defaultStyles.autocompleteItem }}>
             {this.props.autocompleteItem({ suggestion: p.suggestion })}
@@ -192,8 +186,8 @@ class PlacesAutocomplete extends React.Component {
           placeholder={placeholder}
           className={classNames.input || ''}
           value={value}
-          onChange={this.handleAddressChange}
-          onKeyDown={this.handleAddressKeyDown}
+          onChange={this.handleInputChange}
+          onKeyDown={this.handleInputKeyDown}
         />
         {this.renderAutocomplete()}
       </fieldset>
@@ -203,7 +197,7 @@ class PlacesAutocomplete extends React.Component {
 
 PlacesAutocomplete.propTypes = {
   value: React.PropTypes.string.isRequired,
-  setAddress: React.PropTypes.func.isRequired,
+  onChange: React.PropTypes.func.isRequired,
   placeholder: React.PropTypes.string,
   hideLabel: React.PropTypes.bool,
   autocompleteItem: React.PropTypes.func,

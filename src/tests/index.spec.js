@@ -9,7 +9,7 @@ import PlacesAutocomplete, { geocodeByAddress } from '../index.js'
 describe('<PlacesAutocomplete />', () => {
   let wrapper;
   beforeEach(() => {
-    wrapper = shallow(<PlacesAutocomplete value="San Francisco, CA" setAddress={() => {}} />)
+    wrapper = shallow(<PlacesAutocomplete value="San Francisco, CA" onChange={() => {}} />)
   })
 
   it('renders an input element', () => {
@@ -24,14 +24,14 @@ describe('<PlacesAutocomplete />', () => {
 describe('PlacesAutocomplete callbacks', () => {
   it('calls componentDidMount', () => {
     sinon.spy(PlacesAutocomplete.prototype, 'componentDidMount')
-    const wrapper = mount(<PlacesAutocomplete value="San Francisco, Ca" setAddress={() => {}} />)
+    const wrapper = mount(<PlacesAutocomplete value="San Francisco, Ca" onChange={() => {}} />)
     expect(PlacesAutocomplete.prototype.componentDidMount.calledOnce).to.equal(true)
   })
 });
 
 describe('PlacesAutocomplete props', () => {
   it('allows user to set the value of the input through prop', () => {
-    const wrapper = mount(<PlacesAutocomplete value="San Francisco, CA" setAddress={() => {}} />)
+    const wrapper = mount(<PlacesAutocomplete value="San Francisco, CA" onChange={() => {}} />)
     expect(wrapper.find('input').props().value).to.equal("San Francisco, CA")
   })
 });
@@ -40,7 +40,7 @@ describe('autocomplete dropdown', () => {
   let wrapper;
   const autocompleteItem = ({ suggestion }) => (<div className="autocomplete-item">{suggestion}</div>)
   beforeEach(() => {
-    wrapper = shallow(<PlacesAutocomplete value="San Francisco, CA" setAddress={() => {}} autocompleteItem={autocompleteItem} />)
+    wrapper = shallow(<PlacesAutocomplete value="San Francisco, CA" onChange={() => {}} autocompleteItem={autocompleteItem} />)
   })
 
   it('initially does not have an autocomplete dropdown', () => {
@@ -87,7 +87,7 @@ describe('custom classNames, placeholder', () => {
   beforeEach(() => {
     wrapper = shallow(<PlacesAutocomplete
                         value="San Francisco, CA"
-                        setAddress={() => {}}
+                        onChange={() => {}}
                         classNames={classNames}
                         placeholder="Your Address"
                       />)
@@ -117,7 +117,7 @@ describe('custom classNames, placeholder', () => {
 
 describe('hideLabel prop', () => {
   it('lets you hide label element', () => {
-    const wrapper = shallow(<PlacesAutocomplete value="New York, NY" setAddress={() => {}} hideLabel={true} />)
+    const wrapper = shallow(<PlacesAutocomplete value="New York, NY" onChange={() => {}} hideLabel={true} />)
     expect(wrapper.find('label')).to.have.length(0)
   })
 });
@@ -125,7 +125,7 @@ describe('hideLabel prop', () => {
 describe('customizable autocompleteItem', () => {
   it('lets you provide a custom autocomplete item', () => {
     const autocompleteItem = ({ suggestion }) => (<div className="my-autocomplete-item"><i className="fa fa-map-marker"/></div>)
-    const wrapper = shallow(<PlacesAutocomplete value="LA" setAddress={() => {}} autocompleteItem={autocompleteItem}/>)
+    const wrapper = shallow(<PlacesAutocomplete value="LA" onChange={() => {}} autocompleteItem={autocompleteItem}/>)
     wrapper.setState({ autocompleteItems: [{ suggestion: 'San Francisco, CA', placeId: 1, active: false, index: 0 }] })
     expect(wrapper.find('.my-autocomplete-item')).to.have.length(1)
     expect(wrapper.find('.my-autocomplete-item')).to.contain(<i className="fa fa-map-marker"/>)
