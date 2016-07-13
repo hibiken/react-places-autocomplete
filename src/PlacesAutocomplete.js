@@ -57,13 +57,13 @@ class PlacesAutocomplete extends React.Component {
   }
 
   _getActiveItem() {
-    return this.state.autocompleteItems.find(item => item.index === index)
+    return this.state.autocompleteItems.find(item => item.active)
   }
 
   _selectActiveItemAtIndex(index) {
-    const activeItem = this._getActiveItem()
+    const activeName = this.state.autocompleteItems.find(item => item.index === index).suggestion
     this._setActiveItemAtIndex(index)
-    this.props.onChange(activeItem.suggestion)
+    this.props.onChange(activeName)
   }
 
   _handleEnterKey() {
