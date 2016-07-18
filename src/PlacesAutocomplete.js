@@ -100,13 +100,13 @@ class PlacesAutocomplete extends React.Component {
   }
 
   handleInputKeyDown(event) {
-    event.preventDefault()
     const ARROW_UP = 38
     const ARROW_DOWN = 40
     const ENTER_KEY = 13
 
     switch (event.keyCode) {
       case ENTER_KEY:
+        event.preventDefault()
         this._handleEnterKey()
         break
       case ARROW_DOWN:
