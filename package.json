@@ -19,11 +19,21 @@
     "url": "https://github.com/kenny-hibino/react-places-autocomplete.git"
   },
   "keywords": [
+    "React.js",
     "React",
+    "react-component",
     "place",
+    "places",
+    "google-maps",
+    "google-map",
+    "places-autocomplete",
     "autocomplete",
     "google",
-    "maps"
+    "maps",
+    "latitude",
+    "longitude",
+    "geocode",
+    "geocoder"
   ],
   "files": [
     "dist",
