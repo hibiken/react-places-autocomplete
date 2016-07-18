@@ -100,6 +100,7 @@ class PlacesAutocomplete extends React.Component {
   }
 
   handleInputKeyDown(event) {
+    event.preventDefault()
     const ARROW_UP = 38
     const ARROW_DOWN = 40
     const ENTER_KEY = 13
@@ -176,7 +177,7 @@ class PlacesAutocomplete extends React.Component {
   render() {
     const { classNames, placeholder, value } = this.props
     return (
-      <fieldset
+      <div
         style={defaultStyles.autocompleteContainer}
         className={classNames.container || ''}
       >
@@ -190,7 +191,7 @@ class PlacesAutocomplete extends React.Component {
           onKeyDown={this.handleInputKeyDown}
         />
         {this.renderAutocomplete()}
-      </fieldset>
+      </div>
     )
   }
 }
