@@ -174,12 +174,13 @@ class PlacesAutocomplete extends React.Component {
     )
   }
 
+  // TODO: remove `classNames.container` in the next version release.
   render() {
     const { classNames, placeholder, value } = this.props
     return (
       <div
         style={defaultStyles.autocompleteContainer}
-        className={classNames.container || ''}
+        className={classNames.root || classNames.container || ''}
       >
         {this.renderLabel()}
         <input
@@ -203,7 +204,7 @@ PlacesAutocomplete.propTypes = {
   hideLabel: React.PropTypes.bool,
   autocompleteItem: React.PropTypes.func,
   classNames: React.PropTypes.shape({
-    container: React.PropTypes.string,
+    root: React.PropTypes.string,
     label: React.PropTypes.string,
     input: React.PropTypes.string,
     autocompleteContainer: React.PropTypes.string,

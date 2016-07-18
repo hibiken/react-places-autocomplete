@@ -122,13 +122,13 @@ Type: `Object`,
 Required: `false`
 
 You can give a custom css classes to elements.
-Accepted keys are `container`, `label`, `input`, `autocompleteContainer`
+Accepted keys are `root`, `label`, `input`, `autocompleteContainer`
 
 ```js
 // classNames example
 render() {
   const cssClasses = {
-    container: 'form-group',
+    root: 'form-group',
     label: 'form-label',
     input: 'form-control',
     autocompleteContainer: 'my-autocomplete-container'

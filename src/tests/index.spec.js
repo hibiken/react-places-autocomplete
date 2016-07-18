@@ -76,7 +76,7 @@ describe('autocomplete dropdown', () => {
 
 describe('custom classNames, placeholder', () => {
   const classNames = {
-    container: 'my-container',
+    root: 'my-container',
     label: 'my-label',
     input: 'my-input',
     autocompleteContainer: 'my-autocomplete-container'
