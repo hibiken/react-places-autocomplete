@@ -53,7 +53,11 @@ class PlacesAutocomplete extends React.Component {
 
   selectAddress(address) {
     this.clearAutocomplete()
-    this.props.onChange(address)
+    this._handleSelect(address)
+  }
+
+  _handleSelect(address) {
+    this.props.onSelect ? this.props.onSelect(address) : this.props.onChange(address)
   }
 
   _getActiveItem() {
@@ -71,7 +75,7 @@ class PlacesAutocomplete extends React.Component {
     if (activeItem === undefined) { return }
 
     this.clearAutocomplete()
-    this.props.onChange(activeItem.suggestion)
+    this._handleSelect(activeItem.suggestion)
   }
 
   _handleDownKey() {
@@ -200,6 +204,7 @@ class PlacesAutocomplete extends React.Component {
 PlacesAutocomplete.propTypes = {
   value: React.PropTypes.string.isRequired,
   onChange: React.PropTypes.func.isRequired,
+  onSelect: React.PropTypes.func,
   placeholder: React.PropTypes.string,
   hideLabel: React.PropTypes.bool,
   autocompleteItem: React.PropTypes.func,
