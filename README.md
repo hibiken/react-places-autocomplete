@@ -159,13 +159,13 @@ Default: `false`
 
 You can set `hideLabel` to `true` to not render the label element
 
-### onSelect
+#### onSelect
 Type: `function`
 Required: `false`,
 Default: `null`
 
 You can pass a function that gets called instead of `onChange` function when user
-hit an Enter key or click on autocomplete item.
+hits the Enter key or clicks on an autocomplete item.
 
 
 ### `geocodeByAddress` API
