@@ -4,7 +4,7 @@ export const geocodeByAddress = (address, callback) => {
 
   geocoder.geocode({ address }, (results, status) => {
     if (status !== OK) {
-      callback({ status }, null)
+      callback({ status }, null, null)
       return
     }
 
@@ -13,6 +13,8 @@ export const geocodeByAddress = (address, callback) => {
       lng: results[0].geometry.location.lng(),
     }
 
-    callback(null, latLng)
+    const placeId = results[0].place_id;
+
+    callback(null, latLng, placeId)
   })
 }
