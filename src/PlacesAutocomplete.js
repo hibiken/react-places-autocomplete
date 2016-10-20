@@ -215,6 +215,7 @@ class PlacesAutocomplete extends React.Component {
           onChange={this.handleInputChange}
           onKeyDown={this.handleInputKeyDown}
         />
+        {this.renderOverlay()}
         {this.renderAutocomplete()}
       </div>
     )
