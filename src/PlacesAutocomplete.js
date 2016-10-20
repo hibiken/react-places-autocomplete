@@ -5,12 +5,16 @@ const defaultStyles = {
     position: 'relative',
     paddingBottom: '0px',
   },
+  autocompleteOverlay: {
+    zIndex: 9998,
+  },
   autocompleteWrapper: {
     position: 'absolute',
     top: '100%',
     backgroundColor: 'white',
     border: '1px solid #555',
     width: '100%',
+    zIndex: 9999,
   },
   autocompleteItem: {
     padding: '10px',
@@ -155,6 +159,17 @@ class PlacesAutocomplete extends React.Component {
   renderLabel() {
     if (this.props.hideLabel) { return null }
     return (<label className={this.props.classNames.label || ''}>Location</label>)
+  }
+
+  renderOverlay() {
+    if (this.state.autocompleteItems.length === 0) { return null }
+    return (
+      <div
+        className="PlacesAutocomplete__overlay"
+        style={defaultStyles.autocompleteOverlay}
+        onClick={() => this.clearAutocomplete()}>
+      </div>
+    )
   }
 
   renderAutocomplete() {
