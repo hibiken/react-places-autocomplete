@@ -1,0 +1,152 @@
+html {
+  background-color: #fff;
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  text-align: center;
+}
+
+body, #root, .page-wrapper {
+  height: 100%;
+}
+
+.btn:hover {
+  background-color: #e53935;
+  border-color: #e53935;
+}
+
+.fa.fa-map-marker.suggestion {
+  margin-right: 5px;
+}
+
+.fa.fa-map-marker.header {
+  color: #e53935;
+}
+
+@media (max-width: 480px) {
+  .autocomplete-container {
+    text-align: left;
+  }
+}
+
+@media (min-width: 768px) {
+  .alert {
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    -webkit-animation: fadein .75s;
+    -moz-animation: fadein .75s;
+    -ms-animation: fadein .75s;
+    -o-animation: fadein .75s;
+    animation: fadein .75s;
+  }
+
+  .btn {
+    margin-top: 1.5rem;
+  }
+
+  .form-group {
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5rem;
+    width: 50%;
+  }
+}
+
+.geocoding-results {
+  text-align: left;
+}
+
+@keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@-moz-keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@-webkit-keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@-ms-keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@-o-keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.loader,
+.loader:before,
+.loader:after {
+  background: rgba(45, 62, 80, 0.54);
+  -webkit-animation: load1 1s infinite ease-in-out;
+  animation: load1 1s infinite ease-in-out;
+  width: 1em;
+  height: 4em;
+}
+
+.loader {
+  color: rgba(45, 62, 80, 0.54);
+  text-indent: -9999em;
+  margin: 3rem auto;
+  position: relative;
+  font-size: 11px;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+
+.loader:before,
+.loader:after {
+  position: absolute;
+  top: 0;
+  content: '';
+}
+
+.loader:before {
+  left: -1.5em;
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+
+.loader:after {
+  left: 1.5em;
+}
+
+@-webkit-keyframes load1 {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 0;
+    height: 4em;
+  }
+  40% {
+    box-shadow: 0 -2em;
+    height: 5em;
+  }
+}
+
+@keyframes load1 {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 0;
+    height: 4em;
+  }
+  40% {
+    box-shadow: 0 -2em;
+    height: 5em;
+  }
+}

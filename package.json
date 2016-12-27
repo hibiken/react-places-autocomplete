@@ -12,7 +12,9 @@
     "build:main": "babel --copy-files --out-dir dist --ignore *.spec.js src",
     "build:umd": "webpack --output-filename index.umd.js",
     "build:umd.min": "webpack --output-filename index.umd.min.js -p",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
+    "demo": "webpack-dev-server --config demo/webpack.config.js --debug --content-base demo --inline --hot --colors",
+    "demo:test": "mocha demo/tests/index.spec.js --compilers js:babel-register"
   },
   "repository": {
     "type": "git",
@@ -68,7 +70,8 @@
     "rimraf": "2.5.3",
     "semantic-release": "^4.3.5",
     "sinon": "1.17.4",
-    "webpack": "1.13.1"
+    "webpack": "1.13.1",
+    "webpack-dev-server": "^1.16.2"
   },
   "config": {
     "commitizen": {
