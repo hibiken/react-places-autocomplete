@@ -1,7 +1,7 @@
 import React from 'react'
 
 const defaultStyles = {
-  autocompleteContainer: {
+  root: {
     position: 'relative',
     paddingBottom: '0px',
   },
@@ -13,7 +13,7 @@ const defaultStyles = {
     left: 0,
     zIndex: 9998,
   },
-  autocompleteWrapper: {
+  autocompleteContainer: {
     position: 'absolute',
     top: '100%',
     backgroundColor: 'white',
@@ -22,9 +22,13 @@ const defaultStyles = {
     zIndex: 9999,
   },
   autocompleteItem: {
+    backgroundColor: '#ffffff',
     padding: '10px',
     color: '#555',
     cursor: 'pointer',
+  },
+  autocompleteItemActive: {
+    backgroundColor: '#fafafa'
   }
 }
 
@@ -152,18 +156,17 @@ class PlacesAutocomplete extends React.Component {
     this.autocompleteService.getPlacePredictions({ input: event.target.value }, this.autocompleteCallback)
   }
 
-  // TODO: this should be customizable.
   autocompleteItemStyle(active) {
     if (active) {
-      return { backgroundColor: '#fafafa' }
+      return { ...defaultStyles.autocompleteItemActive, ...this.props.styles.autocompleteItemActive }
     } else {
-      return { backgroundColor: '#ffffff' }
+      return {}
     }
   }
 
   renderLabel() {
     if (this.props.hideLabel) { return null }
-    return (<label className={this.props.classNames.label || ''}>Location</label>)
+    return (<label style={this.props.styles.label} className={this.props.classNames.label || ''}>Location</label>)
   }
 
   renderOverlay() {
@@ -179,18 +182,19 @@ class PlacesAutocomplete extends React.Component {
 
   renderAutocomplete() {
     const { autocompleteItems } = this.state
+    const { styles } = this.props
     if (autocompleteItems.length === 0) { return null }
     return (
       <div
         id="PlacesAutocomplete__autocomplete-container"
         className={this.props.classNames.autocompleteContainer || ''}
-        style={defaultStyles.autocompleteWrapper}>
+        style={{ ...defaultStyles.autocompleteContainer, ...styles.autocompleteContainer }}>
         {autocompleteItems.map((p, idx) => (
           <div
             key={p.placeId}
             onMouseOver={() => this._setActiveItemAtIndex(p.index)}
             onClick={() => this.selectAddress(p.suggestion)}
-            style={{ ...this.autocompleteItemStyle(p.active), ...defaultStyles.autocompleteItem }}>
+            style={{ ...defaultStyles.autocompleteItem, ...styles.autocompleteItem, ...this.autocompleteItemStyle(p.active) }}>
             {this.props.autocompleteItem({ suggestion: p.suggestion })}
           </div>
         ))}
@@ -200,10 +204,10 @@ class PlacesAutocomplete extends React.Component {
 
   // TODO: remove `classNames.container` in the next version release.
   render() {
-    const { classNames, placeholder, value } = this.props
+    const { classNames, placeholder, styles, value } = this.props
     return (
       <div
-        style={defaultStyles.autocompleteContainer}
+        style={{ ...defaultStyles.root, ...styles.root }}
         className={classNames.root || classNames.container || ''}
       >
         {this.renderLabel()}
@@ -214,6 +218,7 @@ class PlacesAutocomplete extends React.Component {
           value={value}
           onChange={this.handleInputChange}
           onKeyDown={this.handleInputKeyDown}
+          style={styles.input}
         />
         {this.renderOverlay()}
         {this.renderAutocomplete()}
@@ -235,13 +240,22 @@ PlacesAutocomplete.propTypes = {
     input: React.PropTypes.string,
     autocompleteContainer: React.PropTypes.string,
   }),
+  styles: React.PropTypes.shape({
+    root: React.PropTypes.object,
+    label: React.PropTypes.object,
+    input: React.PropTypes.object,
+    autocompleteContainer: React.PropTypes.object,
+    autocompleteItem: React.PropTypes.object,
+    autocompleteItemActive: React.PropTypes.object
+  })
 };
 
 PlacesAutocomplete.defaultProps = {
   placeholder: 'Address',
   hideLabel: false,
   classNames: {},
-  autocompleteItem: ({ suggestion }) => (<div>{suggestion}</div>)
+  autocompleteItem: ({ suggestion }) => (<div>{suggestion}</div>),
+  styles: {}
 }
 
 export default PlacesAutocomplete

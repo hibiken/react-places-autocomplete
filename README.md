@@ -155,6 +155,35 @@ render() {
 ```
 Now you can easily apply custom CSS styles using the classNames!
 
+#### styles
+Type `Object`,
+Required: `false`
+
+You can provide custom inline styles to elements.
+Accepted keys are `root`, `label`, `input`, `autocompleteContainer`, `autocompleteItem`, `autocompleteItemActive`
+
+```js
+// custom style examples
+render() {
+  const myStyles = {
+    root: { position: 'absolute' },
+    label: { color: 'red' },
+    input: { width: '100%' },
+    autocompleteContainer: { backgroundColor: 'green' },
+    autocompleteItem: { color: 'black' },
+    autocompleteItemActive: { color: 'blue' }
+  }
+
+  return (
+    <PlacesAutocomplete
+      value={this.state.address}
+      onChange={this.onChange}
+      styles={myStyles}
+    />
+  )
+}
+```
+
 #### placeholder
 Type: `String`,
 Required: `false`,

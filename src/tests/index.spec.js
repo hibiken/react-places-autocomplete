@@ -132,6 +132,56 @@ describe('customizable autocompleteItem', () => {
   })
 })
 
+describe('custom inline styles', () => {
+  let wrapper;
+  beforeEach(() => {
+    const styles = {
+      root: { position: 'absolute' },
+      label: { color: 'red' },
+      input: { width: '100%' },
+      autocompleteContainer: { backgroundColor: 'green' },
+      autocompleteItem: { color: 'black' },
+      autocompleteItemActive: { color: 'blue' }
+    }
+    const classNames = {
+      root: 'root-element',
+      label: 'label-element',
+      input: 'input-element',
+      autocompleteContainer: 'autocomplete-container'
+    }
+    wrapper = shallow(<PlacesAutocomplete styles={styles} classNames={classNames} value="LA" onChange={() => {}}/>)
+  })
+
+  it('lets you set custom styles for the root element', () => {
+    expect(wrapper.find('.root-element').props().style.position).to.equal('absolute')
+  })
+
+  it('lets you set custom styles for the label element', () => {
+    expect(wrapper.find('.label-element').props().style.color).to.equal('red')
+  })
+
+  it('lets you set custom styles for the input element', () => {
+    expect(wrapper.find('.input-element').props().style.width).to.equal('100%')
+  })
+
+  it('lets you set custom styles for the autocomplete container element', () => {
+    wrapper.setState({ autocompleteItems: [{ suggestion: 'San Francisco, CA', placeId: 1, active: false, index: 0 }] })
+    expect(wrapper.find('.autocomplete-container').props().style.backgroundColor).to.equal('green')
+  })
+
+  it('lets you set custom styles for autocomplete items', () => {
+    wrapper.setState({ autocompleteItems: [{ suggestion: 'San Francisco, CA', placeId: 1, active: false, index: 0 }] })
+    const item = wrapper.find("#PlacesAutocomplete__autocomplete-container").childAt(0)
+    expect(item.props().style.color).to.equal('black')
+  })
+
+  it('lets you set custom styles for active autocomplete items', () => {
+    wrapper.setState({ autocompleteItems: [{ suggestion: 'San Francisco, CA', placeId: 1, active: true, index: 0 }] })
+    const item = wrapper.find("#PlacesAutocomplete__autocomplete-container").childAt(0)
+    expect(item.props().style.color).to.equal('blue')
+  })
+
+})
 
 // TODO: test geocodeByAddress function
 describe('geocodeByAddress', () => {
