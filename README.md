@@ -28,6 +28,16 @@ import PlacesAutocomplete from 'react-places-autocomplete'
 import { geocodeByAddress } from 'react-places-autocomplete'
 ```
 
+### Demo
+To run the demo in a local webpack-dev-server instance at localhost:8080
+```sh
+npm run demo
+```
+
+To run the demo tests
+```sh
+npm run demo:test
+```
 
 ### Getting Started
 To use this component, you are going to need to load [Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/)
