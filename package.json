@@ -16,7 +16,9 @@
     "demo": "webpack-dev-server --config demo/webpack.config.js --debug --content-base demo --inline --hot --colors",
     "demo:test": "mocha demo/tests/index.spec.js --compilers js:babel-register",
     "demo:build": "rimraf demo/dist && webpack --config demo/webpack.config.js -p",
-    "demo:deploy": "gh-pages -d demo/dist"
+    "demo:deploy": "gh-pages -d demo/dist",
+    "deploy": "gh-pages -d demo:build",
+    "postpublish": "npm run deploy"
   },
   "repository": {
     "type": "git",
