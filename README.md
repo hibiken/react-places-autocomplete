@@ -1,6 +1,7 @@
 # react-places-autocomplete
 
-A React component to build a customized UI for Google Maps Places Autocomplete
+A React component to build a customized UI for Google Maps Places Autocomplete ([Demo](https://kenny-hibino.github.io/react-places-autocomplete/))
+
 
 [![travis build](https://img.shields.io/travis/kenny-hibino/react-places-autocomplete.svg?style=flat-square)](https://travis-ci.org/kenny-hibino/react-places-autocomplete)
 [![MIT-License](https://img.shields.io/npm/l/react-places-autocomplete.svg?style=flat-square)]()
@@ -29,15 +30,8 @@ import { geocodeByAddress } from 'react-places-autocomplete'
 ```
 
 ### Demo
-To run the demo in a local webpack-dev-server instance at localhost:8080
-```sh
-npm run demo
-```
+See live demo: [kenny-hibino.github.io/react-places-autocomplete/](https://kenny-hibino.github.io/react-places-autocomplete/)
 
-To run the demo tests
-```sh
-npm run demo:test
-```
 
 ### Getting Started
 To use this component, you are going to need to load [Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/)
