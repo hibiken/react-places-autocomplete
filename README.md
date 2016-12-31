@@ -200,6 +200,30 @@ Default: `null`
 You can pass a function that gets called instead of `onChange` function when user
 hits the Enter key or clicks on an autocomplete item.
 
+#### options
+Type: `object`
+Required: `false`
+Default: `{}`
+
+You can fine-tune the settings passed to the AutocompleteService class with `options` prop.
+This prop accepts an object following the same format as [google.maps.places.AutocompletionRequest](https://developers.google.com/maps/documentation/javascript/reference#AutocompletionRequest)
+(except for `input`, which comes from the value of the input field).
+
+```js
+// these options will bias the autocomplete predictions toward Sydney, Australia with a radius of 2000 meters, 
+// and limit the results to addresses only
+const options = {
+  location: new google.maps.LatLng(-34, 151),
+  radius: 2000,
+  types: ['address']
+}
+
+<PlacesAutocomplete
+  value={this.state.address}
+  onChange={this.onChange}
+  options={options}
+/>
+```
 
 ### `geocodeByAddress` API
 
