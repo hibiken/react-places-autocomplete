@@ -180,7 +180,17 @@ describe('custom inline styles', () => {
     const item = wrapper.find("#PlacesAutocomplete__autocomplete-container").childAt(0)
     expect(item.props().style.color).to.equal('blue')
   })
+})
 
+describe('AutocompletionRequest options', () => {
+  it('calls getPlacePredictions with the correct options', () => {
+    global.google.maps.places.AutocompleteService.prototype.getPlacePredictions = (request, callback) => {}
+    const spy = sinon.spy(global.google.maps.places.AutocompleteService.prototype, 'getPlacePredictions')
+    const options = { radius: 2000, types: ['address'] }
+    const wrapper = mount(<PlacesAutocomplete classNames={{ input: 'input-element' }} onChange={() => {}} options={options} value='test'/>)
+    wrapper.find('.input-element').simulate('change', { target: { value: 'test' } })
+    expect(spy.calledWith({ ...options, input: 'test' })).to.be.true
+  })
 })
 
 // TODO: test geocodeByAddress function

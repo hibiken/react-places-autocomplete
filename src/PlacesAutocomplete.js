@@ -153,7 +153,7 @@ class PlacesAutocomplete extends React.Component {
       this.clearAutocomplete()
       return;
     }
-    this.autocompleteService.getPlacePredictions({ input: event.target.value }, this.autocompleteCallback)
+    this.autocompleteService.getPlacePredictions({ ...this.props.options, input: event.target.value }, this.autocompleteCallback)
   }
 
   autocompleteItemStyle(active) {
@@ -247,6 +247,20 @@ PlacesAutocomplete.propTypes = {
     autocompleteContainer: React.PropTypes.object,
     autocompleteItem: React.PropTypes.object,
     autocompleteItemActive: React.PropTypes.object
+  }),
+  options: React.PropTypes.shape({
+    bounds: React.PropTypes.object,
+    componentRestrictions: React.PropTypes.object,
+    location: React.PropTypes.object,
+    offset: React.PropTypes.oneOfType([
+      React.PropTypes.number,
+      React.PropTypes.string
+    ]),
+    radius: React.PropTypes.oneOfType([
+      React.PropTypes.number,
+      React.PropTypes.string
+    ]),
+    types: React.PropTypes.array
   })
 };
 
@@ -255,7 +269,8 @@ PlacesAutocomplete.defaultProps = {
   hideLabel: false,
   classNames: {},
   autocompleteItem: ({ suggestion }) => (<div>{suggestion}</div>),
-  styles: {}
+  styles: {},
+  options: {}
 }
 
 export default PlacesAutocomplete
