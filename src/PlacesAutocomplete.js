@@ -202,24 +202,40 @@ class PlacesAutocomplete extends React.Component {
     )
   }
 
+  renderCustomInput() {
+    const { children, value } = this.props
+    return React.cloneElement(children, {
+      onChange: this.handleInputChange,
+      onKeyDown: this.handleInputKeyDown,
+      value
+    })
+  }
+
+  renderDefaultInput() {
+    const { classNames, placeholder, styles, value } = this.props
+    return (
+      <input
+        type="text"
+        placeholder={placeholder}
+        className={classNames.input || ''}
+        value={value}
+        onChange={this.handleInputChange}
+        onKeyDown={this.handleInputKeyDown}
+        style={styles.input}
+      />
+    )
+  }
+
   // TODO: remove `classNames.container` in the next version release.
   render() {
-    const { classNames, placeholder, styles, value } = this.props
+    const { classNames, children, styles } = this.props
     return (
       <div
         style={{ ...defaultStyles.root, ...styles.root }}
         className={classNames.root || classNames.container || ''}
       >
         {this.renderLabel()}
-        <input
-          type="text"
-          placeholder={placeholder}
-          className={classNames.input || ''}
-          value={value}
-          onChange={this.handleInputChange}
-          onKeyDown={this.handleInputKeyDown}
-          style={styles.input}
-        />
+        {children ? this.renderCustomInput() : this.renderDefaultInput()}
         {this.renderOverlay()}
         {this.renderAutocomplete()}
       </div>
@@ -228,6 +244,7 @@ class PlacesAutocomplete extends React.Component {
 }
 
 PlacesAutocomplete.propTypes = {
+  children: React.PropTypes.element,
   value: React.PropTypes.string.isRequired,
   onChange: React.PropTypes.func.isRequired,
   onSelect: React.PropTypes.func,

@@ -193,6 +193,39 @@ describe('AutocompletionRequest options', () => {
   })
 })
 
+describe('custom input component', () => {
+  it('renders a custom input component passed as a child', () => {
+    const wrapper = shallow(<PlacesAutocomplete value="LA" onChange={() => {}}><input className="test-input" type="text" onChange={() => {}}/></PlacesAutocomplete>)
+    expect(wrapper.find('.test-input')).to.have.length(1)
+  })
+
+  it('adds the correct props to the child component', () => {
+    const wrapper = shallow(<PlacesAutocomplete value="LA" onChange={() => {}}><input className="test-input" type="text"/></PlacesAutocomplete>)
+    expect(wrapper.find('.test-input').props().onChange).to.be.defined
+    expect(wrapper.find('.test-input').props().onKeyDown).to.be.defined
+    expect(wrapper.find('.test-input').props().value).to.be.defined
+  })
+
+  it('correctly sets the value prop of the custom input component', () => {
+    const wrapper = shallow(<PlacesAutocomplete value="LA" onChange={() => {}}><input className="test-input" type="text" onChange={() => {}}/></PlacesAutocomplete>)
+    expect(wrapper.find('.test-input').props().value).to.equal('LA')
+  })
+
+  it('executes the onChange callback when the custom input is changed', () => {
+    const spy = sinon.spy()
+    const wrapper = shallow(<PlacesAutocomplete value="LA" onChange={spy}><input className="test-input" type="text"/></PlacesAutocomplete>)
+    wrapper.find('.test-input').simulate('change', { target: { value: null } })
+    expect(spy.calledOnce).to.equal(true)
+  })
+
+  it('executes handleInputKeyDown when a keyDown event happens on the custom input', () => {
+    const spy = sinon.spy(PlacesAutocomplete.prototype, 'handleInputKeyDown')
+    const wrapper = shallow(<PlacesAutocomplete value="LA" onChange={() => {}}><input className="test-input" type="text"/></PlacesAutocomplete>)
+    wrapper.find('.test-input').simulate('keyDown', { keyCode: null })
+    expect(spy.calledOnce).to.equal(true)
+  })
+})
+
 // TODO: test geocodeByAddress function
 describe('geocodeByAddress', () => {
   it('should be true', () => {
