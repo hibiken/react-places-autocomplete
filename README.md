@@ -5,6 +5,7 @@ A React component to build a customized UI for Google Maps Places Autocomplete (
 
 [![travis build](https://img.shields.io/travis/kenny-hibino/react-places-autocomplete.svg?style=flat-square)](https://travis-ci.org/kenny-hibino/react-places-autocomplete)
 [![MIT-License](https://img.shields.io/npm/l/react-places-autocomplete.svg?style=flat-square)]()
+[![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg?style=flat-square)](https://gitter.im/react-places-autocomplete/Lobby)
 
 ### Features
 1. Enable you to easily build a customized autocomplete dropdown powered by Google Maps Places Library
@@ -235,7 +236,7 @@ This prop accepts an object following the same format as [google.maps.places.Aut
 (except for `input`, which comes from the value of the input field).
 
 ```js
-// these options will bias the autocomplete predictions toward Sydney, Australia with a radius of 2000 meters, 
+// these options will bias the autocomplete predictions toward Sydney, Australia with a radius of 2000 meters,
 // and limit the results to addresses only
 const options = {
   location: new google.maps.LatLng(-34, 151),
@@ -273,6 +274,9 @@ First argument is an error object, set to `null` when there's no error.
 Second argument is an object with `lat` and `lng` keys
 
 
+### Discussion
+
+Join us on [Gitter](https://gitter.im/react-places-autocomplete/Lobby) if you are interested in contributing!
 
 ### License
 
