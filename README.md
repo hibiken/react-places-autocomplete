@@ -88,30 +88,21 @@ export default SimpleForm
 
 ### Props for `PlacesAutocomplete`
 
-#### children
-Type: `Element`
-Required: `false`
+#### Require Props:
 
-You can add autocomplete functionality to an existing input element by wrapping it in `<PlacesAutocomplete>`.
-The wrapper will pass `onChange`, `onKeyDown`, and `value` props down to the child component.
+* value
+* onChange
 
-```js
-// custom input element example
-import MyCustomInput from 'my-custom-input'
+#### Optional Props:
 
-...
-
-render() {
-  return (
-    <PlacesAutocomplete
-      value={this.state.value}
-      onChange={this.onChange}
-    >
-      <MyCustomInput/>
-    </PlacesAutocomplete>
-  )
-}
-```
+* autocompleteItem
+* children
+* classNames
+* styles
+* placeholder
+* hideLabel
+* onSelect
+* options
 
 #### value
 Type: `String`,
@@ -143,6 +134,31 @@ render() {
       onChange={this.onChange}
       autocompleteItem={AutocompleteItem}
     />
+  )
+}
+```
+
+#### children
+Type: `Element`
+Required: `false`
+
+You can add autocomplete functionality to an existing input element by wrapping it in `<PlacesAutocomplete>`.
+The wrapper will pass `onChange`, `onKeyDown`, and `value` props down to the child component.
+
+```js
+// custom input element example
+import MyCustomInput from 'my-custom-input'
+
+...
+
+render() {
+  return (
+    <PlacesAutocomplete
+      value={this.state.value}
+      onChange={this.onChange}
+    >
+      <MyCustomInput/>
+    </PlacesAutocomplete>
   )
 }
 ```
