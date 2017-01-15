@@ -27,6 +27,21 @@ describe('PlacesAutocomplete callbacks', () => {
     const wrapper = mount(<PlacesAutocomplete value="San Francisco, Ca" onChange={() => {}} />)
     expect(PlacesAutocomplete.prototype.componentDidMount.calledOnce).to.equal(true)
   })
+
+  it('executes onError callback passed in as prop when status is not OK', () => {
+    const spy = sinon.spy()
+    const wrapper = mount(<PlacesAutocomplete onError={spy} value="San Francisco, Ca" onChange={() => {}} />)
+    wrapper.instance().autocompleteCallback([], 'error')
+    expect(spy.calledOnce).to.equal(true)
+  })
+
+  it('executes default onError function when there is no custom prop and status is not OK', () => {
+    sinon.stub(console, 'error')
+    const wrapper = mount(<PlacesAutocomplete value="San Francisco, Ca" onChange={() => {}} />)
+    wrapper.instance().autocompleteCallback([], 'error')
+    expect(console.error.calledOnce).to.equal(true)
+    expect(console.error.calledWith('place autocomplete failed')).to.equal(true)
+  })
 });
 
 describe('PlacesAutocomplete props', () => {

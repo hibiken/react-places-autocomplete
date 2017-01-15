@@ -49,7 +49,10 @@ class PlacesAutocomplete extends React.Component {
   }
 
   autocompleteCallback(predictions, status) {
-    if (status != this.autocompleteOK) { console.error('place autocomplete failed'); return; }
+    if (status != this.autocompleteOK) {
+      this.props.onError()
+      return
+    }
     this.setState({
       autocompleteItems: predictions.map((p, idx) => ({
         suggestion: p.description,
@@ -249,6 +252,7 @@ PlacesAutocomplete.propTypes = {
   children: React.PropTypes.element,
   value: React.PropTypes.string.isRequired,
   onChange: React.PropTypes.func.isRequired,
+  onError: React.PropTypes.func,
   onSelect: React.PropTypes.func,
   placeholder: React.PropTypes.string,
   hideLabel: React.PropTypes.bool,
@@ -285,6 +289,7 @@ PlacesAutocomplete.propTypes = {
 };
 
 PlacesAutocomplete.defaultProps = {
+  onError: () => console.error('place autocomplete failed'),
   placeholder: 'Address',
   hideLabel: false,
   autoFocus: false,

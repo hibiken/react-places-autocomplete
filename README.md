@@ -235,6 +235,13 @@ Default: `false`
 
 You can set `hideLabel` to `true` to not render the label element
 
+#### onError
+Type: `function`
+Required: `false`
+Default: `() => console.error('place autocomplete failed')`
+
+You can pass `onError` prop to customize the behavior when `google.maps.places.PlacesServiceStatus` is not `OK` (e.g., no predictions are found)
+
 #### onSelect
 Type: `function`
 Required: `false`,
