@@ -31,16 +31,16 @@ describe('PlacesAutocomplete callbacks', () => {
   it('executes onError callback passed in as prop when status is not OK', () => {
     const spy = sinon.spy()
     const wrapper = mount(<PlacesAutocomplete onError={spy} value="San Francisco, Ca" onChange={() => {}} />)
-    wrapper.instance().autocompleteCallback([], 'error')
+    wrapper.instance().autocompleteCallback([], 'ZERO_RESULTS')
     expect(spy.calledOnce).to.equal(true)
+    expect(spy.calledWith('ZERO_RESULTS')).to.equal(true)
   })
 
   it('executes default onError function when there is no custom prop and status is not OK', () => {
     sinon.stub(console, 'error')
     const wrapper = mount(<PlacesAutocomplete value="San Francisco, Ca" onChange={() => {}} />)
-    wrapper.instance().autocompleteCallback([], 'error')
+    wrapper.instance().autocompleteCallback([], 'ZERO_RESULTS')
     expect(console.error.calledOnce).to.equal(true)
-    expect(console.error.calledWith('place autocomplete failed')).to.equal(true)
   })
 });
 
@@ -86,6 +86,31 @@ describe('autocomplete dropdown', () => {
     wrapper.setState({ autocompleteItems: data })
     expect(wrapper.find('#PlacesAutocomplete__autocomplete-container')).to.have.length(1)
     expect(wrapper.find('.autocomplete-item')).to.have.length(3)
+  })
+
+  it('clears the autocomplete items when PlacesServiceStatus is not OK and clearItemsOnError prop is true', () => {
+    const initialItems = [{
+        suggestion: 'San Francisco, CA',
+        placeId: 1,
+        active: false,
+        index: 0
+    }]
+    const wrapper = shallow(<PlacesAutocomplete value="San Francisco, CA" onChange={() => {}} clearItemsOnError={true}/>)
+    wrapper.setState({ autocompleteItems: initialItems })
+    wrapper.instance().autocompleteCallback([], 'error')
+    expect(wrapper.find('.autocomplete-item')).to.have.length(0)
+  })
+
+  it('does not clear the autocomplete items when PlacesServiceStatus is not OK and clearItemsOnError prop is false', () => {
+    const initialItems = [{
+        suggestion: 'San Francisco, CA',
+        placeId: 1,
+        active: false,
+        index: 0
+    }]
+    wrapper.setState({ autocompleteItems: initialItems })
+    wrapper.instance().autocompleteCallback([], 'error')
+    expect(wrapper.find('.autocomplete-item')).to.have.length(1)
   })
 })
 
