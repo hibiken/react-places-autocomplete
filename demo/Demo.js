@@ -90,6 +90,7 @@ class Demo extends React.Component {
             onSelect={this.handleSelect}
             classNames={cssClasses}
             autocompleteItem={AutocompleteItem}
+            autoFocus={true}
           />
           {this.state.loading ? <div className="loader">Loading...</div> : null}
           {!this.state.loading && this.state.geocodeResults ?

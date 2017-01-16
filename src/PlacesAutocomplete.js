@@ -203,16 +203,17 @@ class PlacesAutocomplete extends React.Component {
   }
 
   renderCustomInput() {
-    const { children, value } = this.props
+    const { children, autoFocus, value } = this.props
     return React.cloneElement(children, {
       onChange: this.handleInputChange,
       onKeyDown: this.handleInputKeyDown,
+      autoFocus: autoFocus,
       value
     })
   }
 
   renderDefaultInput() {
-    const { classNames, placeholder, styles, value } = this.props
+    const { classNames, placeholder, styles, value, autoFocus } = this.props
     return (
       <input
         type="text"
@@ -222,6 +223,7 @@ class PlacesAutocomplete extends React.Component {
         onChange={this.handleInputChange}
         onKeyDown={this.handleInputKeyDown}
         style={styles.input}
+        autoFocus={autoFocus}
       />
     )
   }
@@ -250,6 +252,7 @@ PlacesAutocomplete.propTypes = {
   onSelect: React.PropTypes.func,
   placeholder: React.PropTypes.string,
   hideLabel: React.PropTypes.bool,
+  autoFocus: React.PropTypes.bool,
   autocompleteItem: React.PropTypes.func,
   classNames: React.PropTypes.shape({
     root: React.PropTypes.string,
@@ -284,6 +287,7 @@ PlacesAutocomplete.propTypes = {
 PlacesAutocomplete.defaultProps = {
   placeholder: 'Address',
   hideLabel: false,
+  autoFocus: false,
   classNames: {},
   autocompleteItem: ({ suggestion }) => (<div>{suggestion}</div>),
   styles: {},
