@@ -226,6 +226,18 @@ describe('custom input component', () => {
   })
 })
 
+describe('autoFocus prop', () => {
+  it('automatically gives focus when set to true', () => {
+    const wrapper = mount(<PlacesAutocomplete value="New York, NY" onChange={() => {}} autoFocus={true} />)
+    expect(wrapper.find('input').node).to.equal(document.activeElement)
+  })
+
+  it('does not give the input element a focus by default', () => {
+    const wrapper = mount(<PlacesAutocomplete value="New York, NY" onChange={() => {}} />)
+    expect(wrapper.find('input').node).to.not.equal(document.activeElement)
+  })
+})
+
 // TODO: test geocodeByAddress function
 describe('geocodeByAddress', () => {
   it('should be true', () => {

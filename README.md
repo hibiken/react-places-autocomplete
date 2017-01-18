@@ -103,6 +103,7 @@ export default SimpleForm
 * hideLabel
 * onSelect
 * options
+* autoFocus
 
 #### value
 Type: `String`,
@@ -266,6 +267,11 @@ const options = {
   options={options}
 />
 ```
+
+#### autoFocus
+Type: `Boolean`
+Required:  `false`
+Default: `false` 
 
 ### `geocodeByAddress` API
 
