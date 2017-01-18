@@ -229,7 +229,7 @@ Default: `"Address"`
 You can pass `placeholder` prop to customize input's placeholder text
 
 #### hideLabel
-Type: `Boolean`
+Type: `boolean`
 Required: `false`,
 Default: `false`
 
@@ -269,7 +269,7 @@ const options = {
 ```
 
 #### autoFocus
-Type: `Boolean`
+Type: `boolean`
 Required:  `false`
 Default: `false` 
 
