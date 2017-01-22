@@ -101,6 +101,8 @@ export default SimpleForm
 * styles
 * placeholder
 * hideLabel
+* onError
+* clearItemsOnError
 * onSelect
 * options
 * autoFocus
@@ -234,6 +236,22 @@ Required: `false`,
 Default: `false`
 
 You can set `hideLabel` to `true` to not render the label element
+
+#### onError
+Type: `function`
+Required: `false`
+Default: `(status) => console.error('[react-places-autocomplete]: error happened when fetching data from Google Maps API.\nPlease check the docs here (https://github.com/kenny-hibino/react-places-autocomplete)\nStatus: ', status)`
+
+You can pass `onError` prop to customize the behavior when [google.maps.places.PlacesServiceStatus](https://developers.google.com/maps/documentation/javascript/places#place_details_responses) is not `OK` (e.g., no predictions are found)
+
+Receives `status` as a parameter
+
+#### clearItemsOnError
+Type: `boolean`
+Required: `false`
+Default: `false`
+
+You can pass `clearItemsOnError` prop to indicate whether the autocomplete predictions should be cleared when `google.maps.places.PlacesServiceStatus` is not OK 
 
 #### onSelect
 Type: `function`
