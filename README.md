@@ -123,11 +123,14 @@ Please see the example above
 Type: `Functional React Component`,
 Required: `false`
 
-The function takes props with `suggestion` key (see the example below).
+The function takes props with `suggestion`, `formattedSuggestion` keys (see the example below).
 We highly recommend that you create your own custom `AutocompleteItem` and pass it as a prop.
 
 ```js
-// autocompleteItem example (with font-awesome icon)
+/***********************************************
+ Example #1
+ autocompleteItem example with `suggestion`
+************************************************/
 render() {
   const AutocompleteItem = ({ suggestion }) => (<div><i className="fa fa-map-marker"/>{suggestion}</div>)
 
@@ -138,6 +141,30 @@ render() {
       autocompleteItem={AutocompleteItem}
     />
   )
+}
+
+/***************************************************
+ Example #2
+ autocompleteItem example with `formattedSuggestion`
+****************************************************/
+render() {
+  const AutocompleteItem = ({ formattedSuggestion }) => (
+    <div>
+      <strong>{ formattedSuggestion.mainText }</strong>{' '}
+      <small>{ formattedSuggestion.secondaryText }</small>
+    </div>
+  )
+
+  return (
+    <PlacesAutocomplete
+      value={this.state.value}
+      onChange={this.onChange}
+      autocompleteItem={AutocompleteItem}
+    />
+  )
+}
+
+
 }
 ```
 
@@ -251,7 +278,7 @@ Type: `boolean`
 Required: `false`
 Default: `false`
 
-You can pass `clearItemsOnError` prop to indicate whether the autocomplete predictions should be cleared when `google.maps.places.PlacesServiceStatus` is not OK 
+You can pass `clearItemsOnError` prop to indicate whether the autocomplete predictions should be cleared when `google.maps.places.PlacesServiceStatus` is not OK
 
 #### onSelect
 Type: `function`
@@ -289,7 +316,7 @@ const options = {
 #### autoFocus
 Type: `boolean`
 Required:  `false`
-Default: `false` 
+Default: `false`
 
 ### `geocodeByAddress` API
 
