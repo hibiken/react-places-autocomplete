@@ -69,7 +69,13 @@ class Demo extends React.Component {
       autocompleteContainer: 'Demo__autocomplete-container'
     }
 
-    const AutocompleteItem = ({ suggestion }) => (<div className="Demo__suggestion-item"><i className='fa fa-map-marker Demo__suggestion-icon'/>{suggestion}</div>)
+    const AutocompleteItem = ({ formattedSuggestion }) => (
+      <div className="Demo__suggestion-item">
+        <i className='fa fa-map-marker Demo__suggestion-icon'/>
+        <strong>{formattedSuggestion.mainText}</strong>{' '}
+        <small className="text-muted">{formattedSuggestion.secondaryText}</small>
+      </div>)
+
     return (
       <div className='page-wrapper'>
         <div className='container'>
