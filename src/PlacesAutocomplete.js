@@ -24,14 +24,20 @@ class PlacesAutocomplete extends React.Component {
       if (this.props.clearItemsOnError) { this.clearAutocomplete() }
       return
     }
+
     this.setState({
       autocompleteItems: predictions.map((p, idx) => ({
         suggestion: p.description,
         placeId: p.place_id,
         active: false,
-        index: idx
+        index: idx,
+        formattedSuggestion: this._formattedSuggestion(p.structured_formatting),
       }))
     })
+  }
+
+  _formattedSuggestion(structured_formatting) {
+    return { mainText: structured_formatting.main_text, secondaryText: structured_formatting.secondary_text }
   }
 
   clearAutocomplete() {
@@ -173,7 +179,7 @@ class PlacesAutocomplete extends React.Component {
             onMouseOver={() => this._setActiveItemAtIndex(p.index)}
             onClick={() => this.selectAddress(p.suggestion)}
             style={{ ...defaultStyles.autocompleteItem, ...styles.autocompleteItem, ...this.autocompleteItemStyle(p.active) }}>
-            {this.props.autocompleteItem({ suggestion: p.suggestion })}
+            {this.props.autocompleteItem({ suggestion: p.suggestion, formattedSuggestion: p.formattedSuggestion })}
           </div>
         ))}
       </div>
