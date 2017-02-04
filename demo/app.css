@@ -17,6 +17,21 @@ body, #root, .page-wrapper {
   border-color: #e53935;
 }
 
+.Demo__github-icon {
+  font-size: 24px;
+}
+
+.Demo__github-link {
+  color: #262626;
+  font-size: 20px;
+}
+
+.Demo__github-link:hover,
+.Demo__github-link:active {
+  color: #4078c0;
+  text-decoration: none;
+}
+
 .Demo__suggestion-icon {
   margin-right: 8px;
 }

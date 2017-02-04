@@ -72,16 +72,14 @@ class Demo extends React.Component {
     const AutocompleteItem = ({ suggestion }) => (<div className="Demo__suggestion-item"><i className='fa fa-map-marker Demo__suggestion-icon'/>{suggestion}</div>)
     return (
       <div className='page-wrapper'>
-        <div className='jumbotron'>
-          <div className='container'>
-            <h1 className='display-3'>react-places-autocomplete <i className='fa fa-map-marker header'/></h1>
-            <p className='lead'>A React component to build a customized UI for Google Maps Places Autocomplete</p>
-            <hr />
-            <a href='https://github.com/kenny-hibino/react-places-autocomplete' className='btn btn-secondary btn-lg' role='button'>
-              <span className='fa fa-github'></span>
-              &nbsp;View on GitHub
-            </a>
-          </div>
+        <div className='container'>
+          <h1 className='display-3'>react-places-autocomplete <i className='fa fa-map-marker header'/></h1>
+          <p className='lead'>A React component to build a customized UI for Google Maps Places Autocomplete</p>
+          <hr />
+          <a href='https://github.com/kenny-hibino/react-places-autocomplete' className='Demo__github-link' target="_blank" >
+            <span className='fa fa-github Demo__github-icon'></span>
+            &nbsp;View on GitHub
+          </a>
         </div>
         <div className='container'>
           <PlacesAutocomplete
