@@ -92,7 +92,7 @@ class Demo extends React.Component {
             placeholder="Search Places"
             hideLabel={true}
           />
-          {this.state.loading ? <div className="loader">Loading...</div> : null}
+          {this.state.loading ? <div><i className="fa fa-spinner fa-pulse fa-3x fa-fw Demo__spinner" /></div> : null}
           {!this.state.loading && this.state.geocodeResults ?
             <div className='geocoding-results'>{this.state.geocodeResults}</div> :
           null}
