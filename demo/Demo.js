@@ -65,23 +65,21 @@ class Demo extends React.Component {
     const cssClasses = {
       root: 'form-group',
       label: 'form-label',
-      input: 'form-control',
-      autocompleteContainer: 'autocomplete-container'
+      input: 'Demo__search-input',
+      autocompleteContainer: 'Demo__autocomplete-container'
     }
 
-    const AutocompleteItem = ({ suggestion }) => (<div><i className='fa fa-map-marker suggestion'/>{suggestion}</div>)
+    const AutocompleteItem = ({ suggestion }) => (<div className="Demo__suggestion-item"><i className='fa fa-map-marker Demo__suggestion-icon'/>{suggestion}</div>)
     return (
       <div className='page-wrapper'>
-        <div className='jumbotron'>
-          <div className='container'>
-            <h1 className='display-3'>react-places-autocomplete <i className='fa fa-map-marker header'/></h1>
-            <p className='lead'>A React component to build a customized UI for Google Maps Places Autocomplete</p>
-            <hr />
-            <a href='https://github.com/kenny-hibino/react-places-autocomplete' className='btn btn-secondary btn-lg' role='button'>
-              <span className='fa fa-github'></span>
-              &nbsp;View on GitHub
-            </a>
-          </div>
+        <div className='container'>
+          <h1 className='display-3'>react-places-autocomplete <i className='fa fa-map-marker header'/></h1>
+          <p className='lead'>A React component to build a customized UI for Google Maps Places Autocomplete</p>
+          <hr />
+          <a href='https://github.com/kenny-hibino/react-places-autocomplete' className='Demo__github-link' target="_blank" >
+            <span className='fa fa-github Demo__github-icon'></span>
+            &nbsp;View on GitHub
+          </a>
         </div>
         <div className='container'>
           <PlacesAutocomplete
@@ -91,8 +89,10 @@ class Demo extends React.Component {
             classNames={cssClasses}
             autocompleteItem={AutocompleteItem}
             autoFocus={true}
+            placeholder="Search Places"
+            hideLabel={true}
           />
-          {this.state.loading ? <div className="loader">Loading...</div> : null}
+          {this.state.loading ? <div><i className="fa fa-spinner fa-pulse fa-3x fa-fw Demo__spinner" /></div> : null}
           {!this.state.loading && this.state.geocodeResults ?
             <div className='geocoding-results'>{this.state.geocodeResults}</div> :
           null}

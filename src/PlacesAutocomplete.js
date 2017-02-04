@@ -124,6 +124,7 @@ class PlacesAutocomplete extends React.Component {
     const ARROW_UP = 38
     const ARROW_DOWN = 40
     const ENTER_KEY = 13
+    const ESC_KEY = 27
 
     switch (event.keyCode) {
       case ENTER_KEY:
@@ -135,6 +136,9 @@ class PlacesAutocomplete extends React.Component {
         break
       case ARROW_UP:
         this._handleUpKey()
+        break
+      case ESC_KEY:
+        this.clearAutocomplete()
         break
     }
   }
