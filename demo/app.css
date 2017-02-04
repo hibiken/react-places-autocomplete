@@ -10,6 +10,7 @@ html {
 
 body, #root, .page-wrapper {
   height: 100%;
+  background-color: #fcfcfc;
 }
 
 .btn:hover {
