@@ -65,11 +65,11 @@ class Demo extends React.Component {
     const cssClasses = {
       root: 'form-group',
       label: 'form-label',
-      input: 'form-control',
-      autocompleteContainer: 'autocomplete-container'
+      input: 'Demo__search-input',
+      autocompleteContainer: 'Demo__autocomplete-container'
     }
 
-    const AutocompleteItem = ({ suggestion }) => (<div><i className='fa fa-map-marker suggestion'/>{suggestion}</div>)
+    const AutocompleteItem = ({ suggestion }) => (<div className="Demo__suggestion-item"><i className='fa fa-map-marker Demo__suggestion-icon'/>{suggestion}</div>)
     return (
       <div className='page-wrapper'>
         <div className='jumbotron'>
@@ -91,6 +91,8 @@ class Demo extends React.Component {
             classNames={cssClasses}
             autocompleteItem={AutocompleteItem}
             autoFocus={true}
+            placeholder="Search Places"
+            hideLabel={true}
           />
           {this.state.loading ? <div className="loader">Loading...</div> : null}
           {!this.state.loading && this.state.geocodeResults ?

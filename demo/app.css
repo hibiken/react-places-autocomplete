@@ -17,12 +17,40 @@ body, #root, .page-wrapper {
   border-color: #e53935;
 }
 
-.fa.fa-map-marker.suggestion {
-  margin-right: 5px;
+.Demo__suggestion-icon {
+  margin-right: 8px;
 }
 
 .fa.fa-map-marker.header {
   color: #e53935;
+}
+
+.Demo__search-input,
+.Demo__search-input:focus,
+.Demo__search-input:active {
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
+  border: honeydew;
+  display: block;
+  width: 100%;
+  padding: 16px;
+  font-size: 16px;
+  border-radius: 2px;
+  outline: none;
+}
+
+/* TODO: Allow user to override default styles without using !important flag */
+.Demo__autocomplete-container {
+  border-bottom: honeydew !important;
+  border-left: honeydew !important;
+  border-right: honeydew !important;
+  border-top: 1px solid #e6e6e6 !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  border-radius: 0 0 2px 2px;
+}
+
+.Demo__suggestion-item {
+  padding: 4px;
+  text-align: left;
 }
 
 @media (max-width: 480px) {
