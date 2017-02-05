@@ -348,11 +348,24 @@ String that gets passed to Google Maps [Geocoder](https://developers.google.com/
 Type: `Function`,
 Required: `true`
 
-Two arguments will be passed to the callback.
+Three arguments will be passed to the callback.
 
 First argument is an error object, set to `null` when there's no error.
 
 Second argument is an object with `lat` and `lng` keys
+
+Third argument (optional) is entire payload from Google API
+
+```js
+import { geocodeByAddress } from 'react-places-autocomplete'
+
+geocodeByAddress('Los Angeles, CA', (error, { lat, lng }, results) => {
+  if (error) { return }
+
+  console.log('Geocoding success!', { lat, lng })
+  console.log('Entire payload from Google API', results)
+})
+```
 
 ### `geocodeByPlaceId` API
 
@@ -370,13 +383,24 @@ String that gets passed to Google Maps [Geocoder](https://developers.google.com/
 Type: `Function`,
 Required: `true`
 
-Two arguments will be passed to the callback.
+Three arguments will be passed to the callback.
 
 First argument is an error object, set to `null` when there's no error.
 
 Second argument is an object with `lat` and `lng` keys
 
+Third argument (optional) is entire payload from Google API
 
+```js
+import { geocodeByPlaceId } from 'react-places-autocomplete'
+
+geocodeByPlaceId('ChIJE9on3F3HwoAR9AhGJW_fL-I', (error, { lat, lng }, results) => {
+  if (error) { return }
+
+  console.log('Geocoding success!', { lat, lng })
+  console.log('Entire payload from Google API', results)
+})
+```
 ### Discussion
 
 Join us on [Gitter](https://gitter.im/react-places-autocomplete/Lobby) if you are interested in contributing!
