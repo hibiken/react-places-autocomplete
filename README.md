@@ -24,10 +24,10 @@ The React component is exported as a default export
 import PlacesAutocomplete from 'react-places-autocomplete'
 ```
 
-`geocodeByAddress` utility function is a named export
+`geocodeByAddress` and `geocodeByPlaceId` utility functions are named exports
 
 ```js
-import { geocodeByAddress } from 'react-places-autocomplete'
+import { geocodeByAddress, geocodeByPlaceId } from 'react-places-autocomplete'
 ```
 
 ### Demo
@@ -285,6 +285,23 @@ Default: `null`
 You can pass a function that gets called instead of `onChange` function when user
 hits the Enter key or clicks on an autocomplete item.
 
+The function takes two positional arguments. First argument is `address`, second is `placeId`.
+
+```js
+const handleSelect = (address, placeId) => {
+  this.setState({ address, placeId })
+
+  // You can do other things with address string or placeId. For example, geocode :)
+}
+
+// Pass this function via onSelect prop.
+<PlacesAutocomplete
+  value={this.state.value}
+  onChange={this.handleChange}
+  onSelect={this.handleSelect}
+/>
+```
+
 #### options
 Type: `object`
 Required: `false`
@@ -325,7 +342,29 @@ geocodeByAddress(address, callback)
 Type: `String`,
 Required: `true`
 
-String that gets passed to Google Maps Geocoder
+String that gets passed to Google Maps [Geocoder](https://developers.google.com/maps/documentation/javascript/geocoding)
+
+#### callback
+Type: `Function`,
+Required: `true`
+
+Two arguments will be passed to the callback.
+
+First argument is an error object, set to `null` when there's no error.
+
+Second argument is an object with `lat` and `lng` keys
+
+### `geocodeByPlaceId` API
+
+```js
+geocodeByPlaceId(placeId, callback)
+```
+
+#### placeId
+Type: `String`,
+Required: `true`
+
+String that gets passed to Google Maps [Geocoder](https://developers.google.com/maps/documentation/javascript/geocoding)
 
 #### callback
 Type: `Function`,
