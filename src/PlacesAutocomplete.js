@@ -185,17 +185,7 @@ class PlacesAutocomplete extends React.Component {
     )
   }
 
-  renderCustomInput() {
-    const { children, autoFocus, value } = this.props
-    return React.cloneElement(children, {
-      onChange: this.handleInputChange,
-      onKeyDown: this.handleInputKeyDown,
-      autoFocus: autoFocus,
-      value
-    })
-  }
-
-  renderDefaultInput() {
+  renderInput() {
     const { classNames, placeholder, styles, value, autoFocus } = this.props
     return (
       <input
@@ -211,16 +201,14 @@ class PlacesAutocomplete extends React.Component {
     )
   }
 
-  // TODO: remove `classNames.container` in the next version release.
   render() {
-    const { classNames, children, styles } = this.props
+    const { classNames, styles } = this.props
     return (
       <div
         style={{ ...defaultStyles.root, ...styles.root }}
-        className={classNames.root || classNames.container || ''}
-      >
+        className={classNames.root || ''}>
         {this.renderLabel()}
-        {children ? this.renderCustomInput() : this.renderDefaultInput()}
+        {this.renderInput()}
         {this.renderOverlay()}
         {this.renderAutocomplete()}
       </div>
@@ -229,7 +217,6 @@ class PlacesAutocomplete extends React.Component {
 }
 
 PlacesAutocomplete.propTypes = {
-  children: React.PropTypes.element,
   value: React.PropTypes.string.isRequired,
   onChange: React.PropTypes.func.isRequired,
   onError: React.PropTypes.func,
