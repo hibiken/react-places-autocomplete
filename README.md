@@ -15,7 +15,7 @@ A React component to build a customized UI for Google Maps Places Autocomplete (
 To install the stable version
 
 ```sh
-npm install --save react-places-autocomplete
+npm install react-places-autocomplete --save
 ```
 
 The React component is exported as a default export
@@ -32,6 +32,12 @@ import { geocodeByAddress, geocodeByPlaceId } from 'react-places-autocomplete'
 
 ### Demo
 See live demo: [kenny-hibino.github.io/react-places-autocomplete/](https://kenny-hibino.github.io/react-places-autocomplete/)
+
+To build the example locally, clone this repo and then run:
+
+```sh
+npm run demo
+```
 
 
 ### Getting Started
@@ -54,17 +60,14 @@ class SimpleForm extends React.Component {
     super(props)
     this.state = { address: 'San Francisco, CA' }
     this.onChange = (address) => this.setState({ address })
-    this.handleFormSubmit = this.handleFormSubmit.bind(this)
   }
 
-  handleFormSubmit(event) {
+  handleFormSubmit = (event) => {
     event.preventDefault()
     const { address } = this.state
 
     geocodeByAddress(address,  (err, { lat, lng }) => {
-      if (err) {
-        console.log('Oh no!', err)
-      }
+      if (err) { console.log('Oh no!', err) }
 
       console.log(`Yay! got latitude and longitude for ${address}`, { lat, lng })
     })
@@ -229,30 +232,29 @@ Default: `"Address"`
 You can pass `placeholder` prop to customize input's placeholder text
 
 #### hideLabel
-Type: `boolean`
+Type: `Boolean`
 Required: `false`,
 Default: `false`
 
 You can set `hideLabel` to `true` to not render the label element
 
 #### onError
-Type: `function`
+Type: `Function`
 Required: `false`
-Default: `(status) => console.error('[react-places-autocomplete]: error happened when fetching data from Google Maps API.\nPlease check the docs here (https://github.com/kenny-hibino/react-places-autocomplete)\nStatus: ', status)`
 
 You can pass `onError` prop to customize the behavior when [google.maps.places.PlacesServiceStatus](https://developers.google.com/maps/documentation/javascript/places#place_details_responses) is not `OK` (e.g., no predictions are found)
 
-Receives `status` as a parameter
+Function takes `status` as a parameter
 
 #### clearItemsOnError
-Type: `boolean`
+Type: `Boolean`
 Required: `false`
 Default: `false`
 
 You can pass `clearItemsOnError` prop to indicate whether the autocomplete predictions should be cleared when `google.maps.places.PlacesServiceStatus` is not OK
 
 #### onSelect
-Type: `function`
+Type: `Function`
 Required: `false`,
 Default: `null`
 
@@ -277,7 +279,7 @@ const handleSelect = (address, placeId) => {
 ```
 
 #### options
-Type: `object`
+Type: `Object`
 Required: `false`
 Default: `{}`
 
@@ -302,7 +304,7 @@ const options = {
 ```
 
 #### autoFocus
-Type: `boolean`
+Type: `Boolean`
 Required:  `false`
 Default: `false`
 
