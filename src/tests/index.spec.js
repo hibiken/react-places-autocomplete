@@ -16,10 +16,25 @@ describe('<PlacesAutocomplete />', () => {
     expect(wrapper.find('input')).to.have.length(1)
   })
 
-  it('renderes an label element', () => {
+  it('renders an label element', () => {
     expect(wrapper.find('label')).to.have.length(1)
   })
 });
+
+describe('PlacesAutocomplete label', () => {
+  it('renders a custom label', () => {
+    const Label = <label>Custom Label</label>;
+
+    const wrapper = shallow(<PlacesAutocomplete 
+                        value="Akron, OH" 
+                        onChange={() => {}} 
+                        label={Label}
+                      />);
+
+    expect(wrapper.find('label')).to.have.length(1)
+  });
+});
+
 
 describe('PlacesAutocomplete callbacks', () => {
   it('calls componentDidMount', () => {

@@ -149,6 +149,11 @@ class PlacesAutocomplete extends React.Component {
 
   renderLabel() {
     if (this.props.hideLabel) { return null }
+
+    if (React.isValidElement(this.props.label)) {
+      return this.props.label
+    }
+    
     return (<label style={this.props.styles.label} className={this.props.classNames.label || ''}>Location</label>)
   }
 
