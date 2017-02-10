@@ -65,9 +65,20 @@ class PlacesAutocomplete extends React.Component {
 
   _handleEnterKey() {
     const activeItem = this._getActiveItem()
-    if (activeItem === undefined) { return }
+    if (activeItem === undefined) {
+      this._handleEnterKeyWithoutActiveItem()
+    } else {
+      this.selectAddress(activeItem.suggestion, activeItem.placeId)
+    }
+  }
 
-    this.selectAddress(activeItem.suggestion, activeItem.placeId)
+  _handleEnterKeyWithoutActiveItem() {
+    if (this.props.onEnterKeyDown) {
+      this.props.onEnterKeyDown(this.props.value)
+      this.clearAutocomplete()
+    } else {
+      return //noop
+    }
   }
 
   _handleDownKey() {
@@ -195,6 +206,7 @@ class PlacesAutocomplete extends React.Component {
         value={value}
         onChange={this.handleInputChange}
         onKeyDown={this.handleInputKeyDown}
+        onBlur={() => this.clearAutocomplete()}
         style={styles.input}
         autoFocus={autoFocus}
       />
