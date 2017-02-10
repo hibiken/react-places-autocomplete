@@ -106,6 +106,7 @@ export default SimpleForm
 * onError
 * clearItemsOnError
 * onSelect
+* onEnterKeyDown
 * options
 * autoFocus
 
@@ -275,6 +276,31 @@ const handleSelect = (address, placeId) => {
   value={this.state.value}
   onChange={this.handleChange}
   onSelect={this.handleSelect}
+/>
+```
+
+#### onEnterKeyDown
+Type: `Function`
+Required: `false`
+Deafult: `noop`
+
+You can pass a callback function that gets called when pressing down Enter key when no item in the dropdown is selected.  
+The function takes one argument, the value in the input field.
+
+```js
+const handleEnter = (address) => {
+  geocodeByAddress(address, (err, { lat, lng }, results) => {
+    if (err) { console.error('Error'); return; }
+
+    console.log("Geocode success", { lat, lng })
+  })
+}
+
+// Pass this function via onEnterKeyDown prop.
+<PlacesAutocomplete
+  value={this.state.value}
+  onChange={this.handleChange}
+  onEnterKeyDown={this.handleEnter}
 />
 ```
 
