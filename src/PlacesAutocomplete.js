@@ -187,7 +187,7 @@ class PlacesAutocomplete extends React.Component {
           <div
             key={p.placeId}
             onMouseOver={() => this._setActiveItemAtIndex(p.index)}
-            onClick={() => this.selectAddress(p.suggestion, p.placeId)}
+            onMouseDown={() => this.selectAddress(p.suggestion, p.placeId)}
             style={{ ...defaultStyles.autocompleteItem, ...styles.autocompleteItem, ...this.autocompleteItemStyle(p.active) }}>
             {this.props.autocompleteItem({ suggestion: p.suggestion, formattedSuggestion: p.formattedSuggestion })}
           </div>
