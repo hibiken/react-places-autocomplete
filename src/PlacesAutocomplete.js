@@ -206,6 +206,7 @@ class PlacesAutocomplete extends React.Component {
         value={value}
         onChange={this.handleInputChange}
         onKeyDown={this.handleInputKeyDown}
+        onBlur={() => this.clearAutocomplete()}
         style={styles.input}
         autoFocus={autoFocus}
       />
