@@ -163,17 +163,6 @@ class PlacesAutocomplete extends React.Component {
     return (<label style={this.props.styles.label} className={this.props.classNames.label || ''}>Location</label>)
   }
 
-  renderOverlay() {
-    if (this.state.autocompleteItems.length === 0) { return null }
-    return (
-      <div
-        className="PlacesAutocomplete__overlay"
-        style={defaultStyles.autocompleteOverlay}
-        onClick={() => this.clearAutocomplete()}>
-      </div>
-    )
-  }
-
   renderAutocomplete() {
     const { autocompleteItems } = this.state
     const { styles } = this.props
@@ -221,7 +210,6 @@ class PlacesAutocomplete extends React.Component {
         className={classNames.root || ''}>
         {this.renderLabel()}
         {this.renderInput()}
-        {this.renderOverlay()}
         {this.renderAutocomplete()}
       </div>
     )
