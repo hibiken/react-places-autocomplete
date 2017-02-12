@@ -163,11 +163,6 @@ class PlacesAutocomplete extends React.Component {
     }
   }
 
-  renderLabel() {
-    if (this.props.hideLabel) { return null }
-    return (<label style={this.props.styles.label} className={this.props.classNames.label || ''}>Location</label>)
-  }
-
   renderAutocomplete() {
     const { autocompleteItems } = this.state
     const { styles } = this.props
@@ -213,7 +208,6 @@ class PlacesAutocomplete extends React.Component {
       <div
         style={{ ...defaultStyles.root, ...styles.root }}
         className={classNames.root || ''}>
-        {this.renderLabel()}
         {this.renderInput()}
         {this.renderAutocomplete()}
       </div>
@@ -228,18 +222,15 @@ PlacesAutocomplete.propTypes = {
   clearItemsOnError: React.PropTypes.bool,
   onSelect: React.PropTypes.func,
   placeholder: React.PropTypes.string,
-  hideLabel: React.PropTypes.bool,
   autoFocus: React.PropTypes.bool,
   autocompleteItem: React.PropTypes.func,
   classNames: React.PropTypes.shape({
     root: React.PropTypes.string,
-    label: React.PropTypes.string,
     input: React.PropTypes.string,
     autocompleteContainer: React.PropTypes.string,
   }),
   styles: React.PropTypes.shape({
     root: React.PropTypes.object,
-    label: React.PropTypes.object,
     input: React.PropTypes.object,
     autocompleteContainer: React.PropTypes.object,
     autocompleteItem: React.PropTypes.object,
@@ -265,7 +256,6 @@ PlacesAutocomplete.defaultProps = {
   clearItemsOnError: false,
   onError: (status) => console.error('[react-places-autocomplete]: error happened when fetching data from Google Maps API.\nPlease check the docs here (https://developers.google.com/maps/documentation/javascript/places#place_details_responses)\nStatus: ', status),
   placeholder: 'Address',
-  hideLabel: false,
   autoFocus: false,
   classNames: {},
   autocompleteItem: ({ suggestion }) => (<div>{suggestion}</div>),

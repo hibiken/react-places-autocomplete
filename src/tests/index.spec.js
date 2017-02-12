@@ -15,10 +15,6 @@ describe('<PlacesAutocomplete />', () => {
   it('renders an input element', () => {
     expect(wrapper.find('input')).to.have.length(1)
   })
-
-  it('renderes an label element', () => {
-    expect(wrapper.find('label')).to.have.length(1)
-  })
 });
 
 describe('PlacesAutocomplete callbacks', () => {
@@ -117,7 +113,6 @@ describe('autocomplete dropdown', () => {
 describe('custom classNames, placeholder', () => {
   const classNames = {
     root: 'my-container',
-    label: 'my-label',
     input: 'my-input',
     autocompleteContainer: 'my-autocomplete-container'
   }
@@ -137,10 +132,6 @@ describe('custom classNames, placeholder', () => {
     expect(wrapper.find('.my-container')).to.have.length(1)
   })
 
-  it('lets you set a custom className for the label', () => {
-    expect(wrapper.find('label')).to.have.className('my-label')
-  })
-
   it('lets you set a custom className for the input', () => {
     expect(wrapper.find('input')).to.have.className('my-input')
   })
@@ -152,13 +143,6 @@ describe('custom classNames, placeholder', () => {
 
   it('lets you set a custom placeholder for the input', () => {
     expect(wrapper.find('input').props().placeholder).to.equal('Your Address')
-  })
-});
-
-describe('hideLabel prop', () => {
-  it('lets you hide label element', () => {
-    const wrapper = shallow(<PlacesAutocomplete value="New York, NY" onChange={() => {}} hideLabel={true} />)
-    expect(wrapper.find('label')).to.have.length(0)
   })
 });
 
@@ -177,7 +161,6 @@ describe('custom inline styles', () => {
   beforeEach(() => {
     const styles = {
       root: { position: 'absolute' },
-      label: { color: 'red' },
       input: { width: '100%' },
       autocompleteContainer: { backgroundColor: 'green' },
       autocompleteItem: { color: 'black' },
@@ -185,7 +168,6 @@ describe('custom inline styles', () => {
     }
     const classNames = {
       root: 'root-element',
-      label: 'label-element',
       input: 'input-element',
       autocompleteContainer: 'autocomplete-container'
     }
@@ -194,10 +176,6 @@ describe('custom inline styles', () => {
 
   it('lets you set custom styles for the root element', () => {
     expect(wrapper.find('.root-element').props().style.position).to.equal('absolute')
-  })
-
-  it('lets you set custom styles for the label element', () => {
-    expect(wrapper.find('.label-element').props().style.color).to.equal('red')
   })
 
   it('lets you set custom styles for the input element', () => {

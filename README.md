@@ -102,7 +102,6 @@ export default SimpleForm
 * classNames
 * styles
 * placeholder
-* hideLabel
 * onError
 * clearItemsOnError
 * onSelect
@@ -173,14 +172,13 @@ Type: `Object`,
 Required: `false`
 
 You can give a custom css classes to elements.
-Accepted keys are `root`, `label`, `input`, `autocompleteContainer`
+Accepted keys are `root`, `input`, `autocompleteContainer`
 
 ```js
 // classNames example
 render() {
   const cssClasses = {
     root: 'form-group',
-    label: 'form-label',
     input: 'form-control',
     autocompleteContainer: 'my-autocomplete-container'
   }
@@ -201,14 +199,13 @@ Type `Object`,
 Required: `false`
 
 You can provide custom inline styles to elements.
-Accepted keys are `root`, `label`, `input`, `autocompleteContainer`, `autocompleteItem`, `autocompleteItemActive`
+Accepted keys are `root`, `input`, `autocompleteContainer`, `autocompleteItem`, `autocompleteItemActive`
 
 ```js
 // custom style examples
 render() {
   const myStyles = {
     root: { position: 'absolute' },
-    label: { color: 'red' },
     input: { width: '100%' },
     autocompleteContainer: { backgroundColor: 'green' },
     autocompleteItem: { color: 'black' },
@@ -231,13 +228,6 @@ Required: `false`,
 Default: `"Address"`
 
 You can pass `placeholder` prop to customize input's placeholder text
-
-#### hideLabel
-Type: `Boolean`
-Required: `false`,
-Default: `false`
-
-You can set `hideLabel` to `true` to not render the label element
 
 #### onError
 Type: `Function`
