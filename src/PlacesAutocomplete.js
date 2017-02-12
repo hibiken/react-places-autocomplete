@@ -1,6 +1,11 @@
+/*
+* Copyright (c) 2017 Ken Hibino.
+* Licensed under the MIT License (MIT).
+* See https://kenny-hibino.github.io/react-places-autocomplete
+*/
+
 import React from 'react'
 import defaultStyles from './defaultStyles'
-
 
 class PlacesAutocomplete extends React.Component {
   constructor(props) {
@@ -145,7 +150,7 @@ class PlacesAutocomplete extends React.Component {
     this.props.onChange(event.target.value)
     if (!event.target.value) {
       this.clearAutocomplete()
-      return;
+      return
     }
     this.autocompleteService.getPlacePredictions({ ...this.props.options, input: event.target.value }, this.autocompleteCallback)
   }
@@ -254,7 +259,7 @@ PlacesAutocomplete.propTypes = {
     ]),
     types: React.PropTypes.array
   })
-};
+}
 
 PlacesAutocomplete.defaultProps = {
   clearItemsOnError: false,
