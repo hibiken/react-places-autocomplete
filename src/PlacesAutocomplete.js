@@ -16,6 +16,8 @@ class PlacesAutocomplete extends React.Component {
     this.autocompleteCallback = this.autocompleteCallback.bind(this)
     this.handleInputKeyDown = this.handleInputKeyDown.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
+    this.currentValue = ''
+    this.showSoftComplete = true
   }
 
   componentDidMount() {
@@ -38,7 +40,19 @@ class PlacesAutocomplete extends React.Component {
         index: idx,
         formattedSuggestion: this._formattedSuggestion(p.structured_formatting),
       }))
-    })
+    }, () => {
+      if (this.showSoftComplete) {
+        const firstSuggestion = this.state.autocompleteItems[0].suggestion
+        const restOfSuggestion = firstSuggestion.slice(this.currentValue.length, firstSuggestion.length)
+
+        this.refs.inputField.value += restOfSuggestion
+
+        this.refs.inputField.setSelectionRange(this.currentValue.length, this.refs.inputField.value.length)
+        this.refs.inputField.focus()
+      } else {
+        this.showSoftComplete = true
+      }
+    });
   }
 
   _formattedSuggestion(structured_formatting) {
@@ -81,6 +95,10 @@ class PlacesAutocomplete extends React.Component {
     if (this.props.onEnterKeyDown) {
       this.props.onEnterKeyDown(this.props.value)
       this.clearAutocomplete()
+    } else if (this.showSoftComplete) {
+      const suggestedPlace = this.state.autocompleteItems[0]
+      this.selectAddress(suggestedPlace.suggestion, suggestedPlace.placeId)
+      this.refs.inputField.setSelectionRange(this.refs.ininputField.value.length - 1)
     } else {
       return //noop
     }
@@ -111,11 +129,16 @@ class PlacesAutocomplete extends React.Component {
     }
   }
 
+  _handleDeleteKey() {
+    this.showSoftComplete = false
+  }
+
   handleInputKeyDown(event) {
     const ARROW_UP = 38
     const ARROW_DOWN = 40
     const ENTER_KEY = 13
     const ESC_KEY = 27
+    const DELETE_KEY = 8
 
     switch (event.keyCode) {
       case ENTER_KEY:
@@ -131,6 +154,8 @@ class PlacesAutocomplete extends React.Component {
       case ESC_KEY:
         this.clearAutocomplete()
         break
+      case DELETE_KEY:
+        this._handleDeleteKey()
     }
   }
 
@@ -153,6 +178,8 @@ class PlacesAutocomplete extends React.Component {
       return
     }
     this.autocompleteService.getPlacePredictions({ ...this.props.options, input: event.target.value }, this.autocompleteCallback)
+
+    this.currentValue = event.target.value
   }
 
   autocompleteItemStyle(active) {
@@ -187,9 +214,11 @@ class PlacesAutocomplete extends React.Component {
 
   renderInput() {
     const { classNames, placeholder, styles, value, autoFocus } = this.props
+
     return (
       <input
         type="text"
+        ref="inputField"
         placeholder={placeholder}
         className={classNames.input || ''}
         value={value}
