@@ -98,7 +98,6 @@ class PlacesAutocomplete extends React.Component {
     } else if (this.showSoftComplete) {
       const suggestedPlace = this.state.autocompleteItems[0]
       this.selectAddress(suggestedPlace.suggestion, suggestedPlace.placeId)
-      this.refs.inputField.setSelectionRange(this.refs.ininputField.value.length - 1)
     } else {
       return //noop
     }
