@@ -108,6 +108,7 @@ export default SimpleForm
 * onEnterKeyDown
 * options
 * autoFocus
+* inputName
 
 #### value
 Type: `String`,
@@ -323,6 +324,11 @@ const options = {
 Type: `Boolean`
 Required:  `false`
 Default: `false`
+
+#### inputName
+Type: `String`
+Required: `false`
+Default: Empty String
 
 ### `geocodeByAddress` API
 

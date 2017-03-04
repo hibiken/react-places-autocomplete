@@ -186,7 +186,7 @@ class PlacesAutocomplete extends React.Component {
   }
 
   renderInput() {
-    const { classNames, placeholder, styles, value, autoFocus } = this.props
+    const { classNames, placeholder, styles, value, autoFocus, inputName } = this.props
     return (
       <input
         type="text"
@@ -198,6 +198,7 @@ class PlacesAutocomplete extends React.Component {
         onBlur={() => this.clearAutocomplete()}
         style={styles.input}
         autoFocus={autoFocus}
+        name={inputName || ''}
       />
     )
   }
@@ -223,6 +224,7 @@ PlacesAutocomplete.propTypes = {
   onSelect: React.PropTypes.func,
   placeholder: React.PropTypes.string,
   autoFocus: React.PropTypes.bool,
+  inputName: React.PropTypes.string,
   autocompleteItem: React.PropTypes.func,
   classNames: React.PropTypes.shape({
     root: React.PropTypes.string,
