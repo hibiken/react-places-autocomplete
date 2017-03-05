@@ -99,6 +99,7 @@ export default SimpleForm
 #### Optional Props:
 
 * autocompleteItem
+* typeAhead
 * classNames
 * styles
 * placeholder
@@ -167,6 +168,13 @@ render() {
   )
 }
 ```
+
+#### typeAhead
+Type: `Boolean`
+Required: `false`
+Default: `true`
+
+You can enable/disable Airbnb style soft autocomplete in the input field.
 
 #### classNames
 Type: `Object`,

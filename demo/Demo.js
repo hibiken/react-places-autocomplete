@@ -98,6 +98,7 @@ class Demo extends React.Component {
             placeholder="Search Places"
             hideLabel={true}
             inputName="Demo__input"
+            onEnterKeyDown={this.handleSelect}
           />
           {this.state.loading ? <div><i className="fa fa-spinner fa-pulse fa-3x fa-fw Demo__spinner" /></div> : null}
           {!this.state.loading && this.state.geocodeResults ?
