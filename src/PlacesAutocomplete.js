@@ -7,10 +7,13 @@
 import React from 'react'
 import PlacesAutocompleteWithTypeAhead from './PlacesAutocompleteWithTypeAhead'
 import PlacesAutocompleteBasic from './PlacesAutocompleteBasic'
+import { mobileCheck } from './helpers'
 
 const PlacesAutocomplete = (props) => {
   const { typeAhead, ...rest } = props
-  if (typeAhead) {
+  // Work around for React KeyDown event issue: https://github.com/facebook/react/issues/6176
+  const isMobile = mobileCheck()
+  if (typeAhead && !isMobile) {
     return <PlacesAutocompleteWithTypeAhead {...rest} />
   } else {
     return <PlacesAutocompleteBasic {...rest} />

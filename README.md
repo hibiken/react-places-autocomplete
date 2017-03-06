@@ -10,6 +10,7 @@ A React component to build a customized UI for Google Maps Places Autocomplete (
 ### Features
 1. Enable you to easily build a customized autocomplete dropdown powered by Google Maps Places Library
 2. Utility function to get latitude and longitude using Google Maps Geocoder API
+3. Airbnb style typeahead input field
 
 ### Installation
 To install the stable version
@@ -174,7 +175,7 @@ Type: `Boolean`
 Required: `false`
 Default: `true`
 
-You can enable/disable Airbnb style soft autocomplete in the input field.
+You can enable/disable Airbnb style soft autocomplete in the input field. (NOTE: This feature is not supported in mobile browsers)
 
 #### classNames
 Type: `Object`,
