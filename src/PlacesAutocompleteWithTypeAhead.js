@@ -102,6 +102,7 @@ class PlacesAutocompleteWithTypeAhead extends React.Component {
     const activeName = this.state.autocompleteItems.find(item => item.index === index).suggestion
     this._setActiveItemAtIndex(index)
     this.props.onChange(activeName)
+    this.setState({ userTypedValue: activeName })
   }
 
   _handleEnterKey() {
