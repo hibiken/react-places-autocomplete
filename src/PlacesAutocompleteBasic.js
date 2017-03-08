@@ -152,7 +152,13 @@ class PlacesAutocompleteBasic extends React.Component {
       this.clearAutocomplete()
       return
     }
-    this.autocompleteService.getPlacePredictions({ ...this.props.options, input: event.target.value }, this.autocompleteCallback)
+    if(event.target.value.length <= this.props.minLength) {
+        return;
+    }
+    this.autocompleteService.getPlacePredictions({
+        ...this.props.options,
+        input: event.target.value
+    }, this.autocompleteCallback)
   }
 
   autocompleteItemStyle(active) {

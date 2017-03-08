@@ -57,6 +57,7 @@ PlacesAutocomplete.propTypes = {
     types: React.PropTypes.array
   }),
   typeAhead: React.PropTypes.bool,
+  minLength: React.PropTypes.number
 }
 
 PlacesAutocomplete.defaultProps = {
@@ -69,6 +70,7 @@ PlacesAutocomplete.defaultProps = {
   styles: {},
   options: {},
   typeAhead: true,
+  minLength: 0
 }
 
 export default PlacesAutocomplete

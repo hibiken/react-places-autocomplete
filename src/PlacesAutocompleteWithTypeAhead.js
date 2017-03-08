@@ -311,6 +311,10 @@ class PlacesAutocompleteWithTypeAhead extends React.Component {
       return
     }
 
+    if(event.target.value.length <= this.props.minLength) {
+      return;
+    }
+
     if (this.state.shouldTypeAhead) {
       this.autocompleteService.getPlacePredictions({ ...this.props.options, input: userTypedValue }, this.autocompleteCallback)
     }
