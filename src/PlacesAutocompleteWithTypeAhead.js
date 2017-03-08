@@ -190,6 +190,30 @@ class PlacesAutocompleteWithTypeAhead extends React.Component {
     })
   }
 
+  _handleRightLeftKey() {
+    this.setState({
+      userTypedValue: this.props.value,
+      shouldTypeAhead: false,
+    })
+  }
+
+  _handleDefaultKey(event) {
+    if (event.key.length > 1) { return }
+    const { userTypedValue } = this.state
+    const selectionString = window.getSelection().toString()
+    if (this.props.value === `${userTypedValue}${selectionString}`) {
+      this.setState({
+        userTypedValue: this._fixCasing(this.state.userTypedValue + event.key),
+        shouldTypeAhead: true,
+      })
+    } else {
+      this.setState({
+        userTypedValue: this.props.value.replace(selectionString, event.key),
+        shouldTypeAhead: false,
+      })
+    }
+  }
+
   handleInputKeyDown(event) {
     const onlyShiftKeyDown = (event.shiftKey && event.keyCode === 16)
     const onlyAltKeyDown = (event.altKey && event.keyCode === 18)
@@ -197,7 +221,9 @@ class PlacesAutocompleteWithTypeAhead extends React.Component {
       return // noop
     }
 
+    const ARROW_LEFT = 37
     const ARROW_UP = 38
+    const ARROW_RIGHT = 39
     const ARROW_DOWN = 40
     const ENTER_KEY = 13
     const ESC_KEY = 27
@@ -224,11 +250,12 @@ class PlacesAutocompleteWithTypeAhead extends React.Component {
       case TAB_KEY:
         this._handleTabKey()
         break;
+      case ARROW_LEFT:
+      case ARROW_RIGHT:
+        this._handleRightLeftKey()
+        break
       default:
-        this.setState({
-          userTypedValue: this._fixCasing(this.state.userTypedValue + event.key),
-          shouldTypeAhead: true,
-        })
+        this._handleDefaultKey(event)
     }
   }
 
