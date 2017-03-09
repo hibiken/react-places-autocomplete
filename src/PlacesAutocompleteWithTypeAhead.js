@@ -174,7 +174,7 @@ class PlacesAutocompleteWithTypeAhead extends React.Component {
       })
     } else {
       this.setState({
-        userTypedValue: firstSuggestion.replace(selectionString, ''),
+        userTypedValue: this.props.value.replace(selectionString, ''),
         shouldTypeAhead: false,
         firstSuggestion: '',
       })
@@ -201,7 +201,14 @@ class PlacesAutocompleteWithTypeAhead extends React.Component {
     if (event.key.length > 1) { return }
     const { userTypedValue } = this.state
     const selectionString = window.getSelection().toString()
-    if (this.props.value === `${userTypedValue}${selectionString}`) {
+
+    if (selectionString.length === 0) {
+      const cursorPosition = this.refs.inputField.selectionStart
+      this.setState({
+        userTypedValue: this.props.value.slice(0, cursorPosition) + event.key + this.props.value.slice(cursorPosition, this.props.value.length),
+        shouldTypeAhead: true,
+      })
+    } else if (this.props.value === `${userTypedValue}${selectionString}`) {
       this.setState({
         userTypedValue: this._fixCasing(this.state.userTypedValue + event.key),
         shouldTypeAhead: true,
