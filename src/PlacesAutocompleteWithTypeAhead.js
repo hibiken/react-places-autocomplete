@@ -4,10 +4,10 @@
 * See https://kenny-hibino.github.io/react-places-autocomplete
 */
 
-import React from 'react'
+import React, { Component } from 'react'
 import defaultStyles from './defaultStyles'
 
-class PlacesAutocompleteWithTypeAhead extends React.Component {
+class PlacesAutocompleteWithTypeAhead extends Component {
   constructor(props) {
     super(props)
 
@@ -36,7 +36,7 @@ class PlacesAutocompleteWithTypeAhead extends React.Component {
       return // noop
     }
 
-    if (this._shouldSoftAutcomplete()) {
+    if (this.shouldSoftAutcomplete()) {
       this.refs.inputField.setSelectionRange(userTypedValue.length, firstSuggestion.length)
     }
   }
@@ -62,15 +62,15 @@ class PlacesAutocompleteWithTypeAhead extends React.Component {
         placeId: p.place_id,
         active: false,
         index: idx,
-        formattedSuggestion: this._formattedSuggestion(p.structured_formatting),
+        formattedSuggestion: this.formattedSuggestion(p.structured_formatting),
       })),
       firstSuggestion: predictions[0].description,
     })
 
-    this._updateInputValue()
+    this.updateInputValue()
   }
 
-  _formattedSuggestion(structured_formatting) {
+  formattedSuggestion(structured_formatting) {
     return { mainText: structured_formatting.main_text, secondaryText: structured_formatting.secondary_text }
   }
 
@@ -80,10 +80,10 @@ class PlacesAutocompleteWithTypeAhead extends React.Component {
 
   selectAddress(address, placeId) {
     this.clearAutocomplete()
-    this._handleSelect(address, placeId)
+    this.handleSelect(address, placeId)
   }
 
-  _handleSelect(address, placeId) {
+  handleSelect(address, placeId) {
     this.props.onSelect ? this.props.onSelect(address, placeId) : this.props.onChange(address)
   }
 
@@ -94,21 +94,21 @@ class PlacesAutocompleteWithTypeAhead extends React.Component {
     })
   }
 
-  _getActiveItem() {
+  getActiveItem() {
     return this.state.autocompleteItems.find(item => item.active)
   }
 
-  _selectActiveItemAtIndex(index) {
+  selectActiveItemAtIndex(index) {
     const activeName = this.state.autocompleteItems.find(item => item.index === index).suggestion
-    this._setActiveItemAtIndex(index)
+    this.setActiveItemAtIndex(index)
     this.props.onChange(activeName)
     this.setState({ userTypedValue: activeName })
   }
 
-  _handleEnterKey() {
-    const activeItem = this._getActiveItem()
+  handleEnterKey() {
+    const activeItem = this.getActiveItem()
     if (activeItem === undefined) {
-      this._handleEnterKeyWithoutActiveItem()
+      this.handleEnterKeyWithoutActiveItem()
     } else {
       this.selectAddress(activeItem.suggestion, activeItem.placeId)
     }
@@ -120,7 +120,7 @@ class PlacesAutocompleteWithTypeAhead extends React.Component {
     })
   }
 
-  _handleEnterKeyWithoutActiveItem() {
+  handleEnterKeyWithoutActiveItem() {
     if (this.props.onEnterKeyDown) {
       this.props.onEnterKeyDown(this.props.value)
       this.clearAutocomplete()
@@ -129,20 +129,20 @@ class PlacesAutocompleteWithTypeAhead extends React.Component {
     }
   }
 
-  _handleDownKey() {
-    const activeItem = this._getActiveItem()
+  handleDownKey() {
+    const activeItem = this.getActiveItem()
     if (activeItem === undefined) {
-      this._selectActiveItemAtIndex(0)
+      this.selectActiveItemAtIndex(0)
     } else {
       const nextIndex = (activeItem.index + 1) % this.state.autocompleteItems.length
-      this._selectActiveItemAtIndex(nextIndex)
+      this.selectActiveItemAtIndex(nextIndex)
     }
   }
 
-  _handleUpKey() {
-    const activeItem = this._getActiveItem()
+  handleUpKey() {
+    const activeItem = this.getActiveItem()
     if (activeItem === undefined) {
-      this._selectActiveItemAtIndex(this.state.autocompleteItems.length - 1)
+      this.selectActiveItemAtIndex(this.state.autocompleteItems.length - 1)
     } else {
       let prevIndex
       if (activeItem.index === 0) {
@@ -150,11 +150,11 @@ class PlacesAutocompleteWithTypeAhead extends React.Component {
       } else {
         prevIndex = (activeItem.index - 1) % this.state.autocompleteItems.length
       }
-      this._selectActiveItemAtIndex(prevIndex)
+      this.selectActiveItemAtIndex(prevIndex)
     }
   }
 
-  _handleDeleteKey() {
+  handleDeleteKey() {
     const { userTypedValue, firstSuggestion } = this.state
     if (userTypedValue.length === 0) {
       return // noop
@@ -181,7 +181,7 @@ class PlacesAutocompleteWithTypeAhead extends React.Component {
     }
   }
 
-  _handleTabKey() {
+  handleTabKey() {
     this.refs.inputField.focus()
     this.refs.inputField.setSelectionRange(0,0)
     this.refs.inputField.blur()
@@ -190,14 +190,14 @@ class PlacesAutocompleteWithTypeAhead extends React.Component {
     })
   }
 
-  _handleRightLeftKey() {
+  handleRightLeftKey() {
     this.setState({
       userTypedValue: this.props.value,
       shouldTypeAhead: false,
     })
   }
 
-  _handleDefaultKey(event) {
+  handleDefaultKey(event) {
     if (event.key.length > 1) { return }
     const { userTypedValue } = this.state
     const selectionString = window.getSelection().toString()
@@ -210,7 +210,7 @@ class PlacesAutocompleteWithTypeAhead extends React.Component {
       })
     } else if (this.props.value === `${userTypedValue}${selectionString}`) {
       this.setState({
-        userTypedValue: this._fixCasing(this.state.userTypedValue + event.key),
+        userTypedValue: this.fixCasing(this.state.userTypedValue + event.key),
         shouldTypeAhead: true,
       })
     } else {
@@ -240,48 +240,48 @@ class PlacesAutocompleteWithTypeAhead extends React.Component {
     switch (event.keyCode) {
       case ENTER_KEY:
         event.preventDefault()
-        this._handleEnterKey()
+        this.handleEnterKey()
         break
       case ARROW_DOWN:
         event.preventDefault() // prevent the cursor from moving
-        this._handleDownKey()
+        this.handleDownKey()
         break
       case ARROW_UP:
         event.preventDefault() // prevent the cursor from moving
-        this._handleUpKey()
+        this.handleUpKey()
         break
       case ESC_KEY:
         this.clearAutocomplete()
         break
       case DELETE_KEY:
-        this._handleDeleteKey()
+        this.handleDeleteKey()
         break
       case TAB_KEY:
-        this._handleTabKey()
+        this.handleTabKey()
         break;
       case ARROW_LEFT:
       case ARROW_RIGHT:
-        this._handleRightLeftKey()
+        this.handleRightLeftKey()
         break
       default:
-        this._handleDefaultKey(event)
+        this.handleDefaultKey(event)
     }
   }
 
-  _fixCasing(newValue) {
+  fixCasing(newValue) {
     const { firstSuggestion} = this.state
     if (firstSuggestion.length === 0) {
       return newValue
     }
 
-    if (this._isMatch(newValue, firstSuggestion)) {
+    if (this.isMatch(newValue, firstSuggestion)) {
       return firstSuggestion.substr(0, newValue.length)
     }
 
     return newValue
   }
 
-  _setActiveItemAtIndex(index) {
+  setActiveItemAtIndex(index) {
     this.setState({
       autocompleteItems: this.state.autocompleteItems.map((item, idx) => {
         if (idx === index) {
@@ -293,26 +293,26 @@ class PlacesAutocompleteWithTypeAhead extends React.Component {
     })
   }
 
-  _updateInputValue() {
+  updateInputValue() {
     const { firstSuggestion, userTypedValue } = this.state
-    if (this._shouldSoftAutcomplete()) {
+    if (this.shouldSoftAutcomplete()) {
       this.props.onChange(firstSuggestion)
     } else {
       this.props.onChange(userTypedValue)
     }
   }
 
-  _shouldSoftAutcomplete() {
+  shouldSoftAutcomplete() {
     const { firstSuggestion, userTypedValue, shouldTypeAhead } = this.state
     return (
       (firstSuggestion !== '' && userTypedValue !== '') &&
-      this._isMatch(userTypedValue, firstSuggestion) &&
+      this.isMatch(userTypedValue, firstSuggestion) &&
       shouldTypeAhead
     )
   }
 
   handleInputChange(event) {
-    this._updateInputValue()
+    this.updateInputValue()
 
     const { userTypedValue } = this.state
     if (userTypedValue.length === 0) {
@@ -345,7 +345,7 @@ class PlacesAutocompleteWithTypeAhead extends React.Component {
         {autocompleteItems.map((p, idx) => (
           <div
             key={p.placeId}
-            onMouseOver={() => this._setActiveItemAtIndex(p.index)}
+            onMouseOver={() => this.setActiveItemAtIndex(p.index)}
             onMouseDown={() => this.handleAutocompleteItemMouseDown(p.suggestion, p.placeId)}
             style={{ ...defaultStyles.autocompleteItem, ...styles.autocompleteItem, ...this.autocompleteItemStyle(p.active) }}>
             {this.props.autocompleteItem({ suggestion: p.suggestion, formattedSuggestion: p.formattedSuggestion })}
@@ -355,7 +355,7 @@ class PlacesAutocompleteWithTypeAhead extends React.Component {
     )
   }
 
-  _isMatch(subject, target) {
+  isMatch(subject, target) {
     const normalizedSubject = subject.toLowerCase()
     const normalizedTarget = target.toLowerCase()
     return normalizedSubject === normalizedTarget.substr(0, subject.length)
