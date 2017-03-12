@@ -243,9 +243,11 @@ class PlacesAutocompleteWithTypeAhead extends React.Component {
         this._handleEnterKey()
         break
       case ARROW_DOWN:
+        event.preventDefault() // prevent the cursor from moving
         this._handleDownKey()
         break
       case ARROW_UP:
+        event.preventDefault() // prevent the cursor from moving
         this._handleUpKey()
         break
       case ESC_KEY:

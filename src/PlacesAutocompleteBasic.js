@@ -124,9 +124,11 @@ class PlacesAutocompleteBasic extends React.Component {
         break
       case ARROW_DOWN:
         this._handleDownKey()
+        event.preventDefault() // prevent the cursor from moving
         break
       case ARROW_UP:
         this._handleUpKey()
+        event.preventDefault() // prevent the cursor from moving
         break
       case ESC_KEY:
         this.clearAutocomplete()
