@@ -34,6 +34,8 @@ PlacesAutocomplete.propTypes = {
     root: React.PropTypes.string,
     input: React.PropTypes.string,
     autocompleteContainer: React.PropTypes.string,
+    autocompleteItem: React.PropTypes.string,
+    autocompleteItemActive: React.PropTypes.string
   }),
   styles: React.PropTypes.shape({
     root: React.PropTypes.object,

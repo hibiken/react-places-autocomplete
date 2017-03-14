@@ -333,21 +333,31 @@ class PlacesAutocompleteWithTypeAhead extends Component {
     }
   }
 
+  autocompleteItemClassNames(active) {
+    const { classNames } = this.props
+    if (active) {
+      return (classNames.autocompleteItem || '') + ' ' + (classNames.autocompleteItemActive || '')
+    } else {
+      return classNames.autocompleteItem || ''
+    }
+  }
+
   renderAutocomplete() {
     const { autocompleteItems } = this.state
-    const { styles } = this.props
+    const { classNames, styles } = this.props
     if (autocompleteItems.length === 0) { return null }
     return (
       <div
         id="PlacesAutocomplete__autocomplete-container"
-        className={this.props.classNames.autocompleteContainer || ''}
-        style={{ ...defaultStyles.autocompleteContainer, ...styles.autocompleteContainer }}>
+        className={classNames.autocompleteContainer || ''}
+        style={!classNames.autocompleteContainer ? { ...defaultStyles.autocompleteContainer, ...styles.autocompleteContainer } : {}}>
         {autocompleteItems.map((p, idx) => (
           <div
             key={p.placeId}
             onMouseOver={() => this.setActiveItemAtIndex(p.index)}
             onMouseDown={() => this.handleAutocompleteItemMouseDown(p.suggestion, p.placeId)}
-            style={{ ...defaultStyles.autocompleteItem, ...styles.autocompleteItem, ...this.autocompleteItemStyle(p.active) }}>
+            className={this.autocompleteItemClassNames(p.active)}
+            style={!classNames.autocompleteItem ? { ...defaultStyles.autocompleteItem, ...styles.autocompleteItem, ...this.autocompleteItemStyle(p.active) } : {}}>
             {this.props.autocompleteItem({ suggestion: p.suggestion, formattedSuggestion: p.formattedSuggestion })}
           </div>
         ))}
@@ -373,7 +383,7 @@ class PlacesAutocompleteWithTypeAhead extends Component {
         onChange={this.handleInputChange}
         onKeyDown={this.handleInputKeyDown}
         onBlur={() => this.clearAutocomplete()}
-        style={styles.input}
+        style={!classNames.input ? styles.input : {}}
         autoFocus={autoFocus}
         name={inputName || ''}
         ref="inputField"
@@ -385,7 +395,7 @@ class PlacesAutocompleteWithTypeAhead extends Component {
     const { classNames, styles } = this.props
     return (
       <div
-        style={{ ...defaultStyles.root, ...styles.root }}
+        style={!classNames.root ? { ...defaultStyles.root, ...styles.root } : {}}
         className={classNames.root || ''}>
         {this.renderInput()}
         {this.renderAutocomplete()}
