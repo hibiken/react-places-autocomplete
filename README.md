@@ -111,6 +111,7 @@ export default SimpleForm
 * options
 * autoFocus
 * inputName
+* inputId
 
 #### value
 Type: `String`,
@@ -335,6 +336,11 @@ Required:  `false`
 Default: `false`
 
 #### inputName
+Type: `String`
+Required: `false`
+Default: Empty String
+
+#### inputId
 Type: `String`
 Required: `false`
 Default: Empty String

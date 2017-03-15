@@ -29,6 +29,7 @@ PlacesAutocomplete.propTypes = {
   placeholder: React.PropTypes.string,
   autoFocus: React.PropTypes.bool,
   inputName: React.PropTypes.string,
+  inputId: React.PropTypes.string,
   autocompleteItem: React.PropTypes.func,
   classNames: React.PropTypes.shape({
     root: React.PropTypes.string,

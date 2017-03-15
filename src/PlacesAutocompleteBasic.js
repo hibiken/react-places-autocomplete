@@ -188,7 +188,7 @@ class PlacesAutocompleteBasic extends Component {
   }
 
   renderInput() {
-    const { classNames, placeholder, styles, value, autoFocus, inputName } = this.props
+    const { classNames, placeholder, styles, value, autoFocus, inputName, inputId } = this.props
     return (
       <input
         type="text"
@@ -201,6 +201,7 @@ class PlacesAutocompleteBasic extends Component {
         style={styles.input}
         autoFocus={autoFocus}
         name={inputName || ''}
+        id={inputId || ''}
       />
     )
   }
