@@ -363,7 +363,7 @@ class PlacesAutocompleteWithTypeAhead extends Component {
 
   renderInput() {
     const { firstSuggestion, userTypedValue } = this.state
-    const { classNames, placeholder, styles, value, autoFocus, inputName } = this.props
+    const { classNames, placeholder, styles, value, autoFocus, inputName, inputId } = this.props
     return (
       <input
         type="text"
@@ -376,6 +376,7 @@ class PlacesAutocompleteWithTypeAhead extends Component {
         style={styles.input}
         autoFocus={autoFocus}
         name={inputName || ''}
+        id={inputId || ''}
         ref="inputField"
       />
     )
