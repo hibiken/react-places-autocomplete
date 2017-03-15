@@ -159,7 +159,10 @@ class PlacesAutocompleteBasic extends Component {
 
   autocompleteItemStyle(active) {
     if (active) {
-      return { ...defaultStyles.autocompleteItemActive, ...this.props.styles.autocompleteItemActive }
+      return {
+        ...(!classNames.autocompleteContainer ? defaultStyles.autocompleteItemActive : {}),
+        ...this.props.styles.autocompleteItemActive
+      }
     } else {
       return {}
     }
@@ -182,14 +185,14 @@ class PlacesAutocompleteBasic extends Component {
       <div
         id="PlacesAutocomplete__autocomplete-container"
         className={classNames.autocompleteContainer || ''}
-        style={!classNames.autocompleteContainer ? { ...defaultStyles.autocompleteContainer, ...styles.autocompleteContainer } : {}}>
+        style={{ ...(!classNames.autocompleteContainer ? defaultStyles.autocompleteContainer : {}), ...styles.autocompleteContainer }}>
         {autocompleteItems.map((p, idx) => (
           <div
             key={p.placeId}
             onMouseOver={() => this.setActiveItemAtIndex(p.index)}
             onMouseDown={() => this.selectAddress(p.suggestion, p.placeId)}
             className={this.autocompleteItemClassNames(p.active)}
-            style={!classNames.autocompleteItem ? { ...defaultStyles.autocompleteItem, ...styles.autocompleteItem, ...this.autocompleteItemStyle(p.active) } : {}}>
+            style={{ ...(!classNames.autocompleteItem ? defaultStyles.autocompleteItem : {}), ...styles.autocompleteItem, ...this.autocompleteItemStyle(p.active) }}>
             {this.props.autocompleteItem({ suggestion: p.suggestion, formattedSuggestion: p.formattedSuggestion })}
           </div>
         ))}
@@ -208,7 +211,7 @@ class PlacesAutocompleteBasic extends Component {
         onChange={this.handleInputChange}
         onKeyDown={this.handleInputKeyDown}
         onBlur={() => this.clearAutocomplete()}
-        style={!classNames.input ? styles.input : {}}
+        style={styles.input}
         autoFocus={autoFocus}
         name={inputName || ''}
       />
@@ -219,7 +222,7 @@ class PlacesAutocompleteBasic extends Component {
     const { classNames, styles } = this.props
     return (
       <div
-        style={!classNames.root ? { ...defaultStyles.root, ...styles.root } : {}}
+        style={{ ...(!classNames.root ? defaultStyles.root : {}), ...styles.root }}
         className={classNames.root || ''}>
         {this.renderInput()}
         {this.renderAutocomplete()}

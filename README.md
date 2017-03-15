@@ -181,8 +181,9 @@ You can enable/disable Airbnb style soft autocomplete in the input field. (NOTE:
 Type: `Object`,
 Required: `false`
 
-You can give a custom css classes to elements.
-Accepted keys are `root`, `input`, `autocompleteContainer`
+You can give a custom css classes to elements. Setting a custom className will override
+the `defaultStyles` for that element.
+Accepted keys are `root`, `input`, `autocompleteContainer`, `autocompleteItem`, `autocompleteItemActive`
 
 ```js
 // classNames example
