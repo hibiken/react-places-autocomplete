@@ -69,7 +69,7 @@ PlacesAutocomplete.defaultProps = {
   autocompleteItem: ({ suggestion }) => (<div>{suggestion}</div>),
   styles: {},
   options: {},
-  typeAhead: true,
+  typeAhead: false,
 }
 
 export default PlacesAutocomplete

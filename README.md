@@ -174,9 +174,10 @@ render() {
 #### typeAhead
 Type: `Boolean`
 Required: `false`
-Default: `true`
+Default: `false`
 
-You can enable/disable Airbnb style soft autocomplete in the input field. (NOTE: This feature is not supported in mobile browsers)
+You can enable/disable Airbnb style soft autocomplete in the input field.
+(NOTE: This feature is experimental and not supported in mobile browsers)
 
 #### classNames
 Type: `Object`,
