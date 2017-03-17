@@ -192,7 +192,9 @@ render() {
   const cssClasses = {
     root: 'form-group',
     input: 'form-control',
-    autocompleteContainer: 'my-autocomplete-container'
+    autocompleteContainer: 'my-autocomplete-container',
+    autocompleteItem: 'my-autocomplete-item',
+    autocompleteItemActive: 'my-autocomplete-item--active'
   }
 
   return (

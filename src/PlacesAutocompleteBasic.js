@@ -174,15 +174,22 @@ class PlacesAutocompleteBasic extends Component {
         id="PlacesAutocomplete__autocomplete-container"
         className={this.props.classNames.autocompleteContainer || ''}
         style={{ ...defaultStyles.autocompleteContainer, ...styles.autocompleteContainer }}>
-        {autocompleteItems.map((p, idx) => (
-          <div
-            key={p.placeId}
-            onMouseOver={() => this.setActiveItemAtIndex(p.index)}
-            onMouseDown={() => this.selectAddress(p.suggestion, p.placeId)}
-            style={{ ...defaultStyles.autocompleteItem, ...styles.autocompleteItem, ...this.autocompleteItemStyle(p.active) }}>
-            {this.props.autocompleteItem({ suggestion: p.suggestion, formattedSuggestion: p.formattedSuggestion })}
-          </div>
-        ))}
+        {autocompleteItems.map((p, idx) => {
+            const classNames = [this.props.classNames.autocompleteItem || ''];
+            if (p.active) {
+                classNames.push(this.props.classNames.autocompleteItemActive || '');
+            }
+            return (
+                <div
+                  key={p.placeId}
+                  className={classNames.join(' ')}
+                  onMouseOver={() => this.setActiveItemAtIndex(p.index)}
+                  onMouseDown={() => this.selectAddress(p.suggestion, p.placeId)}
+                  style={{ ...defaultStyles.autocompleteItem, ...styles.autocompleteItem, ...this.autocompleteItemStyle(p.active) }}>
+                  {this.props.autocompleteItem(p)}
+                </div>
+            );
+        })}
       </div>
     )
   }

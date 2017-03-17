@@ -66,7 +66,9 @@ class Demo extends React.Component {
       root: 'form-group',
       label: 'form-label',
       input: 'Demo__search-input',
-      autocompleteContainer: 'Demo__autocomplete-container'
+      autocompleteContainer: 'Demo__autocomplete-container',
+      autocompleteItem: 'my-autocomplete-item',
+      autocompleteItemActive: 'my-autocomplete-item--active'
     }
 
     const AutocompleteItem = ({ formattedSuggestion }) => (
