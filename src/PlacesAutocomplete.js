@@ -35,7 +35,10 @@ PlacesAutocomplete.propTypes = {
     root: React.PropTypes.string,
     input: React.PropTypes.string,
     autocompleteContainer: React.PropTypes.string,
+    autocompleteItem: React.PropTypes.string,
+    autocompleteItemActive: React.PropTypes.string,
   }),
+  renderInlineStyles: React.PropTypes.bool,
   styles: React.PropTypes.shape({
     root: React.PropTypes.object,
     input: React.PropTypes.object,
@@ -64,6 +67,7 @@ PlacesAutocomplete.defaultProps = {
   clearItemsOnError: false,
   onError: (status) => console.error('[react-places-autocomplete]: error happened when fetching data from Google Maps API.\nPlease check the docs here (https://developers.google.com/maps/documentation/javascript/places#place_details_responses)\nStatus: ', status),
   placeholder: 'Address',
+  renderInlineStyles: true,
   autoFocus: false,
   classNames: {},
   autocompleteItem: ({ suggestion }) => (<div>{suggestion}</div>),

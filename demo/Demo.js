@@ -95,6 +95,7 @@ class Demo extends React.Component {
             onChange={this.handleChange}
             onSelect={this.handleSelect}
             classNames={cssClasses}
+            renderInlineStyles={false}
             autocompleteItem={AutocompleteItem}
             autoFocus={true}
             placeholder="Search Places"
