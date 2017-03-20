@@ -160,7 +160,7 @@ class PlacesAutocompleteBasic extends Component {
   autocompleteItemStyle(active) {
     if (active) {
       return {
-        ...(!classNames.autocompleteContainer ? defaultStyles.autocompleteItemActive : {}),
+        ...(!this.props.classNames.autocompleteContainer ? defaultStyles.autocompleteItemActive : {}),
         ...this.props.styles.autocompleteItemActive
       }
     } else {
