@@ -108,6 +108,8 @@ export default SimpleForm
 * clearItemsOnError
 * onSelect
 * onEnterKeyDown
+* onBlur
+* onFocus
 * options
 * autoFocus
 * inputName
@@ -305,6 +307,18 @@ const handleEnter = (address) => {
   onEnterKeyDown={this.handleEnter}
 />
 ```
+
+#### onBlur
+Type: `Function`,
+Required: `false`,
+
+You can pass `onBlur` prop to execute a function on the input's blur
+
+#### onFocus
+Type: `Function`,
+Required: `false`,
+
+You can pass `onFocus` prop to execute a function on the input's focus
 
 #### options
 Type: `Object`

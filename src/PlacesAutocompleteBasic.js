@@ -136,6 +136,15 @@ class PlacesAutocompleteBasic extends Component {
     }
   }
 
+  handleBlur(e) {
+    const { onBlur } = this.props;
+
+    if (onBlur) {
+      onBlur(e);
+    }
+    this.clearAutocomplete()
+  }
+
   setActiveItemAtIndex(index) {
     this.setState({
       autocompleteItems: this.state.autocompleteItems.map((item, idx) => {
@@ -188,7 +197,7 @@ class PlacesAutocompleteBasic extends Component {
   }
 
   renderInput() {
-    const { classNames, placeholder, styles, value, autoFocus, inputName, inputId } = this.props
+    const { classNames, placeholder, styles, value, autoFocus, inputName, inputId, onFocus } = this.props
     return (
       <input
         type="text"
@@ -197,7 +206,8 @@ class PlacesAutocompleteBasic extends Component {
         value={value}
         onChange={this.handleInputChange}
         onKeyDown={this.handleInputKeyDown}
-        onBlur={() => this.clearAutocomplete()}
+        onFocus={onFocus}
+        onBlur={e => this.handleBlur(e)}
         style={styles.input}
         autoFocus={autoFocus}
         name={inputName || ''}
