@@ -106,6 +106,10 @@ class PlacesAutocompleteWithTypeAhead extends Component {
   }
 
   handleEnterKey() {
+    if (this.state.autocompleteItems.length === 0) {
+      return
+    }
+
     const activeItem = this.getActiveItem()
     if (activeItem === undefined) {
       this.handleEnterKeyWithoutActiveItem()
@@ -130,6 +134,10 @@ class PlacesAutocompleteWithTypeAhead extends Component {
   }
 
   handleDownKey() {
+    if (this.state.autocompleteItems.length === 0) {
+      return
+    }
+
     const activeItem = this.getActiveItem()
     if (activeItem === undefined) {
       this.selectActiveItemAtIndex(0)
@@ -140,6 +148,10 @@ class PlacesAutocompleteWithTypeAhead extends Component {
   }
 
   handleUpKey() {
+    if (this.state.autocompleteItems.length === 0) {
+      return
+    }
+
     const activeItem = this.getActiveItem()
     if (activeItem === undefined) {
       this.selectActiveItemAtIndex(this.state.autocompleteItems.length - 1)
