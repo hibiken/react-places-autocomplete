@@ -22,6 +22,8 @@ const PlacesAutocomplete = (props) => {
 
 PlacesAutocomplete.propTypes = {
   value: React.PropTypes.string.isRequired,
+  onFocus: React.PropTypes.func,
+  onBlur: React.PropTypes.func,
   onChange: React.PropTypes.func.isRequired,
   onError: React.PropTypes.func,
   clearItemsOnError: React.PropTypes.bool,
