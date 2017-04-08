@@ -3,6 +3,11 @@ const defaultStyles = {
     position: 'relative',
     paddingBottom: '0px',
   },
+  input: {
+    display: 'inline-block',
+    width: '100%',
+    padding: '10px',
+  },
   autocompleteContainer: {
     position: 'absolute',
     top: '100%',

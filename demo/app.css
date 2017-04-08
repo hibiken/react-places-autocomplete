@@ -54,12 +54,11 @@ body, #root, .page-wrapper {
   outline: none;
 }
 
-/* TODO: Allow user to override default styles without using !important flag */
 .Demo__autocomplete-container {
-  border-bottom: honeydew !important;
-  border-left: honeydew !important;
-  border-right: honeydew !important;
-  border-top: 1px solid #e6e6e6 !important;
+  border-bottom: honeydew;
+  border-left: honeydew;
+  border-right: honeydew;
+  border-top: 1px solid #e6e6e6;
   box-shadow: 0 2px 4px rgba(0,0,0,0.2);
   border-radius: 0 0 2px 2px;
 }
@@ -70,7 +69,7 @@ body, #root, .page-wrapper {
 }
 
 .Demo__spinner {
-  color: #18bc9c !important;
+  color: #18bc9c;
   font-size: 30px;
 }
 
