@@ -345,63 +345,48 @@ class PlacesAutocompleteWithTypeAhead extends Component {
     }
   }
 
-  renderAutocomplete() {
-    const { autocompleteItems } = this.state
-    const { styles } = this.props
-    if (autocompleteItems.length === 0) { return null }
-    return (
-      <div
-        id="PlacesAutocomplete__autocomplete-container"
-        className={this.props.classNames.autocompleteContainer || ''}
-        style={{ ...defaultStyles.autocompleteContainer, ...styles.autocompleteContainer }}>
-        {autocompleteItems.map((p, idx) => (
-          <div
-            key={p.placeId}
-            onMouseOver={() => this.setActiveItemAtIndex(p.index)}
-            onMouseDown={() => this.handleAutocompleteItemMouseDown(p.suggestion, p.placeId)}
-            style={{ ...defaultStyles.autocompleteItem, ...styles.autocompleteItem, ...this.autocompleteItemStyle(p.active) }}>
-            {this.props.autocompleteItem({ suggestion: p.suggestion, formattedSuggestion: p.formattedSuggestion })}
-          </div>
-        ))}
-      </div>
-    )
-  }
-
   isMatch(subject, target) {
     const normalizedSubject = subject.toLowerCase()
     const normalizedTarget = target.toLowerCase()
     return normalizedSubject === normalizedTarget.substr(0, subject.length)
   }
 
-  renderInput() {
-    const { firstSuggestion, userTypedValue } = this.state
-    const { classNames, placeholder, styles, value, autoFocus, inputName, inputId } = this.props
-    return (
-      <input
-        type="text"
-        placeholder={placeholder}
-        className={classNames.input || ''}
-        value={value}
-        onChange={this.handleInputChange}
-        onKeyDown={this.handleInputKeyDown}
-        onBlur={() => this.clearAutocomplete()}
-        style={styles.input}
-        autoFocus={autoFocus}
-        name={inputName || ''}
-        id={inputId || ''}
-        ref="inputField"
-      />
-    )
-  }
-
   render() {
-    const { classNames, styles } = this.props
+    const { classNames, placeholder, styles, value, autoFocus, inputName, inputId } = this.props
+    const { firstSuggestion, userTypedValue, autocompleteItems } = this.state
+
     return (
       <div
         style={{ ...defaultStyles.root, ...styles.root }}
         className={classNames.root || ''}>
-        {this.renderInput()}
-        {this.renderAutocomplete()}
+        <input
+          type="text"
+          placeholder={placeholder}
+          className={classNames.input || ''}
+          value={value}
+          onChange={this.handleInputChange}
+          onKeyDown={this.handleInputKeyDown}
+          onBlur={() => this.clearAutocomplete()}
+          style={styles.input}
+          autoFocus={autoFocus}
+          name={inputName || ''}
+          id={inputId || ''}
+          ref="inputField"
+        />
+        <div
+          id="PlacesAutocomplete__autocomplete-container"
+          className={this.props.classNames.autocompleteContainer || ''}
+          style={{ ...defaultStyles.autocompleteContainer, ...styles.autocompleteContainer }}>
+          {autocompleteItems.map((p, idx) => (
+            <div
+              key={p.placeId}
+              onMouseOver={() => this.setActiveItemAtIndex(p.index)}
+              onMouseDown={() => this.handleAutocompleteItemMouseDown(p.suggestion, p.placeId)}
+              style={{ ...defaultStyles.autocompleteItem, ...styles.autocompleteItem, ...this.autocompleteItemStyle(p.active) }}>
+              {this.props.autocompleteItem({ suggestion: p.suggestion, formattedSuggestion: p.formattedSuggestion })}
+            </div>
+          ))}
+        </div>
       </div>
     )
   }
