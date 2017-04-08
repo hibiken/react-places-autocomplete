@@ -184,7 +184,9 @@ Type: `Object`,
 Required: `false`
 
 You can give a custom css classes to elements.
-Accepted keys are `root`, `input`, `autocompleteContainer`
+Accepted keys are `root`, `input`, `autocompleteContainer`, `autocompleteItem`, `autocompleteItemActive`.
+If you pass `classNames` props, none of the default inline styles nor inline styles from `styles` prop will
+be applied to the element, and you will have full control over styling via CSS.
 
 ```js
 // classNames example
@@ -211,7 +213,40 @@ Type `Object`,
 Required: `false`
 
 You can provide custom inline styles to elements.
-Accepted keys are `root`, `input`, `autocompleteContainer`, `autocompleteItem`, `autocompleteItemActive`
+Accepted keys are `root`, `input`, `autocompleteContainer`, `autocompleteItem`, `autocompleteItemActive`.
+
+```js
+const defaultStyles = {
+  root: {
+    position: 'relative',
+    paddingBottom: '0px',
+  },
+  input: {
+    display: 'inline-block',
+    width: '100%',
+    padding: '10px',
+  },
+  autocompleteContainer: {
+    position: 'absolute',
+    top: '100%',
+    backgroundColor: 'white',
+    border: '1px solid #555555',
+    width: '100%',
+  },
+  autocompleteItem: {
+    backgroundColor: '#ffffff',
+    padding: '10px',
+    color: '#555555',
+    cursor: 'pointer',
+  },
+  autocompleteItemActive: {
+    backgroundColor: '#fafafa'
+  }
+}
+```
+
+Object passed via `styles` prop will be merged in with the above defaults and applied to their respective elements.
+NOTE: Passing `classNames` will disable any inline styling for respective elements.
 
 ```js
 // custom style examples
