@@ -18,11 +18,6 @@ class PlacesAutocompleteBasic extends Component {
     this.handleInputChange = this.handleInputChange.bind(this)
   }
 
-  componentDidMount() {
-    this.autocompleteService = new google.maps.places.AutocompleteService()
-    this.autocompleteOK = google.maps.places.PlacesServiceStatus.OK
-  }
-
   autocompleteCallback(predictions, status) {
     if (status != this.autocompleteOK) {
       this.props.onError(status)
@@ -161,6 +156,9 @@ class PlacesAutocompleteBasic extends Component {
   }
 
   handleInputChange(event) {
+    this.autocompleteService = this.autocompleteService || new google.maps.places.AutocompleteService()
+    this.autocompleteOK = this.autocompleteOK || google.maps.places.PlacesServiceStatus.OK
+
     this.props.onChange(event.target.value)
     if (!event.target.value) {
       this.clearAutocomplete()
