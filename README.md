@@ -8,9 +8,9 @@ A React component to build a customized UI for Google Maps Places Autocomplete (
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg?style=flat-square)](https://gitter.im/react-places-autocomplete/Lobby)
 
 ### Features
-1. Enable you to easily build a customized autocomplete dropdown powered by Google Maps Places Library
-2. Utility function to get latitude and longitude using Google Maps Geocoder API
-3. Airbnb style typeahead input field
+1. Enable you to easily build a customized autocomplete dropdown powered by [Google Maps Places Library](https://developers.google.com/maps/documentation/javascript/places)
+2. [Utility function](#geocode) to get latitude and longitude using [Google Maps Geocoder API](https://developers.google.com/maps/documentation/javascript/geocoding)
+3. Pass through arbitrary props to the input element to integrate well with other libraries (e.g. Redux-Form)
 
 ### Installation
 To install the stable version
@@ -65,22 +65,23 @@ class SimpleForm extends React.Component {
 
   handleFormSubmit = (event) => {
     event.preventDefault()
-    const { address } = this.state
 
-    geocodeByAddress(address,  (err, { lat, lng }) => {
+    geocodeByAddress(this.state.address,  (err, latLng) => {
       if (err) { console.log('Oh no!', err) }
 
-      console.log(`Yay! got latitude and longitude for ${address}`, { lat, lng })
+      console.log(`Yay! Got latitude and longitude for ${address}`, latLng)
     })
   }
 
   render() {
+    const inputProps = {
+      value: this.state.address,
+      onChange: this.onChange,
+    }
+
     return (
       <form onSubmit={this.handleFormSubmit}>
-        <PlacesAutocomplete
-          value={this.state.address}
-          onChange={this.onChange}
-        />
+        <PlacesAutocomplete inputProps={inputProps} />
         <button type="submit">Submit</button>
       </form>
     )
@@ -94,37 +95,42 @@ export default SimpleForm
 
 #### Require Props:
 
-* value
-* onChange
+* [`inputProps`](#inputProps)
 
 #### Optional Props:
 
-* autocompleteItem
-* typeAhead
-* classNames
-* styles
-* placeholder
-* onError
-* clearItemsOnError
-* onSelect
-* onEnterKeyDown
-* options
-* autoFocus
-* inputName
-* inputId
+* [`autocompleteItem`](#autocompleteItem)
+* [`classNames`](#classNames)
+* [`styles`](#styles)
+* [`onError`](#onError)
+* [`clearItemsOnError`](#clearItemsOnError)
+* [`onSelect`](#onSelect)
+* [`onEnterKeyDown`](#onEnterKeyDown)
+* [`options`](#options)
 
-#### value
-Type: `String`,
+<a name="inputProps"></a>
+#### inputProps
+Type: `Object`,
 Required: `true`
 
-Value displayed in the input field
+PlacesAutocomplete is a [controlled component](https://facebook.github.io/react/docs/forms.html#controlled-components). Therefore, you MUST pass at least `value` and `onChange` callback to the input element.
 
-#### onChange
-Type: `Function`,
-Required: `true`
+You can pass arbitrary props to the input element thorough `inputProps` object (NOTE: `className` and `style` props for the input element should be passed through `classNames.input` and `styles.input` respectively).
 
-Please see the example above
+```js
+  const inputProps = {
+    value,
+    onChange,
+    onBlur: () => {
+      console.log('blur!')
+    },
+    type: 'search',
+    placeholder: 'Search Places...',
+    autoFocus: true,
+  }
+```
 
+<a name="autocompleteItem"></a>
 #### autocompleteItem
 Type: `Functional React Component`,
 Required: `false`
@@ -142,8 +148,7 @@ render() {
 
   return (
     <PlacesAutocomplete
-      value={this.state.value}
-      onChange={this.onChange}
+      inputProps={inputProps}
       autocompleteItem={AutocompleteItem}
     />
   )
@@ -163,22 +168,14 @@ render() {
 
   return (
     <PlacesAutocomplete
-      value={this.state.value}
-      onChange={this.onChange}
+      inputProps={inputProps}
       autocompleteItem={AutocompleteItem}
     />
   )
 }
 ```
 
-#### typeAhead
-Type: `Boolean`
-Required: `false`
-Default: `false`
-
-You can enable/disable Airbnb style soft autocomplete in the input field.
-(NOTE: This feature is experimental and not supported in mobile browsers)
-
+<a name="classNames"></a>
 #### classNames
 Type: `Object`,
 Required: `false`
@@ -199,8 +196,7 @@ render() {
 
   return (
     <PlacesAutocomplete
-      value={this.state.address}
-      onChange={this.onChange}
+      inputProps={inputProps}
       classNames={cssClasses}
     />
   )
@@ -208,6 +204,7 @@ render() {
 ```
 Now you can easily apply custom CSS styles using the classNames!
 
+<a name="styles"></a>
 #### styles
 Type `Object`,
 Required: `false`
@@ -261,21 +258,14 @@ render() {
 
   return (
     <PlacesAutocomplete
-      value={this.state.address}
-      onChange={this.onChange}
+      inputProps={inputProps}
       styles={myStyles}
     />
   )
 }
 ```
 
-#### placeholder
-Type: `String`,
-Required: `false`,
-Default: `"Address"`
-
-You can pass `placeholder` prop to customize input's placeholder text
-
+<a name="onError"></a>
 #### onError
 Type: `Function`
 Required: `false`
@@ -284,6 +274,7 @@ You can pass `onError` prop to customize the behavior when [google.maps.places.P
 
 Function takes `status` as a parameter
 
+<a name="clearItemsOnError"></a>
 #### clearItemsOnError
 Type: `Boolean`
 Required: `false`
@@ -291,6 +282,7 @@ Default: `false`
 
 You can pass `clearItemsOnError` prop to indicate whether the autocomplete predictions should be cleared when `google.maps.places.PlacesServiceStatus` is not OK
 
+<a name="onSelect"></a>
 #### onSelect
 Type: `Function`
 Required: `false`,
@@ -310,12 +302,12 @@ const handleSelect = (address, placeId) => {
 
 // Pass this function via onSelect prop.
 <PlacesAutocomplete
-  value={this.state.value}
-  onChange={this.handleChange}
+  inputProps={inputProps}
   onSelect={this.handleSelect}
 />
 ```
 
+<a name="onEnterKeyDown"></a>
 #### onEnterKeyDown
 Type: `Function`
 Required: `false`
@@ -341,6 +333,7 @@ const handleEnter = (address) => {
 />
 ```
 
+<a name="options"></a>
 #### options
 Type: `Object`
 Required: `false`
@@ -366,21 +359,7 @@ const options = {
 />
 ```
 
-#### autoFocus
-Type: `Boolean`
-Required:  `false`
-Default: `false`
-
-#### inputName
-Type: `String`
-Required: `false`
-Default: Empty String
-
-#### inputId
-Type: `String`
-Required: `false`
-Default: Empty String
-
+<a name="#geocode"></a>
 ### `geocodeByAddress` API
 
 ```js
