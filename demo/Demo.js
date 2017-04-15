@@ -75,6 +75,18 @@ class Demo extends React.Component {
         <small className="text-muted">{formattedSuggestion.secondaryText}</small>
       </div>)
 
+    const inputProps = {
+      type: "text",
+      value: this.state.address,
+      onChange: this.handleChange,
+      onBlur: () => { console.log('Blur event!'); },
+      onFocus: () => { console.log('Focused!'); },
+      autoFocus: true,
+      placeholder: "Search Places",
+      name: 'Demo__input',
+      id: "my-input-id",
+    }
+
     return (
       <div className='page-wrapper'>
         <div className='container'>
@@ -88,16 +100,11 @@ class Demo extends React.Component {
         </div>
         <div className='container'>
           <PlacesAutocomplete
-            value={this.state.address}
-            onChange={this.handleChange}
             onSelect={this.handleSelect}
             autocompleteItem={AutocompleteItem}
-            autoFocus={true}
-            placeholder="Search Places"
-            hideLabel={true}
-            inputName="Demo__input"
             onEnterKeyDown={this.handleSelect}
             classNames={cssClasses}
+            inputProps={inputProps}
           />
           {this.state.loading ? <div><i className="fa fa-spinner fa-pulse fa-3x fa-fw Demo__spinner" /></div> : null}
           {!this.state.loading && this.state.geocodeResults ?
