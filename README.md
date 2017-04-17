@@ -119,8 +119,8 @@ You can pass arbitrary props to the input element thorough `inputProps` object (
 
 ```js
   const inputProps = {
-    value,
-    onChange,
+    value, // `value` is required
+    onChange, // `onChange` is required
     onBlur: () => {
       console.log('blur!')
     },
@@ -327,8 +327,7 @@ const handleEnter = (address) => {
 
 // Pass this function via onEnterKeyDown prop.
 <PlacesAutocomplete
-  value={this.state.value}
-  onChange={this.handleChange}
+  inputProps={inputProps}
   onEnterKeyDown={this.handleEnter}
 />
 ```
@@ -353,8 +352,7 @@ const options = {
 }
 
 <PlacesAutocomplete
-  value={this.state.address}
-  onChange={this.onChange}
+  inputProps={inputProps}
   options={options}
 />
 ```
