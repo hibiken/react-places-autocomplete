@@ -4,7 +4,8 @@
 * See https://kenny-hibino.github.io/react-places-autocomplete
 */
 
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import defaultStyles from './defaultStyles'
 
 class PlacesAutocomplete extends Component {
