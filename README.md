@@ -42,6 +42,7 @@ npm run demo
 
 
 ### Getting Started
+<a name="load-google-library"></a>
 To use this component, you are going to need to load [Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/)
 
 Load the library in your project

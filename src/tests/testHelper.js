@@ -7,7 +7,7 @@ global.document = jsdom.jsdom('<!doctype html><html><body></body></html>')
 global.window = global.document.defaultView
 
 /*** Mock Google Maps JavaScript API ***/
-global.google = {
+const google = {
   maps: {
     places: {
       AutocompleteService: () => {},
@@ -17,6 +17,8 @@ global.google = {
     }
   }
 }
+global.google = google
+global.window.google = google
 
 chai.use(chaiEnzyme())
 
