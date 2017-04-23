@@ -16,6 +16,12 @@ A React component to build a customized UI for Google Maps Places Autocomplete (
 To install the stable version
 
 ```sh
+yarn add react-places-autocomplete
+```
+
+or
+
+```sh
 npm install react-places-autocomplete --save
 ```
 
