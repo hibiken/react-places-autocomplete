@@ -1,11 +1,16 @@
+import q from 'q'
+
 export const geocodeByAddress = (address, callback) => {
+  const deferred = q.defer()
   const geocoder = new google.maps.Geocoder()
   const OK = google.maps.GeocoderStatus.OK
 
   geocoder.geocode({ address }, (results, status) => {
     if (status !== OK) {
-      callback({ status }, null, results)
-      return
+      if (callback) {
+        callback({ status }, null, results)
+      }
+      return deferred.reject({ error: { status }, results })
     }
 
     const latLng = {
@@ -13,18 +18,26 @@ export const geocodeByAddress = (address, callback) => {
       lng: results[0].geometry.location.lng(),
     }
 
-    callback(null, latLng, results)
+    if (callback) {
+      callback(null, latLng, results)
+    }
+    return deferred.resolve({ latLng, results })
   })
+
+  return deferred.promise
 }
 
 export const geocodeByPlaceId = (placeId, callback) => {
+  const deferred = q.defer()
   const geocoder = new google.maps.Geocoder()
   const OK = google.maps.GeocoderStatus.OK
 
   geocoder.geocode({ placeId }, (results, status) => {
     if (status !== OK) {
-      callback({ status }, null, null)
-      return
+      if (callback) {
+        callback({ status }, null, null)
+      }
+      return deferred.reject({ error: { status } })
     }
 
     const latLng = {
@@ -32,6 +45,11 @@ export const geocodeByPlaceId = (placeId, callback) => {
       lng: results[0].geometry.location.lng(),
     }
 
-    callback(null, latLng, results)
+    if (callback) {
+      callback(null, latLng, results)
+    }
+    return deferred.resolve({ latLng, results })
   })
+
+  return deferred.promise
 }
