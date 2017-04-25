@@ -1,5 +1,5 @@
 {
-  "name": "react-places-autocomplete",
+  "name": "@jmoxey/react-places-autocomplete",
   "version": "0.0.0-semantically-released",
   "description": "A React component for Google Maps Places Autocomplete",
   "main": "dist/index.js",
@@ -99,7 +99,6 @@
   },
   "dependencies": {
     "prop-types": "^15.5.8",
-    "q": "^1.5.0",
     "react": "^15.3.0"
   }
 }
