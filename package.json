@@ -3,6 +3,7 @@
   "version": "0.0.0-semantically-released",
   "description": "A React component for Google Maps Places Autocomplete",
   "main": "dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "commit": "git-cz",
     "watch:test": "npm t -- -w",
