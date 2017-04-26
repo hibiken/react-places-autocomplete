@@ -244,7 +244,8 @@ class PlacesAutocomplete extends Component {
         id="PlacesAutocomplete__root"
         style={this.inlineStyleFor('root')}
         className={this.classNameFor('root')}>
-        <input {...inputProps} />
+        {inputProps.lines && inputProps.lines > 1 ? <textarea rows={inputProps.lines} {...inputProps} /> : <input {...inputProps} />}
+
         {autocompleteItems.length > 0 && (
           <div
             id="PlacesAutocomplete__autocomplete-container"
@@ -255,8 +256,8 @@ class PlacesAutocomplete extends Component {
                 key={p.placeId}
                 onMouseOver={() => this.setActiveItemAtIndex(p.index)}
                 onMouseDown={() => this.selectAddress(p.suggestion, p.placeId)}
-                style={ p.active ? this.inlineStyleFor('autocompleteItem', 'autocompleteItemActive') :this.inlineStyleFor('autocompleteItem') }
-                className={ p.active ? this.classNameFor('autocompleteItem', 'autocompleteItemActive') : this.classNameFor('autocompleteItem') }>
+                style={p.active ? this.inlineStyleFor('autocompleteItem', 'autocompleteItemActive') : this.inlineStyleFor('autocompleteItem')}
+                className={p.active ? this.classNameFor('autocompleteItem', 'autocompleteItemActive') : this.classNameFor('autocompleteItem')}>
                 {this.props.autocompleteItem({ suggestion: p.suggestion, formattedSuggestion: p.formattedSuggestion })}
               </div>
             ))}
