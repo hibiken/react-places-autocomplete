@@ -236,7 +236,12 @@ class PlacesAutocomplete extends Component {
         id="PlacesAutocomplete__root"
         style={this.inlineStyleFor('root')}
         className={this.classNameFor('root')}>
-        <input {...inputProps} />
+        <input {...inputProps} aria-describedby="PlacesAutocomplete__autocomplete-description"/>
+        <span 
+          id="PlacesAutocomplete__autocomplete-description"
+          style={this.inlineStyleFor('autocompleteDescription')}
+          className={this.classNameFor('autocompleteDescription')}
+        >Arrow down as you type for autocomplete suggestions.</span>
         {autocompleteItems.length > 0 && (
           <div
             id="PlacesAutocomplete__autocomplete-container"
@@ -281,13 +286,15 @@ PlacesAutocomplete.propTypes = {
     autocompleteContainer: PropTypes.string,
     autocompleteItem: PropTypes.string,
     autocompleteItemActive: PropTypes.string,
+    autocompleteDescription: PropTypes.string
   }),
   styles: PropTypes.shape({
     root: PropTypes.object,
     input: PropTypes.object,
     autocompleteContainer: PropTypes.object,
     autocompleteItem: PropTypes.object,
-    autocompleteItemActive: PropTypes.object
+    autocompleteItemActive: PropTypes.object,
+    autocompleteDescription: PropTypes.object
   }),
   options: PropTypes.shape({
     bounds: PropTypes.object,
