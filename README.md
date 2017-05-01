@@ -395,8 +395,8 @@ geocodeByAddress('Los Angeles, CA')
     console.log('Geocoding success!', latLng)
     console.log('Entire payload from Google API', results)
   })
-  .catch(({ err, results }) => {
-    console.error(`Geocoding failed!\nStatus: ${err.status}\nResults: ${results}`);
+  .catch(({ error, results }) => {
+    console.error(`Geocoding failed!\nStatus: ${error.status}\nResults: ${results}`);
     return null;
   })
 ```
@@ -431,8 +431,8 @@ geocodeByPlaceId('ChIJE9on3F3HwoAR9AhGJW_fL-I')
     console.log('Geocoding success!', latLng)
     console.log('Entire payload from Google API', results)
   })
-  .catch(({ err, results }) => {
-    console.error(`Geocoding failed!\nStatus: ${err.status}\nResults: ${results}`);
+  .catch(({ error, results }) => {
+    console.error(`Geocoding failed!\nStatus: ${error.status}\nResults: ${results}`);
     return null;
   })
 ```
