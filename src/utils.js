@@ -6,9 +6,10 @@ export const geocodeByAddress = (address, callback) => {
     geocoder.geocode({ address }, (results, status) => {
       if (status !== OK) {
         if (callback) {
+          console.warn('Callback for geocodeByAddress is deprecated and will be removed in the next version on react-places-autocomplete. Please see: https://github.com/kenny-hibino/react-places-autocomplete/blob/master/README.md#geocodebyaddress-api')
           callback({ status }, null, results)
         }
-        return reject({ error: { status }, results })
+        return reject({ status }, results)
       }
 
       const latLng = {
@@ -19,7 +20,7 @@ export const geocodeByAddress = (address, callback) => {
       if (callback) {
         callback(null, latLng, results)
       }
-      return resolve({ latLng, results })
+      return resolve(latLng, results)
     })
   })
 }
@@ -32,9 +33,10 @@ export const geocodeByPlaceId = (placeId, callback) => {
     geocoder.geocode({ placeId }, (results, status) => {
       if (status !== OK) {
         if (callback) {
+          console.warn('Callback for geocodeByPlaceId is deprecated and will be removed in the next version on react-places-autocomplete. Please see: https://github.com/kenny-hibino/react-places-autocomplete/blob/master/README.md#geocodebyplaceid-api')
           callback({ status }, null, null)
         }
-        return reject({ error: { status } })
+        return reject({ status }, results)
       }
 
       const latLng = {
@@ -45,7 +47,7 @@ export const geocodeByPlaceId = (placeId, callback) => {
       if (callback) {
         callback(null, latLng, results)
       }
-      return resolve({ latLng, results })
+      return resolve(latLng, results)
     })
   })
 }
