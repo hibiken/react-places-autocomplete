@@ -368,92 +368,72 @@ const options = {
 ### `geocodeByAddress` API
 
 ```js
-geocodeByAddress(address, callback)
+geocodeByAddress(address)
 ```
 
-#### address
-Type: `String`,
+#### Arguments
+
+##### `address`
+
+Type: `String`
 Required: `true`
 
 String that gets passed to Google Maps [Geocoder](https://developers.google.com/maps/documentation/javascript/geocoding)
 
-#### callback
-Type: `Function`,
-Required: `false`
+#### Returns
 
-Three arguments will be passed to the callback.
+##### _Promise_
 
-First argument is an error object, set to `null` when there's no error.
-
-Second argument is an object with `lat` and `lng` keys
-
-Third argument (optional) is entire payload from Google API
+- Resolves with: `latLng` _(Object)_ and `results` _(Object)_ - when geocoding is successful.
+- Rejects with: `err` _(Object)_ and `results` _(Object)_ - when geocoding is unsuccessful.
 
 ```js
 import { geocodeByAddress } from 'react-places-autocomplete'
 
-// Callback use
-geocodeByAddress('Los Angeles, CA', (error, { lat, lng }, results) => {
-  if (error) { return }
-
-  console.log('Geocoding success!', { lat, lng })
-  console.log('Entire payload from Google API', results)
-})
-
-// Promise use
 geocodeByAddress('Los Angeles, CA')
-  .then(({ { lat, lng }, results }) => {
+  .then(({ lat, lng }, results) => {
     console.log('Geocoding success!', { lat, lng })
     console.log('Entire payload from Google API', results)
   })
-  .catch(() => {
-    return
+  .catch((err, results) => {
+    console.error(`Geocoding failed!\nStatus: ${err.status}\nResults: ${results}`);
+    return;
   })
 ```
 
 ### `geocodeByPlaceId` API
 
 ```js
-geocodeByPlaceId(placeId, callback)
+geocodeByPlaceId(placeId)
 ```
 
-#### placeId
-Type: `String`,
+#### Arguments
+
+##### `placeId`
+
+Type: `String`
 Required: `true`
 
 String that gets passed to Google Maps [Geocoder](https://developers.google.com/maps/documentation/javascript/geocoding)
 
-#### callback
-Type: `Function`,
-Required: `false`
+#### Returns
 
-Three arguments will be passed to the callback.
+##### _Promise_
 
-First argument is an error object, set to `null` when there's no error.
-
-Second argument is an object with `lat` and `lng` keys
-
-Third argument (optional) is entire payload from Google API
+- Resolves with: `latLng` _(Object)_ and `results` _(Object)_ - when geocoding is successful.
+- Rejects with: `err` _(Object)_ and `results` _(Object)_ - when geocoding is unsuccessful.
 
 ```js
 import { geocodeByPlaceId } from 'react-places-autocomplete'
 
-// Callback use
-geocodeByPlaceId('ChIJE9on3F3HwoAR9AhGJW_fL-I', (error, { lat, lng }, results) => {
-  if (error) { return }
-
-  console.log('Geocoding success!', { lat, lng })
-  console.log('Entire payload from Google API', results)
-})
-
-// Promise use
 geocodeByPlaceId('ChIJE9on3F3HwoAR9AhGJW_fL-I')
-  .then(({ { lat, lng }, results }) => {
+  .then(({ lat, lng }, results) => {
     console.log('Geocoding success!', { lat, lng })
     console.log('Entire payload from Google API', results)
   })
-  .catch(() => {
-    return
+  .catch((err, results) => {
+    console.error(`Geocoding failed!\nStatus: ${err.status}\nResults: ${results}`);
+    return;
   })
 ```
 ### Discussion
