@@ -391,13 +391,13 @@ String that gets passed to Google Maps [Geocoder](https://developers.google.com/
 import { geocodeByAddress } from 'react-places-autocomplete'
 
 geocodeByAddress('Los Angeles, CA')
-  .then(({ lat, lng }, results) => {
-    console.log('Geocoding success!', { lat, lng })
+  .then(({ latLng, results }) => {
+    console.log('Geocoding success!', latLng)
     console.log('Entire payload from Google API', results)
   })
-  .catch((err, results) => {
+  .catch(({ err, results }) => {
     console.error(`Geocoding failed!\nStatus: ${err.status}\nResults: ${results}`);
-    return;
+    return null;
   })
 ```
 
@@ -427,13 +427,13 @@ String that gets passed to Google Maps [Geocoder](https://developers.google.com/
 import { geocodeByPlaceId } from 'react-places-autocomplete'
 
 geocodeByPlaceId('ChIJE9on3F3HwoAR9AhGJW_fL-I')
-  .then(({ lat, lng }, results) => {
-    console.log('Geocoding success!', { lat, lng })
+  .then(({ latLng, results }) => {
+    console.log('Geocoding success!', latLng)
     console.log('Entire payload from Google API', results)
   })
-  .catch((err, results) => {
+  .catch(({ err, results }) => {
     console.error(`Geocoding failed!\nStatus: ${err.status}\nResults: ${results}`);
-    return;
+    return null;
   })
 ```
 ### Discussion
