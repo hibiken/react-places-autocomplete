@@ -61,7 +61,7 @@ Declare your PlacesAutocomplete component using React component
 
 ```js
 import React from 'react'
-import PlacesAutocomplete, { geocodeByAddress } from 'react-places-autocomplete'
+import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
 
 class SimpleForm extends React.Component {
   constructor(props) {
@@ -73,11 +73,10 @@ class SimpleForm extends React.Component {
   handleFormSubmit = (event) => {
     event.preventDefault()
 
-    geocodeByAddress(this.state.address,  (err, latLng) => {
-      if (err) { console.log('Oh no!', err) }
-
-      console.log(`Yay! Got latitude and longitude for ${address}`, latLng)
-    })
+    geocodeByAddress(this.state.address)
+      .then(results => getLatLng(results[0]))
+      .then(latLng => console.log('Success', latLng))
+      .catch(error => console.error('Error', error))
   }
 
   render() {
