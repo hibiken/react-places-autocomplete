@@ -1,9 +1,10 @@
 import PlacesAutocomplete from './PlacesAutocomplete'
-import { geocodeByAddress, geocodeByPlaceId } from './utils'
+import { geocodeByAddress, geocodeByPlaceId, getLatLng } from './utils'
 
 export {
   geocodeByAddress,
   geocodeByPlaceId,
+  getLatLng,
 }
 
 export default PlacesAutocomplete
