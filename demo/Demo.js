@@ -1,5 +1,5 @@
 import React from 'react'
-import PlacesAutocomplete, { geocodeByAddress } from '../src'
+import PlacesAutocomplete, { geocodeByAddress, getLatLng } from '../src'
 
 class Demo extends React.Component {
   constructor(props) {
@@ -21,20 +21,38 @@ class Demo extends React.Component {
       loading: true
     })
 
-    geocodeByAddress(address,  (err, { lat, lng }) => {
-      if (err) {
-        console.log('Oh no!', err)
+    geocodeByAddress(address)
+      .then((results) => getLatLng(results[0]))
+      .then(({ lat, lng }) => {
+        console.log('Success Yay', { lat, lng })
         this.setState({
-          geocodeResults: this.renderGeocodeFailure(err),
+          geocodeResults: this.renderGeocodeSuccess(lat, lng),
           loading: false
         })
-      }
-      console.log(`Yay! got latitude and longitude for ${address}`, { lat, lng })
-      this.setState({
-        geocodeResults: this.renderGeocodeSuccess(lat, lng),
-        loading: false
       })
-    })
+      .catch((error) => {
+        console.log('Oh no!', error)
+        this.setState({
+          geocodeResults: this.renderGeocodeFailure(error),
+          loading: false
+        })
+      })
+
+    /* NOTE: Using callback (Deprecated version) */
+    // geocodeByAddress(address,  (err, { lat, lng }) => {
+    //   if (err) {
+    //     console.log('Oh no!', err)
+    //     this.setState({
+    //       geocodeResults: this.renderGeocodeFailure(err),
+    //       loading: false
+    //     })
+    //   }
+    //   console.log(`Yay! got latitude and longitude for ${address}`, { lat, lng })
+    //   this.setState({
+    //     geocodeResults: this.renderGeocodeSuccess(lat, lng),
+    //     loading: false
+    //   })
+    // })
   }
 
   handleChange(address) {
@@ -42,7 +60,6 @@ class Demo extends React.Component {
       address,
       geocodeResults: null
     })
-
   }
 
   renderGeocodeFailure(err) {
