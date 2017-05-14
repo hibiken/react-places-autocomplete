@@ -151,6 +151,9 @@ class PlacesAutocomplete extends Component {
       case 'Escape':
         this.clearAutocomplete()
         break
+      case 'Tab':
+        this.handleEnterKey()
+        break
     }
 
     if (this.props.inputProps.onKeyDown) {
