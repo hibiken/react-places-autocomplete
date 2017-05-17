@@ -112,6 +112,7 @@ export default SimpleForm
 * [`clearItemsOnError`](#clearItemsOnError)
 * [`onSelect`](#onSelect)
 * [`onEnterKeyDown`](#onEnterKeyDown)
+* [`filterPredictions`](#filterPredictions)
 * [`options`](#options)
 * [`debounce`](#debounce)
 * [`highlightFirstSuggestion`](#highlightFirstSuggestion)
@@ -329,7 +330,7 @@ const handleSelect = (address, placeId) => {
 #### onEnterKeyDown
 Type: `Function`
 Required: `false`
-Deafult: `noop`
+Default: `noop`
 
 You can pass a callback function that gets called when pressing down Enter key when no item in the dropdown is selected.  
 The function takes one argument, the value in the input field.
@@ -346,6 +347,25 @@ const handleEnter = (address) => {
 <PlacesAutocomplete
   inputProps={inputProps}
   onEnterKeyDown={this.handleEnter}
+/>
+```
+
+<a name="filterPredictions"></a>
+#### filterPredictions
+Type: `Function`
+Required: `false`
+Default: `null`
+
+You can pass a predicate function to filter the autocomplete predictions.
+This is helpful when you need more granularity than what's offered by the
+[`options`](#options) passed to the AutocompleteService class.
+
+```js
+const filterLocalities = (prediction) => prediction.types.includes('locality')
+
+<PlacesAutocomplete
+  inputProps={inputProps}
+  filterPredictions={filterLocalities}
 />
 ```
 

@@ -47,17 +47,20 @@ class PlacesAutocomplete extends Component {
       secondaryText: structured_formatting.secondary_text,
     })
 
-    const { highlightFirstSuggestion } = this.props
+    const { highlightFirstSuggestion, filterPredictions } = this.props
 
-    this.setState({
-      autocompleteItems: predictions.map((p, idx) => ({
-        suggestion: p.description,
-        placeId: p.place_id,
-        active: (highlightFirstSuggestion && idx === 0 ? true : false),
-        index: idx,
-        formattedSuggestion: formattedSuggestion(p.structured_formatting),
-      }))
-    })
+    const filteredPredictions = filterPredictions ?
+      predictions.filter(filterPredictions) : predictions
+
+    const autocompleteItems = filteredPredictions.map((p, idx) => ({
+      suggestion: p.description,
+      placeId: p.place_id,
+      active: (highlightFirstSuggestion && idx === 0 ? true : false),
+      index: idx,
+      formattedSuggestion: formattedSuggestion(p.structured_formatting),
+    }))
+
+    this.setState({ autocompleteItems })
   }
 
   fetchPredictions() {
@@ -307,6 +310,7 @@ PlacesAutocomplete.propTypes = {
   clearItemsOnError: PropTypes.bool,
   onSelect: PropTypes.func,
   autocompleteItem: PropTypes.func,
+  filterPredictions: PropTypes.func,
   classNames: PropTypes.shape({
     root: PropTypes.string,
     input: PropTypes.string,
@@ -346,6 +350,7 @@ PlacesAutocomplete.defaultProps = {
   onError: (status) => console.error('[react-places-autocomplete]: error happened when fetching data from Google Maps API.\nPlease check the docs here (https://developers.google.com/maps/documentation/javascript/places#place_details_responses)\nStatus: ', status),
   classNames: {},
   autocompleteItem: ({ suggestion }) => (<div>{suggestion}</div>),
+  filterPredictions: null,
   styles: {},
   options: {},
   debounce: 200,
