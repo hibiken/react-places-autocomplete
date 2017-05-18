@@ -113,6 +113,7 @@ export default SimpleForm
 * [`onSelect`](#onSelect)
 * [`onEnterKeyDown`](#onEnterKeyDown)
 * [`options`](#options)
+* [`debounce`](#debounce)
 
 <a name="inputProps"></a>
 #### inputProps
@@ -360,6 +361,26 @@ const options = {
 <PlacesAutocomplete
   inputProps={inputProps}
   options={options}
+/>
+```
+
+<a name="debounce"></a>
+#### debounce
+Type: `Number`
+Required: `false`
+Default: `0`
+
+You can delay the execution of the Autocomplete Service by providing a `debounce` prop.
+This prop accepts a number in miliseconds
+
+```js
+// these value will delay the execution of the Autocomplete Service for 200 miliseconds, and
+// if the user keeps typing, it won't execute the the service till the user have stopped typing for
+// the provided number
+
+<PlacesAutocomplete
+  inputProps={inputProps}
+  debounce={200}
 />
 ```
 

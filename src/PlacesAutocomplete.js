@@ -7,6 +7,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import defaultStyles from './defaultStyles'
+import { debounce } from './helpers'
 
 class PlacesAutocomplete extends Component {
   constructor(props) {
@@ -28,7 +29,10 @@ class PlacesAutocomplete extends Component {
       throw new Error('Google Maps Places library must be loaded. Please add `libraries=places` to the src URL. See: https://github.com/kenny-hibino/react-places-autocomplete#load-google-library')
     }
 
-    this.autocompleteService = new google.maps.places.AutocompleteService()
+    const autocompleteService = new google.maps.places.AutocompleteService()
+    this.debounced = debounce(() => {
+      autocompleteService.getPlacePredictions({ ...this.props.options, input: this.value }, this.autocompleteCallback)
+    }, this.props.debounce|| 0)
     this.autocompleteOK = google.maps.places.PlacesServiceStatus.OK
   }
 
@@ -170,13 +174,15 @@ class PlacesAutocomplete extends Component {
     })
   }
 
+
   handleInputChange(event) {
     this.props.inputProps.onChange(event.target.value)
     if (!event.target.value) {
       this.clearAutocomplete()
       return
     }
-    this.autocompleteService.getPlacePredictions({ ...this.props.options, input: event.target.value }, this.autocompleteCallback)
+    this.value = event.target.value
+    this.debounced()
   }
 
   handleInputOnBlur(event) {
