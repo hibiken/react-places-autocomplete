@@ -87,10 +87,6 @@ class PlacesAutocomplete extends Component {
   }
 
   handleEnterKey() {
-    if (this.state.autocompleteItems.length === 0) {
-      return
-    }
-
     const activeItem = this.getActiveItem()
     if (activeItem === undefined) {
       this.handleEnterKeyWithoutActiveItem()
