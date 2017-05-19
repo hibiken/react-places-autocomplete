@@ -325,11 +325,10 @@ The function takes one argument, the value in the input field.
 
 ```js
 const handleEnter = (address) => {
-  geocodeByAddress(address, (err, { lat, lng }, results) => {
-    if (err) { console.error('Error'); return; }
-
-    console.log("Geocode success", { lat, lng })
-  })
+  geocodeByAddress(address)
+    .then(results => {
+      console.log('results', results)
+    })
 }
 
 // Pass this function via onEnterKeyDown prop.
