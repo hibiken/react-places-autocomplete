@@ -113,6 +113,7 @@ export default SimpleForm
 * [`onSelect`](#onSelect)
 * [`onEnterKeyDown`](#onEnterKeyDown)
 * [`options`](#options)
+* [`debounce`](#debounce)
 
 <a name="inputProps"></a>
 #### inputProps
@@ -362,6 +363,14 @@ const options = {
   options={options}
 />
 ```
+
+<a name="debounce"></a>
+#### debounce
+Type: `Number`
+Required: `false`
+Default: `200`
+
+The number of milliseconds to delay before making a call to Google API.
 
 <a name="utility-functions"></a>
 ## Utility Functions
