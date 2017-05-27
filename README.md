@@ -114,6 +114,7 @@ export default SimpleForm
 * [`onEnterKeyDown`](#onEnterKeyDown)
 * [`options`](#options)
 * [`debounce`](#debounce)
+* [`highlightFirstSuggestion`](#highlightFirstSuggestion)
 
 <a name="inputProps"></a>
 #### inputProps
@@ -370,6 +371,14 @@ Required: `false`
 Default: `200`
 
 The number of milliseconds to delay before making a call to Google API.
+
+<a name="highlightFirstSuggestion"></a>
+#### highlightFirstSuggestion
+Type: `Boolean`
+Required: `false`
+Default: `false`
+
+If set to `true`, first suggestion in the dropdown will be automatically highlighted.
 
 <a name="utility-functions"></a>
 ## Utility Functions

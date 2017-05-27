@@ -47,11 +47,13 @@ class PlacesAutocomplete extends Component {
       secondaryText: structured_formatting.secondary_text,
     })
 
+    const { highlightFirstSuggestion } = this.props
+
     this.setState({
       autocompleteItems: predictions.map((p, idx) => ({
         suggestion: p.description,
         placeId: p.place_id,
-        active: false,
+        active: (highlightFirstSuggestion && idx === 0 ? true : false),
         index: idx,
         formattedSuggestion: formattedSuggestion(p.structured_formatting),
       }))
@@ -315,6 +317,7 @@ PlacesAutocomplete.propTypes = {
     types: PropTypes.array
   }),
   debounce: PropTypes.number,
+  highlightFirstSuggestion: PropTypes.bool,
 }
 
 PlacesAutocomplete.defaultProps = {
@@ -325,6 +328,7 @@ PlacesAutocomplete.defaultProps = {
   styles: {},
   options: {},
   debounce: 200,
+  highlightFirstSuggestion: false,
 }
 
 export default PlacesAutocomplete
