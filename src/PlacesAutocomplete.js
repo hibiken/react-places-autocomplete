@@ -61,8 +61,13 @@ class PlacesAutocomplete extends Component {
   }
 
   fetchPredictions() {
-    const { value } = this.props.inputProps;
-    this.autocompleteService.getPlacePredictions({ ...this.props.options, input: value || '' }, this.autocompleteCallback)
+    const { value } = this.props.inputProps
+    if (value.length) {
+      this.autocompleteService.getPlacePredictions({
+        ...this.props.options,
+        input: value
+      }, this.autocompleteCallback)
+    }
   }
 
   clearAutocomplete() {
