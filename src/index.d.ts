@@ -13,6 +13,7 @@ declare namespace PlacesAutocomplete{
             clearItemsOnError?: boolean,
             onSelect?: (address: string, placeId: string) => void,
             autocompleteItem?: (value: { suggestion: any, formattedSuggestion: any }) => void,
+            onEnterKeyDown?: (value: string) => void,
             classNames?: {
                 root: string,
                 input: string,
