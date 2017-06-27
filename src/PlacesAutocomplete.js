@@ -6,6 +6,7 @@
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import debounce from 'lodash.debounce'
 import defaultStyles from './defaultStyles'
 
 class PlacesAutocomplete extends Component {
@@ -17,6 +18,7 @@ class PlacesAutocomplete extends Component {
     this.autocompleteCallback = this.autocompleteCallback.bind(this)
     this.handleInputKeyDown = this.handleInputKeyDown.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
+    this.debouncedFetchPredictions = debounce(this.fetchPredictions, this.props.debounce)
   }
 
   componentDidMount() {
@@ -45,15 +47,27 @@ class PlacesAutocomplete extends Component {
       secondaryText: structured_formatting.secondary_text,
     })
 
+    const { highlightFirstSuggestion } = this.props
+
     this.setState({
       autocompleteItems: predictions.map((p, idx) => ({
         suggestion: p.description,
         placeId: p.place_id,
-        active: false,
+        active: (highlightFirstSuggestion && idx === 0 ? true : false),
         index: idx,
         formattedSuggestion: formattedSuggestion(p.structured_formatting),
       }))
     })
+  }
+
+  fetchPredictions() {
+    const { value } = this.props.inputProps
+    if (value.length) {
+      this.autocompleteService.getPlacePredictions({
+        ...this.props.options,
+        input: value
+      }, this.autocompleteCallback)
+    }
   }
 
   clearAutocomplete() {
@@ -80,10 +94,6 @@ class PlacesAutocomplete extends Component {
   }
 
   handleEnterKey() {
-    if (this.state.autocompleteItems.length === 0) {
-      return
-    }
-
     const activeItem = this.getActiveItem()
     if (activeItem === undefined) {
       this.handleEnterKeyWithoutActiveItem()
@@ -176,7 +186,7 @@ class PlacesAutocomplete extends Component {
       this.clearAutocomplete()
       return
     }
-    this.autocompleteService.getPlacePredictions({ ...this.props.options, input: event.target.value }, this.autocompleteCallback)
+    this.debouncedFetchPredictions()
   }
 
   handleInputOnBlur(event) {
@@ -311,6 +321,8 @@ PlacesAutocomplete.propTypes = {
     ]),
     types: PropTypes.array
   }),
+  debounce: PropTypes.number,
+  highlightFirstSuggestion: PropTypes.bool,
 }
 
 PlacesAutocomplete.defaultProps = {
@@ -320,6 +332,8 @@ PlacesAutocomplete.defaultProps = {
   autocompleteItem: ({ suggestion }) => (<div>{suggestion}</div>),
   styles: {},
   options: {},
+  debounce: 200,
+  highlightFirstSuggestion: false,
 }
 
 export default PlacesAutocomplete

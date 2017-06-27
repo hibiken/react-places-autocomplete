@@ -208,13 +208,16 @@ describe('custom inline styles', () => {
      ...testInputProps,
      value: 'Boston, MA',
    }
-   it('calls getPlacePredictions with the correct options', () => {
+   it('calls getPlacePredictions with the correct options', (done) => {
      global.google.maps.places.AutocompleteService.prototype.getPlacePredictions = (request, callback) => {}
      const spy = sinon.spy(global.google.maps.places.AutocompleteService.prototype, 'getPlacePredictions')
      const options = { radius: 2000, types: ['address'] }
      const wrapper = mount(<PlacesAutocomplete inputProps={inputProps} options={options} />)
      wrapper.find('input').simulate('change', { target: { value: 'Los Angeles, CA' } })
-     expect(spy.calledWith({ ...options, input: 'Los Angeles, CA' })).to.be.true
+     setTimeout(() => {
+       done()
+       expect(spy.calledWith({ ...options, input: 'Los Angeles, CA' })).to.be.true
+     }, 0)
    })
  })
 

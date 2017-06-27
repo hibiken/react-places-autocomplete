@@ -9,7 +9,7 @@ A React component to build a customized UI for Google Maps Places Autocomplete (
 
 ### Features
 1. Enable you to easily build a customized autocomplete dropdown powered by [Google Maps Places Library](https://developers.google.com/maps/documentation/javascript/places)
-2. [Utility function](#geocode) to get latitude and longitude using [Google Maps Geocoder API](https://developers.google.com/maps/documentation/javascript/geocoding)
+2. [Utility functions](#utility-functions) to geocode and get latitude and longitude using [Google Maps Geocoder API](https://developers.google.com/maps/documentation/javascript/geocoding)
 3. Pass through arbitrary props to the input element to integrate well with other libraries (e.g. Redux-Form)
 
 ### Installation
@@ -61,7 +61,7 @@ Declare your PlacesAutocomplete component using React component
 
 ```js
 import React from 'react'
-import PlacesAutocomplete, { geocodeByAddress } from 'react-places-autocomplete'
+import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
 
 class SimpleForm extends React.Component {
   constructor(props) {
@@ -73,11 +73,10 @@ class SimpleForm extends React.Component {
   handleFormSubmit = (event) => {
     event.preventDefault()
 
-    geocodeByAddress(this.state.address,  (err, latLng) => {
-      if (err) { console.log('Oh no!', err) }
-
-      console.log(`Yay! Got latitude and longitude for ${address}`, latLng)
-    })
+    geocodeByAddress(this.state.address)
+      .then(results => getLatLng(results[0]))
+      .then(latLng => console.log('Success', latLng))
+      .catch(error => console.error('Error', error))
   }
 
   render() {
@@ -114,6 +113,8 @@ export default SimpleForm
 * [`onSelect`](#onSelect)
 * [`onEnterKeyDown`](#onEnterKeyDown)
 * [`options`](#options)
+* [`debounce`](#debounce)
+* [`highlightFirstSuggestion`](#highlightFirstSuggestion)
 
 <a name="inputProps"></a>
 #### inputProps
@@ -325,11 +326,10 @@ The function takes one argument, the value in the input field.
 
 ```js
 const handleEnter = (address) => {
-  geocodeByAddress(address, (err, { lat, lng }, results) => {
-    if (err) { console.error('Error'); return; }
-
-    console.log("Geocode success", { lat, lng })
-  })
+  geocodeByAddress(address)
+    .then(results => {
+      console.log('results', results)
+    })
 }
 
 // Pass this function via onEnterKeyDown prop.
@@ -364,11 +364,38 @@ const options = {
 />
 ```
 
-<a name="#geocode"></a>
+<a name="debounce"></a>
+#### debounce
+Type: `Number`
+Required: `false`
+Default: `200`
+
+The number of milliseconds to delay before making a call to Google API.
+
+<a name="highlightFirstSuggestion"></a>
+#### highlightFirstSuggestion
+Type: `Boolean`
+Required: `false`
+Default: `false`
+
+If set to `true`, first suggestion in the dropdown will be automatically highlighted.
+
+<a name="utility-functions"></a>
+## Utility Functions
+* [`geocodeByAddress`](#geocode-by-address)
+* [`geocodeByPlaceId`](#geocode-by-place-id)
+* [`getLatLng`](#get-lat-lng)
+
+<a name="geocode-by-address"></a>
 ### `geocodeByAddress` API
 
 ```js
-geocodeByAddress(address, callback)
+/**
+ * Returns a promise
+ * @param {String} address
+ * @return {Promise}
+*/
+geocodeByAddress(address)
 ```
 
 #### address
@@ -377,33 +404,25 @@ Required: `true`
 
 String that gets passed to Google Maps [Geocoder](https://developers.google.com/maps/documentation/javascript/geocoding)
 
-#### callback
-Type: `Function`,
-Required: `true`
-
-Three arguments will be passed to the callback.
-
-First argument is an error object, set to `null` when there's no error.
-
-Second argument is an object with `lat` and `lng` keys
-
-Third argument (optional) is entire payload from Google API
-
 ```js
 import { geocodeByAddress } from 'react-places-autocomplete'
 
-geocodeByAddress('Los Angeles, CA', (error, { lat, lng }, results) => {
-  if (error) { return }
-
-  console.log('Geocoding success!', { lat, lng })
-  console.log('Entire payload from Google API', results)
-})
+// `results` is an entire payload from Google API.
+geocodeByAddress('Los Angeles, CA')
+  .then(results => console.log(results))
+  .catch(error => console.error(error))
 ```
 
+<a name="geocode-by-place-id"></a>
 ### `geocodeByPlaceId` API
 
 ```js
-geocodeByPlaceId(placeId, callback)
+/**
+ * Returns a promise
+ * @param {String} placeId
+ * @return {Promise}
+*/
+geocodeByPlaceId(placeId)
 ```
 
 #### placeId
@@ -412,28 +431,41 @@ Required: `true`
 
 String that gets passed to Google Maps [Geocoder](https://developers.google.com/maps/documentation/javascript/geocoding)
 
-#### callback
-Type: `Function`,
-Required: `true`
-
-Three arguments will be passed to the callback.
-
-First argument is an error object, set to `null` when there's no error.
-
-Second argument is an object with `lat` and `lng` keys
-
-Third argument (optional) is entire payload from Google API
 
 ```js
 import { geocodeByPlaceId } from 'react-places-autocomplete'
 
-geocodeByPlaceId('ChIJE9on3F3HwoAR9AhGJW_fL-I', (error, { lat, lng }, results) => {
-  if (error) { return }
-
-  console.log('Geocoding success!', { lat, lng })
-  console.log('Entire payload from Google API', results)
-})
+// `results` is an entire payload from Google API.
+geocodeByPlaceId('ChIJE9on3F3HwoAR9AhGJW_fL-I')
+  .then(results => console.log(results))
+  .catch(error => console.error(error))
 ```
+<a name="get-lat-lng"></a>
+### `getLatLng` API
+
+```js
+/**
+ * Returns a promise
+ * @param {Object} result
+ * @return {Promise}
+*/
+getLatLng(result)
+```
+
+#### result
+Type: `Object`
+Required: `true`
+
+One of the element from `results` (returned from Google Maps Geocoder)
+
+```js
+import { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
+
+geocodeByAddress('Tokyo, Japan')
+  .then(results => getLatLng(results[0]))
+  .then(({ lat, lng }) => console.log('Successfully got latitude and longitude', { lat, lng }))
+```
+
 ### Discussion
 
 Join us on [Gitter](https://gitter.im/react-places-autocomplete/Lobby) if you are interested in contributing!
