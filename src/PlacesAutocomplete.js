@@ -106,6 +106,7 @@ class PlacesAutocomplete extends Component {
     if (this.props.onEnterKeyDown) {
       this.props.onEnterKeyDown(this.props.inputProps.value)
       this.clearAutocomplete()
+      this.debouncedFetchPredictions.cancel()
     } else {
       return //noop
     }
