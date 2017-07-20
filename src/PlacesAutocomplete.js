@@ -13,11 +13,12 @@ class PlacesAutocomplete extends Component {
   constructor(props) {
     super(props)
 
-    this.state = { autocompleteItems: [] }
+    this.state = { autocompleteItems: [], localAddress: null }
 
     this.autocompleteCallback = this.autocompleteCallback.bind(this)
     this.handleInputKeyDown = this.handleInputKeyDown.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
+    this.handleLocalAddressCallback = this.handleLocalAddressCallback.bind(this)
     this.debouncedFetchPredictions = debounce(this.fetchPredictions, this.props.debounce)
   }
 
@@ -32,6 +33,14 @@ class PlacesAutocomplete extends Component {
 
     this.autocompleteService = new google.maps.places.AutocompleteService()
     this.autocompleteOK = google.maps.places.PlacesServiceStatus.OK
+    this.handleLocalAddress()
+  }
+
+  formattedSuggestion(structured_formatting) {
+    return {
+      mainText: structured_formatting.main_text,
+      secondaryText: structured_formatting.secondary_text
+    }
   }
 
   autocompleteCallback(predictions, status) {
@@ -42,22 +51,27 @@ class PlacesAutocomplete extends Component {
     }
 
     // transform snake_case to camelCase
-    const formattedSuggestion = (structured_formatting) => ({
-      mainText: structured_formatting.main_text,
-      secondaryText: structured_formatting.secondary_text,
-    })
 
     const { highlightFirstSuggestion } = this.props
 
-    this.setState({
-      autocompleteItems: predictions.map((p, idx) => ({
-        suggestion: p.description,
-        placeId: p.place_id,
-        active: (highlightFirstSuggestion && idx === 0 ? true : false),
-        index: idx,
-        formattedSuggestion: formattedSuggestion(p.structured_formatting),
-      }))
-    })
+    let currentAutocompleteItems = predictions.map((p, idx) => ({
+      suggestion: p.description,
+      placeId: p.place_id,
+      active: (highlightFirstSuggestion && idx === 0 ? true : false),
+      index: idx,
+      formattedSuggestion: this.formattedSuggestion(p.structured_formatting)
+    }))
+
+    if(this.state.localAddress != null){
+      for(var i = 0; i < currentAutocompleteItems.length; i++){
+        currentAutocompleteItems[i].index = currentAutocompleteItems[i].index + 1
+      }
+
+      let currentLocalAddress = Object.assign({}, this.state.localAddress, {active: (highlightFirstSuggestion && predictions.length === 0 ? true : false), index: 0 })
+      currentAutocompleteItems.unshift(currentLocalAddress)
+    }
+
+    this.setState({ autocompleteItems: currentAutocompleteItems })
   }
 
   fetchPredictions() {
@@ -241,6 +255,32 @@ class PlacesAutocomplete extends Component {
       },
       style: this.inlineStyleFor('input'),
       className: this.classNameFor('input'),
+    }
+  }
+
+  handleLocalAddress(){
+    const address = this.props.localAddress
+
+    if(address === undefined || !address.length) return
+
+    this.autocompleteService.getPlacePredictions({
+      ...this.props.options,
+      input: address
+    }, this.handleLocalAddressCallback)
+  }
+
+  handleLocalAddressCallback(predictions){
+    if(predictions != null){
+      const p = predictions[0]
+
+      this.setState({
+        localAddress: {
+          suggestion: p.description,
+          placeId: p.place_id,
+          index: 0,
+          formattedSuggestion: this.formattedSuggestion(p.structured_formatting)
+        }
+      })
     }
   }
 

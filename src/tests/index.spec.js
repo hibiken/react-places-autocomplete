@@ -10,6 +10,27 @@ const testInputProps = {
   onChange: () => {},
 }
 
+const data = [
+  {
+    suggestion: 'San Francisco, CA',
+    placeId: 1,
+    active: false,
+    index: 0
+  },
+  {
+    suggestion: 'San Jose, CA',
+    placeId: 2,
+    active: false,
+    index: 1
+  },
+  {
+    suggestion: 'San Diego, CA',
+    placeId: 3,
+    active: false,
+    index: 2
+  }
+]
+
 /*** Enzyme Rocks ***/
 describe('<PlacesAutocomplete />', () => {
   let wrapper;
@@ -64,26 +85,6 @@ describe('autocomplete dropdown', () => {
   })
 
   it('renders autocomplete dropdown once it receives data from google maps', () => {
-    const data = [
-      {
-        suggestion: 'San Francisco, CA',
-        placeId: 1,
-        active: false,
-        index: 0
-      },
-      {
-        suggestion: 'San Jose, CA',
-        placeId: 2,
-        active: false,
-        index: 1
-      },
-      {
-        suggestion: 'San Diego, CA',
-        placeId: 3,
-        active: false,
-        index: 2
-      }
-    ]
     wrapper.setState({ autocompleteItems: data })
     expect(wrapper.find('#PlacesAutocomplete__autocomplete-container')).to.have.length(1)
     expect(wrapper.find('.autocomplete-item')).to.have.length(3)
@@ -112,6 +113,35 @@ describe('autocomplete dropdown', () => {
     wrapper.setState({ autocompleteItems: initialItems })
     wrapper.instance().autocompleteCallback([], 'ZERO_RESULTS')
     expect(wrapper.find('.autocomplete-item')).to.have.length(1)
+  })
+
+
+  // Possibility to add a custom/local address on top of google Predictions
+  it('adds the local address to the suggestions dropdown', () => {
+    const address = 'Paris, France'
+
+    //we mock the placesPrediction result
+    let mockedData = data.slice() //immutable array
+    mockedData.push(
+      {
+        suggestion: 'Paris, France',
+        placeId: 6,
+        active: false,
+        index: 4
+      }
+    )
+
+    wrapper.setState({ autocompleteItems: mockedData })
+    expect(wrapper.find('#PlacesAutocomplete__autocomplete-container')).to.have.length(1)
+    expect(wrapper.find('.autocomplete-item')).to.have.length(4)
+  })
+
+  it('does not add the local address to the suggestions dropdown', () => {
+    const address = 'invalidaddress'
+
+    wrapper.setState({ autocompleteItems: data })
+    expect(wrapper.find('#PlacesAutocomplete__autocomplete-container')).to.have.length(1)
+    expect(wrapper.find('.autocomplete-item')).to.have.length(3)
   })
 })
 
@@ -237,6 +267,7 @@ describe('autoFocus prop', () => {
     expect(wrapper.find('input').node).to.not.equal(document.activeElement)
   })
 })
+
 
 // TODOs:
 // * Test geocodeByAddress function
