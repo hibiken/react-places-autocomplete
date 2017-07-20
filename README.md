@@ -115,6 +115,7 @@ export default SimpleForm
 * [`options`](#options)
 * [`debounce`](#debounce)
 * [`highlightFirstSuggestion`](#highlightFirstSuggestion)
+* [`localAddress`](#localAddress)
 
 <a name="inputProps"></a>
 #### inputProps
@@ -379,6 +380,26 @@ Required: `false`
 Default: `false`
 
 If set to `true`, first suggestion in the dropdown will be automatically highlighted.
+
+<a name="localAddress"></a>
+#### localAddress
+Type: `String`
+Required: `false`
+Default: `''`
+
+You can add a default local address that will be displayed at the top of the dropdown:
+
+```js
+// default localAddress example
+render(){
+  return(
+    <PlacesAutocomplete
+      inputProps={inputProps}
+      localAddress{'Paris, France'}
+    />
+  )
+}
+```
 
 <a name="utility-functions"></a>
 ## Utility Functions
