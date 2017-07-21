@@ -13,7 +13,7 @@ class PlacesAutocomplete extends Component {
   constructor(props) {
     super(props)
 
-    this.state = { autocompleteItems: [], localAddress: null }
+    this.state = { autocompleteItems: [], localAddress: null, localAddressString: '' }
 
     this.autocompleteCallback = this.autocompleteCallback.bind(this)
     this.handleInputKeyDown = this.handleInputKeyDown.bind(this)
@@ -33,7 +33,13 @@ class PlacesAutocomplete extends Component {
 
     this.autocompleteService = new google.maps.places.AutocompleteService()
     this.autocompleteOK = google.maps.places.PlacesServiceStatus.OK
-    this.handleLocalAddress()
+  }
+
+  componentWillReceiveProps(nextProps){
+    if(nextProps.localAddress != this.state.localAddressString){
+      this.setState({ localAddressString: nextProps.localAddress })
+      this.handleLocalAddress(nextProps.localAddress)
+    }
   }
 
   formattedSuggestion(structured_formatting) {
@@ -258,10 +264,8 @@ class PlacesAutocomplete extends Component {
     }
   }
 
-  handleLocalAddress(){
-    const address = this.props.localAddress
-
-    if(address === undefined || !address.length) return
+  handleLocalAddress(address){
+    if(address === null || address === undefined || !address.length) return
 
     this.autocompleteService.getPlacePredictions({
       ...this.props.options,
@@ -278,9 +282,18 @@ class PlacesAutocomplete extends Component {
           suggestion: p.description,
           placeId: p.place_id,
           index: 0,
-          formattedSuggestion: this.formattedSuggestion(p.structured_formatting)
+          formattedSuggestion: this.formattedSuggestion(p.structured_formatting),
+          localAddress: true
         }
       })
+    }
+  }
+
+  renderLocalAddressInfo(item){
+    if(item.localAddress != null){
+      return(
+        <div className={ 'local-address-additionnal-info' }></div>
+      )
     }
   }
 
@@ -305,9 +318,10 @@ class PlacesAutocomplete extends Component {
                 key={p.placeId}
                 onMouseOver={() => this.setActiveItemAtIndex(p.index)}
                 onMouseDown={() => this.selectAddress(p.suggestion, p.placeId)}
-                style={ p.active ? this.inlineStyleFor('autocompleteItem', 'autocompleteItemActive') :this.inlineStyleFor('autocompleteItem') }
+                style={ p.active ? this.inlineStyleFor('autocompleteItem', 'autocompleteItemActive') : this.inlineStyleFor('autocompleteItem') }
                 className={ p.active ? this.classNameFor('autocompleteItem', 'autocompleteItemActive') : this.classNameFor('autocompleteItem') }>
                 {this.props.autocompleteItem({ suggestion: p.suggestion, formattedSuggestion: p.formattedSuggestion })}
+                {this.renderLocalAddressInfo(p)}
               </div>
             ))}
           </div>
@@ -338,7 +352,7 @@ PlacesAutocomplete.propTypes = {
     input: PropTypes.string,
     autocompleteContainer: PropTypes.string,
     autocompleteItem: PropTypes.string,
-    autocompleteItemActive: PropTypes.string,
+    autocompleteItemActive: PropTypes.string
   }),
   styles: PropTypes.shape({
     root: PropTypes.object,
