@@ -69,7 +69,7 @@ export const geocodeByPlaceId = (placeId, callback) => {
           lat: results[0].geometry.location.lat(),
           lng: results[0].geometry.location.lng(),
         }
-        console.warn('Deprecated: Passing a callback to geocodeByAddress is deprecated. Please see "https://github.com/kenny-hibino/react-places-autocomplete#geocodebyplaceid-api"')
+        console.warn('Deprecated: Passing a callback to geocodeByPlaceId is deprecated. Please see "https://github.com/kenny-hibino/react-places-autocomplete#geocodebyplaceid-api"')
         callback(null, latLng, results)
       }
 
