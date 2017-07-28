@@ -239,10 +239,17 @@ class PlacesAutocomplete extends Component {
       style: this.inlineStyleFor('input'),
       className: this.classNameFor('input'),
     }
-
-    // Detect IE11 -  IE 11 & React bug - Missing typed characters
-    props[!!window.MSInputMethodContext && !!document.documentMode ? 'onInput' : 'onChange'] = (event) => {
-      this.handleInputChange(event)
+    // IE 11 & React bug - Missing typed characters
+    if(!!window.MSInputMethodContext && !!document.documentMode) {
+      // Is IE 11
+      props.onInput = (event) => {
+        this.handleInputChange(event)
+      }
+      delete props.onChange // Causes double call as inputProps still contains onChange
+    } else {
+      props.onChange = (event) => {
+        this.handleInputChange(event)
+      }
     }
     return props
   }
