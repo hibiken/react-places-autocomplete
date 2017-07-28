@@ -227,12 +227,9 @@ class PlacesAutocomplete extends Component {
       type: "text",
     }
 
-    return {
+    let props = {
       ...defaultInputProps,
       ...this.props.inputProps,
-      onChange: (event) => {
-        this.handleInputChange(event)
-      },
       onKeyDown: (event) => {
         this.handleInputKeyDown(event)
       },
@@ -242,6 +239,12 @@ class PlacesAutocomplete extends Component {
       style: this.inlineStyleFor('input'),
       className: this.classNameFor('input'),
     }
+
+    // Detect IE11 -  IE 11 & React bug - Missing typed characters
+    props[!!window.MSInputMethodContext && !!document.documentMode ? 'onInput' : 'onChange'] = (event) => {
+      this.handleInputChange(event)
+    }
+    return props
   }
 
   render() {
