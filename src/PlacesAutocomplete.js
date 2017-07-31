@@ -270,6 +270,9 @@ class PlacesAutocomplete extends Component {
                 {this.props.autocompleteItem({ suggestion: p.suggestion, formattedSuggestion: p.formattedSuggestion })}
               </div>
             ))}
+            { this.props.googleLogo ? (<div id="google-logo" style={{ textAlign: 'right', padding: '1px' }}>
+              <img src={'https://maps.gstatic.com/mapfiles/api-3/images/powered-by-google-on-white3.png'} />
+            </div>) : '' } 
           </div>
         )}
       </div>
@@ -334,6 +337,7 @@ PlacesAutocomplete.defaultProps = {
   options: {},
   debounce: 200,
   highlightFirstSuggestion: false,
+  googleLogo: true,
 }
 
 export default PlacesAutocomplete

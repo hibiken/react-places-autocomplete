@@ -115,6 +115,7 @@ export default SimpleForm
 * [`options`](#options)
 * [`debounce`](#debounce)
 * [`highlightFirstSuggestion`](#highlightFirstSuggestion)
+* [`googleLogo`](#googleLogo)
 
 <a name="inputProps"></a>
 #### inputProps
@@ -379,6 +380,14 @@ Required: `false`
 Default: `false`
 
 If set to `true`, first suggestion in the dropdown will be automatically highlighted.
+
+<a name="googleLogo"></a>
+#### googleLogo
+Type: `Boolean`
+Required: `false`
+Default: `true`
+
+Allows you to toggle the "powered by Google" logo. For more information on Google's logo requirements, refer to this link: [https://developers.google.com/places/web-service/policies](https://developers.google.com/places/web-service/policies)
 
 <a name="utility-functions"></a>
 ## Utility Functions
