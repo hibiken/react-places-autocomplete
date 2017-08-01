@@ -326,6 +326,7 @@ PlacesAutocomplete.propTypes = {
   }),
   debounce: PropTypes.number,
   highlightFirstSuggestion: PropTypes.bool,
+  googleLogo: PropTypes.bool,
 }
 
 PlacesAutocomplete.defaultProps = {
