@@ -113,6 +113,7 @@ class PlacesAutocomplete extends Component {
 
   handleDownKey() {
     if (this.state.autocompleteItems.length === 0) {
+      this.debouncedFetchPredictions()
       return
     }
 
