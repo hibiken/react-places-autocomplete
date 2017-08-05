@@ -20,7 +20,14 @@ module.exports = {
             presets:['es2015', 'react']
         }
       },
-      {test: /\.json$/, loader: 'json'}
+      {test: /\.json$/, loader: 'json'},
+      {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        loaders: [
+          'file-loader?hash=sha512&digest=hex&name=[hash].[ext]',
+          'image-webpack-loader?bypassOnDebug&optimizationLevel=7&interlaced=false'
+        ]
+      }
     ]
   },
   plugins: process.argv.indexOf('-p') !== -1 ? [
