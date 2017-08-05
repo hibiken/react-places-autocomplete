@@ -190,7 +190,7 @@ Type: `Object`,
 Required: `false`
 
 You can give a custom css classes to elements.
-Accepted keys are `root`, `input`, `autocompleteContainer`, `autocompleteItem`, `autocompleteItemActive`.
+Accepted keys are `root`, `input`, `autocompleteContainer`, `autocompleteItem`, `autocompleteItemActive`, `googleLogoContainer`, `googleLogoImage`.
 If you pass `classNames` props, none of the default inline styles nor inline styles from `styles` prop will
 be applied to the element, and you will have full control over styling via CSS.
 
@@ -219,7 +219,7 @@ Type `Object`,
 Required: `false`
 
 You can provide custom inline styles to elements.
-Accepted keys are `root`, `input`, `autocompleteContainer`, `autocompleteItem`, `autocompleteItemActive`.
+Accepted keys are `root`, `input`, `autocompleteContainer`, `autocompleteItem`, `autocompleteItemActive`, `googleLogoContainer`, `googleLogoImage`.
 
 ```js
 const defaultStyles = {
@@ -247,6 +247,13 @@ const defaultStyles = {
   },
   autocompleteItemActive: {
     backgroundColor: '#fafafa'
+  },
+  googleLogoContainer: {
+    textAlign: 'right',
+    padding: '1px',
+  },
+  googleLogoImage: {
+    width: 150,
   }
 }
 ```

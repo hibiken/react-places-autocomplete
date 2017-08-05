@@ -8,7 +8,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import debounce from 'lodash.debounce'
 import defaultStyles from './defaultStyles'
-import googleLogoDefault from './images/powered_by_google_on_white.png'
 
 class PlacesAutocomplete extends Component {
   constructor(props) {
@@ -273,9 +272,18 @@ class PlacesAutocomplete extends Component {
                 {this.props.autocompleteItem({ suggestion: p.suggestion, formattedSuggestion: p.formattedSuggestion })}
               </div>
             ))}
-            {this.props.googleLogo && (<div id="google-logo" style={{ textAlign: 'right', padding: '1px' }}>
-              <img src={googleLogoDefault} />
-            </div>)}
+            {this.props.googleLogo && (
+              <div
+                id="PlacesAutocomplete__google-logo"
+                style={this.inlineStyleFor('googleLogoContainer')}
+                className={this.classNameFor('googleLogoContainer')}>
+                <img
+                  src={require('./images/powered_by_google_on_white.png')}
+                  style={this.inlineStyleFor('googleLogoImage')}
+                  className={this.classNameFor('googleLogoImage')}
+                />
+              </div>)
+            }
           </div>
         )}
       </div>

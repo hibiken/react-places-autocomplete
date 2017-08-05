@@ -57,7 +57,7 @@ describe('autocomplete dropdown', () => {
   const autocompleteItem = ({ suggestion }) => (<div className="autocomplete-item">{suggestion}</div>)
   beforeEach(() => {
     wrapper = shallow(<PlacesAutocomplete inputProps={testInputProps} autocompleteItem={autocompleteItem} />)
-  })  
+  })
 
   it('initially does not have an autocomplete dropdown', () => {
     expect(wrapper.find('#PlacesAutocomplete__autocomplete-container')).to.have.length(0)
@@ -92,13 +92,13 @@ describe('autocomplete dropdown', () => {
       it('is displayed by default', () => {
         wrapper = shallow(<PlacesAutocomplete inputProps={testInputProps} autocompleteItem={autocompleteItem} />)
         wrapper.setState({ autocompleteItems: data })
-        expect(wrapper.find('#google-logo')).to.have.length(1)
+        expect(wrapper.find('#PlacesAutocomplete__google-logo')).to.have.length(1)
       })
 
       it('is not displayed when toggled off', () => {
         wrapper = shallow(<PlacesAutocomplete inputProps={testInputProps} autocompleteItem={autocompleteItem} googleLogo={false} />)
         wrapper.setState({ autocompleteItems: data })
-        expect(wrapper.find('#google-logo')).to.have.length(0)
+        expect(wrapper.find('#PlacesAutocomplete__google-logo')).to.have.length(0)
       })
     })
   })
