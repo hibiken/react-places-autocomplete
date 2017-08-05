@@ -23,7 +23,15 @@ const defaultStyles = {
   },
   autocompleteItemActive: {
     backgroundColor: '#fafafa'
-  }
+  },
+  googleLogoContainer: {
+    textAlign: 'right',
+    padding: '1px',
+    backgroundColor: '#fafafa'
+  },
+  googleLogoImage: {
+    width: 150,
+  },
 }
 
 export default defaultStyles

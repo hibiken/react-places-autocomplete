@@ -87,6 +87,20 @@ describe('autocomplete dropdown', () => {
     wrapper.setState({ autocompleteItems: data })
     expect(wrapper.find('#PlacesAutocomplete__autocomplete-container')).to.have.length(1)
     expect(wrapper.find('.autocomplete-item')).to.have.length(3)
+
+    describe('the Google logo', () => {
+      it('is displayed by default', () => {
+        wrapper = shallow(<PlacesAutocomplete inputProps={testInputProps} autocompleteItem={autocompleteItem} />)
+        wrapper.setState({ autocompleteItems: data })
+        expect(wrapper.find('#PlacesAutocomplete__google-logo')).to.have.length(1)
+      })
+
+      it('is not displayed when toggled off', () => {
+        wrapper = shallow(<PlacesAutocomplete inputProps={testInputProps} autocompleteItem={autocompleteItem} googleLogo={false} />)
+        wrapper.setState({ autocompleteItems: data })
+        expect(wrapper.find('#PlacesAutocomplete__google-logo')).to.have.length(0)
+      })
+    })
   })
 
   it('clears the autocomplete items when PlacesServiceStatus is not OK and clearItemsOnError prop is true', () => {
