@@ -99,7 +99,7 @@ export default SimpleForm
 
 ### Props for `PlacesAutocomplete`
 
-#### Require Props:
+#### Required Props:
 
 * [`inputProps`](#inputProps)
 
