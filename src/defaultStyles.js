@@ -27,6 +27,7 @@ const defaultStyles = {
   googleLogoContainer: {
     textAlign: 'right',
     padding: '1px',
+    backgroundColor: '#fafafa'
   },
   googleLogoImage: {
     width: 150,

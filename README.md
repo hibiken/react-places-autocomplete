@@ -116,6 +116,7 @@ export default SimpleForm
 * [`debounce`](#debounce)
 * [`highlightFirstSuggestion`](#highlightFirstSuggestion)
 * [`googleLogo`](#googleLogo)
+* [`googleLogoType`](#googleLogoType)
 
 <a name="inputProps"></a>
 #### inputProps
@@ -251,9 +252,10 @@ const defaultStyles = {
   googleLogoContainer: {
     textAlign: 'right',
     padding: '1px',
+    backgroundColor: '#fafafa'
   },
   googleLogoImage: {
-    width: 150,
+    width: 150
   }
 }
 ```
@@ -395,6 +397,15 @@ Required: `false`
 Default: `true`
 
 Allows you to toggle the "powered by Google" logo. For more information on Google's logo requirements, refer to this link: [https://developers.google.com/places/web-service/policies](https://developers.google.com/places/web-service/policies)
+
+<a name="googleLogoType"></a>
+#### googleLogoType
+Type: `String` ("default" or "inverse")
+Required: `false`
+Default: `"default"`
+
+Allows you to pick right color theme for "powered by Google" logo.
+Please see Google's API page for more information: [https://developers.google.com/places/web-service/policies](https://developers.google.com/places/web-service/policies)
 
 <a name="utility-functions"></a>
 ## Utility Functions

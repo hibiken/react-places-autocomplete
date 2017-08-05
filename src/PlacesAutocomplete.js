@@ -278,7 +278,7 @@ class PlacesAutocomplete extends Component {
                 style={this.inlineStyleFor('googleLogoContainer')}
                 className={this.classNameFor('googleLogoContainer')}>
                 <img
-                  src={require('./images/powered_by_google_on_white.png')}
+                  src={require(`./images/powered_by_google_${this.props.googleLogoType}.png`)}
                   style={this.inlineStyleFor('googleLogoImage')}
                   className={this.classNameFor('googleLogoImage')}
                 />
@@ -338,6 +338,7 @@ PlacesAutocomplete.propTypes = {
   debounce: PropTypes.number,
   highlightFirstSuggestion: PropTypes.bool,
   googleLogo: PropTypes.bool,
+  googleLogoType: PropTypes.oneOf(["default", "inverse"]),
 }
 
 PlacesAutocomplete.defaultProps = {
@@ -350,6 +351,7 @@ PlacesAutocomplete.defaultProps = {
   debounce: 200,
   highlightFirstSuggestion: false,
   googleLogo: true,
+  googleLogoType: 'default',
 }
 
 export default PlacesAutocomplete
