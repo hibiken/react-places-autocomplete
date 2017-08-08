@@ -376,6 +376,7 @@ PlacesAutocomplete.propTypes = {
   highlightFirstSuggestion: PropTypes.bool,
   googleLogo: PropTypes.bool,
   googleLogoType: PropTypes.oneOf(["default", "inverse"]),
+  googleApiUrl: PropTypes.string
 }
 
 PlacesAutocomplete.defaultProps = {
@@ -389,6 +390,7 @@ PlacesAutocomplete.defaultProps = {
   highlightFirstSuggestion: false,
   googleLogo: true,
   googleLogoType: 'default',
+  googleApiUrl: null
 }
 
 export default PlacesAutocomplete
