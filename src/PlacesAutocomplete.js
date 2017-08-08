@@ -225,6 +225,7 @@ class PlacesAutocomplete extends Component {
   getInputProps() {
     const defaultInputProps = {
       type: "text",
+      autoComplete: "off",
     }
 
     return {
