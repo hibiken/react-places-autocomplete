@@ -17,8 +17,7 @@
     "demo:test": "mocha demo/tests/index.spec.js --compilers js:babel-register",
     "demo:build": "rimraf demo/dist && webpack --config demo/webpack.config.js -p",
     "demo:deploy": "gh-pages -d demo/dist",
-    "deploy": "gh-pages -d demo:build",
-    "postpublish": "npm run deploy"
+    "postpublish": "npm run demo:deploy"
   },
   "repository": {
     "type": "git",
