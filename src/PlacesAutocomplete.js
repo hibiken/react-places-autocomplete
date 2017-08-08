@@ -57,7 +57,7 @@ class PlacesAutocomplete extends Component {
     this.autocompleteService = new google.maps.places.AutocompleteService()
     this.autocompleteOK = google.maps.places.PlacesServiceStatus.OK
 
-    // If the component have be unmounted since we started loading the API, then we `setState`
+    // If the component have be unmounted since we started loading the API, then the `setState`
     // will fail, so we exit
     if (this.isUnmounted) return;
 
