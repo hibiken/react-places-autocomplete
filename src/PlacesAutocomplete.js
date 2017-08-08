@@ -13,25 +13,62 @@ class PlacesAutocomplete extends Component {
   constructor(props) {
     super(props)
 
-    this.state = { autocompleteItems: [] }
+    // Field to see if the Component is mounted since `isMounted()` is a anti-pattern 
+    // (https://facebook.github.io/react/blog/2015/12/16/ismounted-antipattern.html)
+    this.isUnmounted = false;
+
+    this.state = { autocompleteItems: [], isConfigured: !props.googleApiUrl }
 
     this.autocompleteCallback = this.autocompleteCallback.bind(this)
     this.handleInputKeyDown = this.handleInputKeyDown.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
     this.debouncedFetchPredictions = debounce(this.fetchPredictions, this.props.debounce)
+    this.configureDependencies = this.configureDependencies.bind(this)
   }
 
   componentDidMount() {
-    if (!window.google) {
-      throw new Error('Google Maps JavaScript API library must be loaded. See: https://github.com/kenny-hibino/react-places-autocomplete#load-google-library')
-    }
+    const { googleApiUrl } = this.props;
+    
+    if (!googleApiUrl) {
+      // If not googleApiUrl provided we wan't to ensure that the api is included in the application
+      if (!window.google) {
+        throw new Error('Google Maps JavaScript API library must be loaded. See: https://github.com/kenny-hibino/react-places-autocomplete#load-google-library')
+      }
 
-    if (!window.google.maps.places) {
-      throw new Error('Google Maps Places library must be loaded. Please add `libraries=places` to the src URL. See: https://github.com/kenny-hibino/react-places-autocomplete#load-google-library')
-    }
+      if (!window.google.maps.places) {
+        throw new Error('Google Maps Places library must be loaded. Please add `libraries=places` to the src URL. See: https://github.com/kenny-hibino/react-places-autocomplete#load-google-library')
+      }
 
+      this.configureDependencies()
+    } else {
+      // Load scriptjs dynamically, since we don't wan't the dependency to be used server-side or if the component is not rendered
+      require.ensure(["scriptjs"], () => {
+        const scriptjs = require("scriptjs");
+        scriptjs(googleApiUrl, this.configureDependencies)
+      })
+    }
+  }
+
+  componentWillUnmount() {
+    this.isUnmounted = true;
+  }
+
+  configureDependencies() {
     this.autocompleteService = new google.maps.places.AutocompleteService()
     this.autocompleteOK = google.maps.places.PlacesServiceStatus.OK
+
+    // If the component have be unmounted since we started loading the API, then we `setState`
+    // will fail, so we exit
+    if (this.isUnmounted) return;
+
+    // If the component is already configured, we can save a rerender by not 
+    // updating the state
+    if (!this.state.isConfigured) {
+      this.setState((prevState) => ({
+        ...prevState,
+        isConfigured: true
+      }))
+    }
   }
 
   autocompleteCallback(predictions, status) {
@@ -246,7 +283,7 @@ class PlacesAutocomplete extends Component {
 
   render() {
     const { classNames, styles } = this.props
-    const { autocompleteItems } = this.state
+    const { autocompleteItems, isConfigured } = this.state
     const inputProps = this.getInputProps()
 
     return (
@@ -254,7 +291,7 @@ class PlacesAutocomplete extends Component {
         id="PlacesAutocomplete__root"
         style={this.inlineStyleFor('root')}
         className={this.classNameFor('root')}>
-        <input {...inputProps} />
+        <input {...inputProps} disabled={!isConfigured} />
         {autocompleteItems.length > 0 && (
           <div
             id="PlacesAutocomplete__autocomplete-container"

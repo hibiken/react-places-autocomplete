@@ -117,6 +117,7 @@ export default SimpleForm
 * [`highlightFirstSuggestion`](#highlightFirstSuggestion)
 * [`googleLogo`](#googleLogo)
 * [`googleLogoType`](#googleLogoType)
+* [`googleApiUrl`](#googleApiUrl)
 
 <a name="inputProps"></a>
 #### inputProps
@@ -406,6 +407,15 @@ Default: `"default"`
 
 Allows you to pick right color theme for "powered by Google" logo.
 Please see Google's API page for more information: [https://developers.google.com/places/web-service/policies](https://developers.google.com/places/web-service/policies)
+
+<a name="googleApiUrl"></a>
+#### googleApiUrl
+Type: `String` ("default" or "inverse")
+Required: `false`
+Default: `null`
+
+Allows you to let the component include the Google Maps JavaScript API.
+
 
 <a name="utility-functions"></a>
 ## Utility Functions
