@@ -331,11 +331,11 @@ Type: `Function`
 Required: `false`
 Deafult: `noop`
 
-You can pass a callback function that gets called when pressing down Enter key when no item in the dropdown is selected.  
-The function takes one argument, the value in the input field.
+You can pass a callback function that gets called when pressing down Enter key when no item in the dropdown is selected.
+The function takes two arguments, the value in the input field and the current list of autocomplete items.
 
 ```js
-const handleEnter = (address) => {
+const handleEnter = (address, autocompleteItems) => {
   geocodeByAddress(address)
     .then(results => {
       console.log('results', results)

@@ -104,7 +104,7 @@ class PlacesAutocomplete extends Component {
 
   handleEnterKeyWithoutActiveItem() {
     if (this.props.onEnterKeyDown) {
-      this.props.onEnterKeyDown(this.props.inputProps.value)
+      this.props.onEnterKeyDown(this.props.inputProps.value, this.state.autocompleteItems)
       this.clearAutocomplete()
     } else {
       return //noop
