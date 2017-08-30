@@ -3,10 +3,23 @@ const defaultStyles = {
     position: 'relative',
     paddingBottom: '0px',
   },
+  inputContainer: {
+    position: 'relative',
+  },
   input: {
     display: 'inline-block',
     width: '100%',
     padding: '10px',
+  },
+  closeIcon: {
+    background: 'transparent',
+    border: 'none',
+    position: 'absolute',
+    top: '0',
+    bottom: '0',
+    right: '5px',
+    outline: 'none',
+    fontSize: '30px',
   },
   autocompleteContainer: {
     position: 'absolute',
