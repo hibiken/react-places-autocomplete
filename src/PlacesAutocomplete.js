@@ -94,7 +94,7 @@ class PlacesAutocomplete extends Component {
 
   clearAutocompleteAndInput(inputValue) {
     this.setState({
-      autoComplete: [],
+      autocompleteItems: [],
       inputValue
     });
   }
