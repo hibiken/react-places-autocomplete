@@ -13,7 +13,10 @@ class PlacesAutocomplete extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { autocompleteItems: [], inputValue: props.inputProps.value || '', };
+    this.state = {
+      autocompleteItems: [],
+      inputValue: props.inputProps.value || ""
+    };
 
     this.autocompleteCallback = this.autocompleteCallback.bind(this);
     this.handleInputKeyDown = this.handleInputKeyDown.bind(this);
@@ -84,16 +87,16 @@ class PlacesAutocomplete extends Component {
   }
 
   clearAutocomplete(value) {
-    this.setState({ 
-      autocompleteItems: [],
+    this.setState({
+      autocompleteItems: []
     });
   }
 
   clearAutocompleteAndInput(inputValue) {
     this.setState({
       autoComplete: [],
-      inputValue,
-    })
+      inputValue
+    });
   }
 
   selectAddress(address, placeId) {
@@ -214,12 +217,12 @@ class PlacesAutocomplete extends Component {
       this.clearAutocompleteAndInput(event.target.value);
       return;
     }
-    this.setState({ inputValue: event.target.value })
+    this.setState({ inputValue: event.target.value });
     this.debouncedFetchPredictions();
   }
 
   handleInputOnBlur(event) {
-    this.clearAutocomplete();
+    // this.clearAutocomplete();
 
     if (this.props.inputProps.onBlur) {
       this.props.inputProps.onBlur(event);
@@ -254,7 +257,7 @@ class PlacesAutocomplete extends Component {
   getInputProps() {
     const defaultInputProps = {
       type: "text",
-      autoComplete: "off",
+      autoComplete: "off"
     };
 
     return {
@@ -278,7 +281,7 @@ class PlacesAutocomplete extends Component {
   handleClearButtonClick(event) {
     event.preventDefault();
     event.stopPropagation();
-    this.clearAutocompleteAndInput(event.target.value);    
+    this.clearAutocompleteAndInput(event.target.value);
   }
 
   render() {
@@ -294,23 +297,22 @@ class PlacesAutocomplete extends Component {
       >
         <div style={this.inlineStyleFor("inputContainer")}>
           <input {...inputProps} />
-          {
-            inputValue.length > 0 &&
+          {inputValue.length > 0 && (
             <button
               style={this.inlineStyleFor("closeIcon")}
               onClick={this.handleClearButtonClick}
             >
               &times;
             </button>
-          }
+          )}
         </div>{" "}
-        {autocompleteItems.length > 0 &&
+        {autocompleteItems.length > 0 && (
           <div
             id="PlacesAutocomplete__autocomplete-container"
             style={this.inlineStyleFor("autocompleteContainer")}
             className={this.classNameFor("autocompleteContainer")}
           >
-            {" "}{autocompleteItems.map((p, idx) =>
+            {autocompleteItems.map((p, idx) => (
               <div
                 key={p.placeId}
                 onMouseOver={() => this.setActiveItemAtIndex(p.index)}
@@ -318,29 +320,34 @@ class PlacesAutocomplete extends Component {
                 onTouchStart={() => this.setActiveItemAtIndex(p.index)}
                 onTouchEnd={() => this.selectAddress(p.suggestion, p.placeId)}
                 style={
-                  p.active
-                    ? this.inlineStyleFor(
-                        "autocompleteItem",
-                        "autocompleteItemActive"
-                      )
-                    : this.inlineStyleFor("autocompleteItem")
+                  p.active ? (
+                    this.inlineStyleFor(
+                      "autocompleteItem",
+                      "autocompleteItemActive"
+                    )
+                  ) : (
+                    this.inlineStyleFor("autocompleteItem")
+                  )
                 }
                 className={
-                  p.active
-                    ? this.classNameFor(
-                        "autocompleteItem",
-                        "autocompleteItemActive"
-                      )
-                    : this.classNameFor("autocompleteItem")
+                  p.active ? (
+                    this.classNameFor(
+                      "autocompleteItem",
+                      "autocompleteItemActive"
+                    )
+                  ) : (
+                    this.classNameFor("autocompleteItem")
+                  )
                 }
               >
-                {" "}{this.props.autocompleteItem({
+                {" "}
+                {this.props.autocompleteItem({
                   suggestion: p.suggestion,
                   formattedSuggestion: p.formattedSuggestion
                 })}{" "}
               </div>
-            )}{" "}
-            {this.props.googleLogo &&
+            ))}{" "}
+            {this.props.googleLogo && (
               <div
                 id="PlacesAutocomplete__google-logo"
                 style={this.inlineStyleFor("googleLogoContainer")}
@@ -352,8 +359,10 @@ class PlacesAutocomplete extends Component {
                   style={this.inlineStyleFor("googleLogoImage")}
                   className={this.classNameFor("googleLogoImage")}
                 />{" "}
-              </div>}{" "}
-          </div>}{" "}
+              </div>
+            )}{" "}
+          </div>
+        )}{" "}
       </div>
     );
   }
@@ -411,10 +420,7 @@ PlacesAutocomplete.defaultProps = {
       status
     ),
   classNames: {},
-  autocompleteItem: ({ suggestion }) =>
-    <div>
-      {" "}{suggestion}{" "}
-    </div>,
+  autocompleteItem: ({ suggestion }) => <div> {suggestion} </div>,
   styles: {},
   options: {},
   debounce: 200,
