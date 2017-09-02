@@ -28,6 +28,14 @@ class PlacesAutocomplete extends Component {
     );
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.inputProps.value !== nextProps.inputProps.value) {
+      this.setState({
+        inputValue: nextProps.inputProps.value
+      });
+    }
+  }
+
   componentDidMount() {
     if (!window.google) {
       throw new Error(
@@ -257,7 +265,7 @@ class PlacesAutocomplete extends Component {
   getInputProps() {
     const defaultInputProps = {
       type: "text",
-      autoComplete: "off"
+      autoComplete: "off",
     };
 
     return {
@@ -285,7 +293,7 @@ class PlacesAutocomplete extends Component {
   }
 
   render() {
-    const { classNames, styles } = this.props;
+    const { clearable, classNames, styles } = this.props;
     const { autocompleteItems, inputValue } = this.state;
     const inputProps = this.getInputProps();
 
@@ -297,7 +305,7 @@ class PlacesAutocomplete extends Component {
       >
         <div style={this.inlineStyleFor("inputContainer")}>
           <input {...inputProps} />
-          {inputValue.length > 0 && (
+          {clearable && inputValue.length > 0 && (
             <button
               style={this.inlineStyleFor("closeIcon")}
               onClick={this.handleClearButtonClick}
@@ -380,6 +388,7 @@ PlacesAutocomplete.propTypes = {
       throw new Error("'inputProps' must have 'onChange'.");
     }
   },
+  clearable: PropTypes.bool,
   onError: PropTypes.func,
   clearItemsOnError: PropTypes.bool,
   onSelect: PropTypes.func,
@@ -414,6 +423,7 @@ PlacesAutocomplete.propTypes = {
 
 PlacesAutocomplete.defaultProps = {
   clearItemsOnError: false,
+  clearable: true,
   onError: status =>
     console.error(
       "[react-places-autocomplete]: error happened when fetching data from Google Maps API.\nPlease check the docs here (https://developers.google.com/maps/documentation/javascript/places#place_details_responses)\nStatus: ",

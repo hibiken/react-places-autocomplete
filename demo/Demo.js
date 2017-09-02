@@ -117,15 +117,12 @@ class Demo extends React.Component {
         </div>
         <div className='container'>
           <PlacesAutocomplete
+            clearable={true}
             onSelect={this.handleSelect}
             autocompleteItem={AutocompleteItem}
             onEnterKeyDown={this.handleSelect}
             classNames={cssClasses}
             inputProps={inputProps}
-            styles={{
-              autocompleteItem: {color:'red'},
-              autocompleteItemActive: {color:'blue'}
-            }}
           />
           {this.state.loading ? <div><i className="fa fa-spinner fa-pulse fa-3x fa-fw Demo__spinner" /></div> : null}
           {!this.state.loading && this.state.geocodeResults ?
