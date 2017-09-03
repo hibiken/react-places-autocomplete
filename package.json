@@ -75,8 +75,9 @@
     "mocha": "2.5.3",
     "npm-run-all": "2.3.0",
     "nyc": "7.0.0",
-    "react-addons-test-utils": "15.4.2",
-    "react-dom": "15.4.2",
+    "react": "^15.6.1",
+    "react-addons-test-utils": "^15.6.0",
+    "react-dom": "^15.6.1",
     "rimraf": "2.5.3",
     "semantic-release": "^4.3.5",
     "sinon": "1.17.4",
@@ -100,7 +101,9 @@
   },
   "dependencies": {
     "lodash.debounce": "^4.0.8",
-    "prop-types": "^15.5.8",
-    "react": "^15.3.0"
+    "prop-types": "^15.5.8"
+  },
+  "peerDependencies": {
+    "react": ">=0.14.7"
   }
 }
