@@ -252,5 +252,38 @@ describe('autoFocus prop', () => {
   })
 })
 
+describe('clearable prop', () => {
+  let wrapper;
+  const inputProps = {
+    ...testInputProps,
+    value: '',
+  };
+
+  beforeEach(() => {
+    wrapper = mount(<PlacesAutocomplete inputProps={testInputProps} clearable={true} />);
+  })
+
+  it('initially does not render clear button when clearable prop is true and input has no value', () => {
+    const wrapper = shallow(<PlacesAutocomplete clearable={true} inputProps={inputProps} />);
+    const item = wrapper.find('#PlacesAutocomplete__root').childAt(0);
+    expect(item.children()).to.have.length(1);
+  });
+
+  it('shows the clear button when clearable prop is true and input has value', () => {
+    wrapper = shallow(<PlacesAutocomplete inputProps={testInputProps} clearable={true} />);
+    const item = wrapper.find('#PlacesAutocomplete__root').childAt(0);
+    expect(item.children()).to.have.length(2);
+  });
+
+  it('shows the value of the input as the value of props before clicking clear button', () => {
+    expect(wrapper.find('input').props().value).to.equal("San Francisco, CA")
+  });
+
+  it('clears the value of the input after clicking clear button', () => {
+    const clearButton = wrapper.find('button').simulate('click')
+    expect(wrapper.find('input').props().value).to.equal("");
+  });
+})
+
 // TODOs:
 // * Test geocodeByAddress function
