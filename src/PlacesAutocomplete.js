@@ -71,6 +71,9 @@ class PlacesAutocomplete extends Component {
   }
 
   clearAutocomplete() {
+    if (this.props.alwaysRenderSuggestion) {
+      return;
+    }
     this.setState({ autocompleteItems: [] })
   }
 
