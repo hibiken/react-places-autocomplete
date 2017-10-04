@@ -168,6 +168,13 @@ class PlacesAutocomplete extends Component {
     }
   }
 
+  handleTouchEnd() {
+    const activeItem = this.getActiveItem();
+    if (activeItem !== undefined) {
+      this.selectAddress(activeItem.suggestion, activeItem.placeId);
+    }
+  }
+
   setActiveItemAtIndex(index) {
     this.setState({
       autocompleteItems: this.state.autocompleteItems.map((item, idx) => {
@@ -267,7 +274,8 @@ class PlacesAutocomplete extends Component {
                 onMouseOver={() => this.setActiveItemAtIndex(p.index)}
                 onMouseDown={() => this.selectAddress(p.suggestion, p.placeId)}
                 onTouchStart={() => this.setActiveItemAtIndex(p.index)}
-                onTouchEnd={() => this.selectAddress(p.suggestion, p.placeId)}
+                onTouchMove={() => this.setActiveItemAtIndex(null)}
+                onTouchEnd={() => this.handleTouchEnd()}
                 style={ p.active ? this.inlineStyleFor('autocompleteItem', 'autocompleteItemActive') :this.inlineStyleFor('autocompleteItem') }
                 className={ p.active ? this.classNameFor('autocompleteItem', 'autocompleteItemActive') : this.classNameFor('autocompleteItem') }>
                 {this.props.autocompleteItem({ suggestion: p.suggestion, formattedSuggestion: p.formattedSuggestion })}
