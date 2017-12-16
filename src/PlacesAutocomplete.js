@@ -35,7 +35,7 @@ class PlacesAutocomplete extends Component {
   }
 
   autocompleteCallback(predictions, status) {
-    if (status != this.autocompleteOK) {
+    if (status !== this.autocompleteOK) {
       this.props.onError(status)
       if (this.props.clearItemsOnError) { this.clearAutocomplete() }
       return
@@ -246,7 +246,6 @@ class PlacesAutocomplete extends Component {
   }
 
   render() {
-    const { classNames, styles } = this.props
     const { autocompleteItems } = this.state
     const inputProps = this.getInputProps()
 
