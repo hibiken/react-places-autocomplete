@@ -117,6 +117,7 @@ export default SimpleForm
 * [`highlightFirstSuggestion`](#highlightFirstSuggestion)
 * [`googleLogo`](#googleLogo)
 * [`googleLogoType`](#googleLogoType)
+* [`enableAutoCompleteWhenNotFocused`](#enableAutoCompleteWhenNotFocused)
 
 <a name="inputProps"></a>
 #### inputProps
@@ -406,6 +407,23 @@ Default: `"default"`
 
 Allows you to pick right color theme for "powered by Google" logo.
 Please see Google's API page for more information: [https://developers.google.com/places/web-service/policies](https://developers.google.com/places/web-service/policies)
+
+
+<a name="enableAutoCompleteWhenNotFocused"></a>
+#### enableAutoCompleteWhenNotFocused
+Type: `Boolean`
+Required: `false`
+Default: `false`
+
+Allows you to toggle the default behavior which is to always have `autocomplete="off"` on the <input {...}/> field.
+
+When set to `true` this allows the input field to recieve Google Chrome autocomplete focus, for an instance where you might use this component as an enhanced street input of an address form.
+
+The use case here is that the user may type in their first or last name or some other piece of the address form, and Chrome will offer to auto complete the rest, highlighting the form in yellow as we all are familiar with and see probably daily.
+
+However, with the default behavior, this component - even though you assign a `name="street"` `inputProp` will not get filled by chrome causing a broken autocomplete experience, with the street portion missing, which is obviously a broken experience.
+
+Set this prop to `true` to fix this use case and provide the user a proper experience.
 
 <a name="utility-functions"></a>
 ## Utility Functions
