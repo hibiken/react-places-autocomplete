@@ -13,7 +13,10 @@ class PlacesAutocomplete extends Component {
   constructor(props) {
     super(props)
 
-    this.state = { autocompleteItems: [] }
+    this.state = { 
+      autocompleteItems: [],
+      inputAutocomplete: props.enableAutoCompleteWhenNotFocused?true:false
+    }
 
     this.autocompleteCallback = this.autocompleteCallback.bind(this)
     this.handleInputKeyDown = this.handleInputKeyDown.bind(this)
@@ -39,6 +42,10 @@ class PlacesAutocomplete extends Component {
       this.props.onError(status)
       if (this.props.clearItemsOnError) { this.clearAutocomplete() }
       return
+    }
+    if(this.state.inputAutocomplete) {
+      this.clearAutocomplete()
+      return;
     }
 
     // transform snake_case to camelCase
@@ -71,7 +78,9 @@ class PlacesAutocomplete extends Component {
   }
 
   clearAutocomplete() {
-    this.setState({ autocompleteItems: [] })
+    const {onClearAutocomplete} = this.props;
+    this.setState({ autocompleteItems: [] });
+    onClearAutocomplete && onClearAutocomplete();
   }
 
   selectAddress(address, placeId) {
@@ -181,19 +190,43 @@ class PlacesAutocomplete extends Component {
   }
 
   handleInputChange(event) {
-    this.props.inputProps.onChange(event.target.value)
-    if (!event.target.value) {
+    const {inputAutocomplete} = this.state;
+    if(!inputAutocomplete) {
+      this.props.inputProps.onChange(event.target.value)
+    } else {
+      if(this.props.onChangeUnFocused) {
+        this.props.onChangeUnFocused(event.target.value)
+      }
+    }
+    if (!event.target.value || inputAutocomplete) {
       this.clearAutocomplete()
       return
     }
-    this.debouncedFetchPredictions()
+    if(!inputAutocomplete) {
+      this.debouncedFetchPredictions()
+    }
   }
 
   handleInputOnBlur(event) {
     this.clearAutocomplete()
-
+    if(this.props.enableAutoCompleteWhenNotFocused) {
+      this.setState({
+        ...this.state,
+        inputAutocomplete: true
+      })
+    }
     if (this.props.inputProps.onBlur) {
       this.props.inputProps.onBlur(event)
+    }
+  }
+  
+  handleInputOnFocus(event) {
+    this.setState({
+      ...this.state,
+      inputAutocomplete: false
+    })
+    if (this.props.inputProps.onFocus) {
+      this.props.inputProps.onFocus(event)
     }
   }
 
@@ -225,7 +258,6 @@ class PlacesAutocomplete extends Component {
   getInputProps() {
     const defaultInputProps = {
       type: "text",
-      autoComplete: "off",
     }
 
     return {
@@ -240,22 +272,24 @@ class PlacesAutocomplete extends Component {
       onBlur: (event) => {
         this.handleInputOnBlur(event)
       },
+      onFocus: (event) => {
+        this.handleInputOnFocus(event);
+      },
       style: this.inlineStyleFor('input'),
       className: this.classNameFor('input'),
     }
   }
 
   render() {
-    const { autocompleteItems } = this.state
+    const { autocompleteItems, inputAutocomplete } = this.state
     const inputProps = this.getInputProps()
-
     return (
       <div
         id="PlacesAutocomplete__root"
         style={this.inlineStyleFor('root')}
         className={this.classNameFor('root')}>
-        <input {...inputProps} />
-        {autocompleteItems.length > 0 && (
+        <input {...inputProps} autoComplete={inputAutocomplete?'on':'off'} />
+        {!inputAutocomplete && autocompleteItems.length > 0 && (
           <div
             id="PlacesAutocomplete__autocomplete-container"
             style={this.inlineStyleFor('autocompleteContainer')}
@@ -352,6 +386,7 @@ PlacesAutocomplete.defaultProps = {
   highlightFirstSuggestion: false,
   googleLogo: true,
   googleLogoType: 'default',
+  enableAutoCompleteWhenNotFocused: false
 }
 
 export default PlacesAutocomplete

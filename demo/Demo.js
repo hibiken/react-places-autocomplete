@@ -122,6 +122,7 @@ class Demo extends React.Component {
             onEnterKeyDown={this.handleSelect}
             classNames={cssClasses}
             inputProps={inputProps}
+            enableAutoCompleteWhenNotFocused
           />
           {this.state.loading ? <div><i className="fa fa-spinner fa-pulse fa-3x fa-fw Demo__spinner" /></div> : null}
           {!this.state.loading && this.state.geocodeResults ?
