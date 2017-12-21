@@ -100,6 +100,12 @@ describe('autocomplete dropdown', () => {
         wrapper.setState({ autocompleteItems: data })
         expect(wrapper.find('#PlacesAutocomplete__google-logo')).to.have.length(0)
       })
+
+      it('supports googleLogoSrc prop', () => {
+        wrapper = shallow(<PlacesAutocomplete inputProps={testInputProps} autocompleteItem={autocompleteItem} googleLogoSrc={'/static/logo.png'} />)
+        wrapper.setState({ autocompleteItems: data })
+        expect(wrapper.find('#PlacesAutocomplete__google-logo').children('img').node.props.src).to.equal('/static/logo.png')
+      })
     })
   })
 
