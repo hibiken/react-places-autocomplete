@@ -254,7 +254,7 @@ class PlacesAutocomplete extends Component {
         id="PlacesAutocomplete__root"
         style={this.inlineStyleFor('root')}
         className={this.classNameFor('root')}>
-        <input {...inputProps} />
+        <input id="PlacesAutocomplete__input" {...inputProps} />
         {autocompleteItems.length > 0 && (
           <div
             id="PlacesAutocomplete__autocomplete-container"
