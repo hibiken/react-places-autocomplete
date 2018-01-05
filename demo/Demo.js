@@ -130,7 +130,7 @@ class Demo extends React.Component {
         <div className='container'>
           <PlacesAutocomplete
             onSelect={this.handleSelect}
-            autocompleteItem={AutocompleteItem}
+            renderSuggestion={AutocompleteItem}
             renderFooter={Footer}
             onEnterKeyDown={this.handleSelect}
             classNames={cssClasses}

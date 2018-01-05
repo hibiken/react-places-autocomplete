@@ -269,7 +269,7 @@ class PlacesAutocomplete extends Component {
                 onTouchEnd={() => this.selectAddress(p.suggestion, p.placeId)}
                 style={ p.active ? this.inlineStyleFor('autocompleteItem', 'autocompleteItemActive') :this.inlineStyleFor('autocompleteItem') }
                 className={ p.active ? this.classNameFor('autocompleteItem', 'autocompleteItemActive') : this.classNameFor('autocompleteItem') }>
-                {this.props.autocompleteItem({ suggestion: p.suggestion, formattedSuggestion: p.formattedSuggestion })}
+                {this.props.renderSuggestion({ suggestion: p.suggestion, formattedSuggestion: p.formattedSuggestion })}
               </div>
             ))}
             {this.props.renderFooter && this.props.renderFooter()}
@@ -295,7 +295,7 @@ PlacesAutocomplete.propTypes = {
   onError: PropTypes.func,
   clearItemsOnError: PropTypes.bool,
   onSelect: PropTypes.func,
-  autocompleteItem: PropTypes.func,
+  renderSuggestion: PropTypes.func,
   classNames: PropTypes.shape({
     root: PropTypes.string,
     input: PropTypes.string,
@@ -333,7 +333,7 @@ PlacesAutocomplete.defaultProps = {
   clearItemsOnError: false,
   onError: (status) => console.error('[react-places-autocomplete]: error happened when fetching data from Google Maps API.\nPlease check the docs here (https://developers.google.com/maps/documentation/javascript/places#place_details_responses)\nStatus: ', status),
   classNames: {},
-  autocompleteItem: ({ suggestion }) => (<div>{suggestion}</div>),
+  renderSuggestion: ({ suggestion }) => (<div>{suggestion}</div>),
   styles: {},
   options: {},
   debounce: 200,

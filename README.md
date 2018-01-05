@@ -105,17 +105,17 @@ export default SimpleForm
 
 #### Optional Props:
 
-* [`autocompleteItem`](#autocompleteItem)
+* [`renderSuggestion`](#renderSuggestion)
+* [`renderFooter`](#renderFooter)
 * [`classNames`](#classNames)
 * [`styles`](#styles)
-* [`onError`](#onError)
-* [`clearItemsOnError`](#clearItemsOnError)
 * [`onSelect`](#onSelect)
 * [`onEnterKeyDown`](#onEnterKeyDown)
+* [`onError`](#onError)
+* [`clearItemsOnError`](#clearItemsOnError)
 * [`options`](#options)
 * [`debounce`](#debounce)
 * [`highlightFirstSuggestion`](#highlightFirstSuggestion)
-* [`renderFooter`](#renderFooter)
 
 <a name="inputProps"></a>
 #### inputProps
@@ -139,36 +139,36 @@ You can pass arbitrary props to the input element thorough `inputProps` object (
   }
 ```
 
-<a name="autocompleteItem"></a>
-#### autocompleteItem
+<a name="renderSuggestion"></a>
+#### renderSuggestion
 Type: `Functional React Component`,
 Required: `false`
 
 The function takes props with `suggestion`, `formattedSuggestion` keys (see the example below).
-We highly recommend that you create your own custom `AutocompleteItem` and pass it as a prop.
+We highly recommend that you create your own custom list item component and pass it as a prop.
 
 ```js
 /***********************************************
  Example #1
- autocompleteItem example with `suggestion`
+ List item example with `suggestion`
 ************************************************/
 render() {
-  const AutocompleteItem = ({ suggestion }) => (<div><i className="fa fa-map-marker"/>{suggestion}</div>)
+  const renderSuggestion = ({ suggestion }) => (<div><i className="fa fa-map-marker"/>{suggestion}</div>)
 
   return (
     <PlacesAutocomplete
       inputProps={inputProps}
-      autocompleteItem={AutocompleteItem}
+      renderSuggestion={renderSuggestion}
     />
   )
 }
 
 /***************************************************
  Example #2
- autocompleteItem example with `formattedSuggestion`
+ List item example with `formattedSuggestion`
 ****************************************************/
 render() {
-  const AutocompleteItem = ({ formattedSuggestion }) => (
+  const renderSuggestion = ({ formattedSuggestion }) => (
     <div>
       <strong>{ formattedSuggestion.mainText }</strong>{' '}
       <small>{ formattedSuggestion.secondaryText }</small>
@@ -178,10 +178,34 @@ render() {
   return (
     <PlacesAutocomplete
       inputProps={inputProps}
-      autocompleteItem={AutocompleteItem}
+      renderSuggestion={renderSuggestion}
     />
   )
 }
+```
+
+<a name="renderFooter"></a>
+#### renderFooter
+Type: `Functional React Component`
+Required: `false`
+
+You can provide a component that will get rendered at the bottom of dropdown.  
+For example, you can provide a component to show "Powered by Google" logo.
+
+```js
+const renderFooter = () => (
+  <div className="dropdown-footer">
+    <div>
+      <img src={require('./images/google-logo.png')} />
+    <div>
+  <div>
+)
+
+// In render function
+<PlacesAutocomplete
+  inputProps={inputProps}
+  renderFooter={renderFooter}
+/>
 ```
 
 <a name="classNames"></a>
@@ -274,23 +298,6 @@ render() {
 }
 ```
 
-<a name="onError"></a>
-#### onError
-Type: `Function`
-Required: `false`
-
-You can pass `onError` prop to customize the behavior when [google.maps.places.PlacesServiceStatus](https://developers.google.com/maps/documentation/javascript/places#place_details_responses) is not `OK` (e.g., no predictions are found)
-
-Function takes `status` as a parameter
-
-<a name="clearItemsOnError"></a>
-#### clearItemsOnError
-Type: `Boolean`
-Required: `false`
-Default: `false`
-
-You can pass `clearItemsOnError` prop to indicate whether the autocomplete predictions should be cleared when `google.maps.places.PlacesServiceStatus` is not OK
-
 <a name="onSelect"></a>
 #### onSelect
 Type: `Function`
@@ -340,6 +347,24 @@ const handleEnter = (address) => {
 />
 ```
 
+<a name="onError"></a>
+#### onError
+Type: `Function`
+Required: `false`
+
+You can pass `onError` prop to customize the behavior when [google.maps.places.PlacesServiceStatus](https://developers.google.com/maps/documentation/javascript/places#place_details_responses) is not `OK` (e.g., no predictions are found)
+
+Function takes `status` as a parameter
+
+<a name="clearItemsOnError"></a>
+#### clearItemsOnError
+Type: `Boolean`
+Required: `false`
+Default: `false`
+
+You can pass `clearItemsOnError` prop to indicate whether the autocomplete predictions should be cleared when `google.maps.places.PlacesServiceStatus` is not OK
+
+
 <a name="options"></a>
 #### options
 Type: `Object`
@@ -381,30 +406,6 @@ Required: `false`
 Default: `false`
 
 If set to `true`, first suggestion in the dropdown will be automatically highlighted.
-
-<a name="renderFooter"></a>
-#### renderFooter
-Type: `Functional React Component`
-Required: `false`
-
-You can provide a component that will get rendered at the bottom of dropdown.  
-For example, you can provide a component to show "Powered by Google" logo.
-
-```js
-const renderFooter = () => (
-  <div className="dropdown-footer">
-    <div>
-      <img src={require('./images/google-logo.png')} />
-    <div>
-  <div>
-)
-
-// In render function
-<PlacesAutocomplete
-  inputProps={inputProps}
-  renderFooter={renderFooter}
-/>
-```
 
 <a name="utility-functions"></a>
 ## Utility Functions

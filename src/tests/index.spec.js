@@ -54,13 +54,13 @@ describe('PlacesAutocomplete props', () => {
 
 describe('autocomplete dropdown', () => {
   let wrapper;
-  const autocompleteItem = ({ suggestion }) => (<div className="autocomplete-item">{suggestion}</div>)
+  const renderSuggestion = ({ suggestion }) => (<div className="autocomplete-item">{suggestion}</div>)
   const renderFooter = () => (<div className="my-dropdown-footer">Footer element</div>)
   beforeEach(() => {
     wrapper = shallow(
       <PlacesAutocomplete
         inputProps={testInputProps}
-        autocompleteItem={autocompleteItem}
+        renderSuggestion={renderSuggestion}
         renderFooter={renderFooter}
       />
     )
@@ -162,8 +162,8 @@ describe('custom classNames, placeholder', () => {
 // TODO: test formattedSuggestion
 describe('customizable autocompleteItem', () => {
   it('lets you provide a custom autocomplete item', () => {
-    const autocompleteItem = ({ suggestion }) => (<div className="my-autocomplete-item"><i className="fa fa-map-marker"/></div>)
-    const wrapper = shallow(<PlacesAutocomplete inputProps={testInputProps} autocompleteItem={autocompleteItem}/>)
+    const renderSuggestion = ({ suggestion }) => (<div className="my-autocomplete-item"><i className="fa fa-map-marker"/></div>)
+    const wrapper = shallow(<PlacesAutocomplete inputProps={testInputProps} renderSuggestion={renderSuggestion}/>)
     wrapper.setState({ autocompleteItems: [{ suggestion: 'San Francisco, CA', placeId: 1, active: false, index: 0 }] })
     expect(wrapper.find('.my-autocomplete-item')).to.have.length(1)
     expect(wrapper.find('.my-autocomplete-item')).to.contain(<i className="fa fa-map-marker"/>)
