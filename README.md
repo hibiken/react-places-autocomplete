@@ -116,6 +116,7 @@ export default SimpleForm
 * [`options`](#options)
 * [`debounce`](#debounce)
 * [`highlightFirstSuggestion`](#highlightFirstSuggestion)
+* [`shouldFetchSuggestions`](#shouldFetchSuggestions)
 
 <a name="inputProps"></a>
 #### inputProps
@@ -397,7 +398,7 @@ Type: `Number`
 Required: `false`
 Default: `200`
 
-The number of milliseconds to delay before making a call to Google API.
+The number of milliseconds to delay before making a call to Google Maps API.
 
 <a name="highlightFirstSuggestion"></a>
 #### highlightFirstSuggestion
@@ -406,6 +407,26 @@ Required: `false`
 Default: `false`
 
 If set to `true`, first suggestion in the dropdown will be automatically highlighted.
+
+<a name="shouldFetchSuggestions"></a>
+#### shouldFetchSuggestions
+Type: `Function`
+Required: `false`
+Default: `() => true`
+
+You can pass a function to tell when to fetch suggestions from Google Maps API.  
+It takes an input `{ value }` and should return a boolean.
+
+```js
+// Only fetch suggestions when the input text is longer than 3 characters.
+const shouldFetchSuggestions = ({ value }) => value.length > 3
+
+// In render function
+<PlacesAutocomplete
+  inputProps={inputProps}
+  shouldFetchSuggestions={shouldFetchSuggestions}
+/>
+```
 
 <a name="utility-functions"></a>
 ## Utility Functions

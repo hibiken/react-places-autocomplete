@@ -181,12 +181,15 @@ class PlacesAutocomplete extends Component {
   }
 
   handleInputChange(event) {
-    this.props.inputProps.onChange(event.target.value)
-    if (!event.target.value) {
+    const { value } = event.target
+    this.props.inputProps.onChange(value)
+    if (!value) {
       this.clearAutocomplete()
       return
     }
-    this.debouncedFetchPredictions()
+    if (this.props.shouldFetchSuggestions({ value })) {
+      this.debouncedFetchPredictions()
+    }
   }
 
   handleInputOnBlur(event) {
@@ -327,6 +330,7 @@ PlacesAutocomplete.propTypes = {
   debounce: PropTypes.number,
   highlightFirstSuggestion: PropTypes.bool,
   renderFooter: PropTypes.func,
+  shouldFetchSuggestions: PropTypes.func.isRequired,
 }
 
 PlacesAutocomplete.defaultProps = {
@@ -338,6 +342,7 @@ PlacesAutocomplete.defaultProps = {
   options: {},
   debounce: 200,
   highlightFirstSuggestion: false,
+  shouldFetchSuggestions: () => true,
 }
 
 export default PlacesAutocomplete
