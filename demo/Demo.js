@@ -116,7 +116,7 @@ class Demo extends React.Component {
       id: "my-input-id",
     }
 
-    const shouldFetchSuggestions = ({ value }) => value.length > 3
+    const shouldFetchSuggestions = ({ value }) => value.length > 2
 
     return (
       <div className='page-wrapper'>

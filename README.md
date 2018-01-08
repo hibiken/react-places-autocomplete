@@ -112,11 +112,11 @@ export default SimpleForm
 * [`onSelect`](#onSelect)
 * [`onEnterKeyDown`](#onEnterKeyDown)
 * [`onError`](#onError)
-* [`clearItemsOnError`](#clearItemsOnError)
 * [`options`](#options)
 * [`debounce`](#debounce)
 * [`highlightFirstSuggestion`](#highlightFirstSuggestion)
 * [`shouldFetchSuggestions`](#shouldFetchSuggestions)
+* [`clearSuggestionsOnError`](#clearSuggestionsOnError)
 
 <a name="inputProps"></a>
 #### inputProps
@@ -357,14 +357,6 @@ You can pass `onError` prop to customize the behavior when [google.maps.places.P
 
 Function takes `status` as a parameter
 
-<a name="clearItemsOnError"></a>
-#### clearItemsOnError
-Type: `Boolean`
-Required: `false`
-Default: `false`
-
-You can pass `clearItemsOnError` prop to indicate whether the autocomplete predictions should be cleared when `google.maps.places.PlacesServiceStatus` is not OK
-
 
 <a name="options"></a>
 #### options
@@ -427,6 +419,14 @@ const shouldFetchSuggestions = ({ value }) => value.length > 3
   shouldFetchSuggestions={shouldFetchSuggestions}
 />
 ```
+
+<a name="clearSuggestionsOnError"></a>
+#### clearSuggestionsOnError
+Type: `Boolean`
+Required: `false`
+Default: `false`
+
+You can pass `clearSuggestionsOnError` prop to indicate whether the autocomplete suggestions should be cleared when `google.maps.places.PlacesServiceStatus` is not OK
 
 <a name="utility-functions"></a>
 ## Utility Functions

@@ -37,7 +37,7 @@ class PlacesAutocomplete extends Component {
   autocompleteCallback(predictions, status) {
     if (status !== this.autocompleteOK) {
       this.props.onError(status)
-      if (this.props.clearItemsOnError) { this.clearAutocomplete() }
+      if (this.props.clearSuggestionsOnError) { this.clearAutocomplete() }
       return
     }
 
@@ -296,7 +296,7 @@ PlacesAutocomplete.propTypes = {
     }
   },
   onError: PropTypes.func,
-  clearItemsOnError: PropTypes.bool,
+  clearSuggestionsOnError: PropTypes.bool,
   onSelect: PropTypes.func,
   renderSuggestion: PropTypes.func,
   classNames: PropTypes.shape({
@@ -334,7 +334,7 @@ PlacesAutocomplete.propTypes = {
 }
 
 PlacesAutocomplete.defaultProps = {
-  clearItemsOnError: false,
+  clearSuggestionsOnError: false,
   onError: (status) => console.error('[react-places-autocomplete]: error happened when fetching data from Google Maps API.\nPlease check the docs here (https://developers.google.com/maps/documentation/javascript/places#place_details_responses)\nStatus: ', status),
   classNames: {},
   renderSuggestion: ({ suggestion }) => (<div>{suggestion}</div>),

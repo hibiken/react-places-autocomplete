@@ -97,20 +97,20 @@ describe('autocomplete dropdown', () => {
     expect(wrapper.find('.my-dropdown-footer')).to.have.length(1)
   })
 
-  it('clears the autocomplete items when PlacesServiceStatus is not OK and clearItemsOnError prop is true', () => {
+  it('clears the autocomplete items when PlacesServiceStatus is not OK and clearSuggestionsOnError prop is true', () => {
     const initialItems = [{
         suggestion: 'San Francisco, CA',
         placeId: 1,
         active: false,
         index: 0
     }]
-    const wrapper = shallow(<PlacesAutocomplete inputProps={testInputProps} clearItemsOnError={true}/>)
+    const wrapper = shallow(<PlacesAutocomplete inputProps={testInputProps} clearSuggestionsOnError={true}/>)
     wrapper.setState({ autocompleteItems: initialItems })
     wrapper.instance().autocompleteCallback([], 'ZERO_RESULTS')
     expect(wrapper.find('.autocomplete-item')).to.have.length(0)
   })
 
-  it('does not clear the autocomplete items when PlacesServiceStatus is not OK and clearItemsOnError prop is false', () => {
+  it('does not clear the autocomplete items when PlacesServiceStatus is not OK and clearSuggestionsOnError prop is false', () => {
     const initialItems = [{
         suggestion: 'San Francisco, CA',
         placeId: 1,
