@@ -92,6 +92,18 @@ class Demo extends React.Component {
         <small className="text-muted">{formattedSuggestion.secondaryText}</small>
       </div>)
 
+
+    const Footer = () => (
+      <div className="Demo__dropdown-footer">
+        <div>
+          <img
+            src={require('./images/powered_by_google_default.png')}
+            className="Demo__dropdown-footer-image"
+          />
+        </div>
+      </div>
+    )
+
     const inputProps = {
       type: "text",
       value: this.state.address,
@@ -103,6 +115,8 @@ class Demo extends React.Component {
       name: 'Demo__input',
       id: "my-input-id",
     }
+
+    const shouldFetchSuggestions = ({ value }) => value.length > 2
 
     return (
       <div className='page-wrapper'>
@@ -118,10 +132,12 @@ class Demo extends React.Component {
         <div className='container'>
           <PlacesAutocomplete
             onSelect={this.handleSelect}
-            autocompleteItem={AutocompleteItem}
+            renderSuggestion={AutocompleteItem}
+            renderFooter={Footer}
             onEnterKeyDown={this.handleSelect}
             classNames={cssClasses}
             inputProps={inputProps}
+            shouldFetchSuggestions={shouldFetchSuggestions}
           />
           {this.state.loading ? <div><i className="fa fa-spinner fa-pulse fa-3x fa-fw Demo__spinner" /></div> : null}
           {!this.state.loading && this.state.geocodeResults ?

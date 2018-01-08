@@ -37,7 +37,7 @@ class PlacesAutocomplete extends Component {
   autocompleteCallback(predictions, status) {
     if (status !== this.autocompleteOK) {
       this.props.onError(status)
-      if (this.props.clearItemsOnError) { this.clearAutocomplete() }
+      if (this.props.clearSuggestionsOnError) { this.clearAutocomplete() }
       return
     }
 
@@ -181,12 +181,15 @@ class PlacesAutocomplete extends Component {
   }
 
   handleInputChange(event) {
-    this.props.inputProps.onChange(event.target.value)
-    if (!event.target.value) {
+    const { value } = event.target
+    this.props.inputProps.onChange(value)
+    if (!value) {
       this.clearAutocomplete()
       return
     }
-    this.debouncedFetchPredictions()
+    if (this.props.shouldFetchSuggestions({ value })) {
+      this.debouncedFetchPredictions()
+    }
   }
 
   handleInputOnBlur(event) {
@@ -269,21 +272,10 @@ class PlacesAutocomplete extends Component {
                 onTouchEnd={() => this.selectAddress(p.suggestion, p.placeId)}
                 style={ p.active ? this.inlineStyleFor('autocompleteItem', 'autocompleteItemActive') :this.inlineStyleFor('autocompleteItem') }
                 className={ p.active ? this.classNameFor('autocompleteItem', 'autocompleteItemActive') : this.classNameFor('autocompleteItem') }>
-                {this.props.autocompleteItem({ suggestion: p.suggestion, formattedSuggestion: p.formattedSuggestion })}
+                {this.props.renderSuggestion({ suggestion: p.suggestion, formattedSuggestion: p.formattedSuggestion })}
               </div>
             ))}
-            {this.props.googleLogo && (
-              <div
-                id="PlacesAutocomplete__google-logo"
-                style={this.inlineStyleFor('googleLogoContainer')}
-                className={this.classNameFor('googleLogoContainer')}>
-                <img
-                  src={require(`./images/powered_by_google_${this.props.googleLogoType}.png`)}
-                  style={this.inlineStyleFor('googleLogoImage')}
-                  className={this.classNameFor('googleLogoImage')}
-                />
-              </div>)
-            }
+            {this.props.renderFooter && this.props.renderFooter()}
           </div>
         )}
       </div>
@@ -304,9 +296,9 @@ PlacesAutocomplete.propTypes = {
     }
   },
   onError: PropTypes.func,
-  clearItemsOnError: PropTypes.bool,
+  clearSuggestionsOnError: PropTypes.bool,
   onSelect: PropTypes.func,
-  autocompleteItem: PropTypes.func,
+  renderSuggestion: PropTypes.func,
   classNames: PropTypes.shape({
     root: PropTypes.string,
     input: PropTypes.string,
@@ -337,21 +329,20 @@ PlacesAutocomplete.propTypes = {
   }),
   debounce: PropTypes.number,
   highlightFirstSuggestion: PropTypes.bool,
-  googleLogo: PropTypes.bool,
-  googleLogoType: PropTypes.oneOf(["default", "inverse"]),
+  renderFooter: PropTypes.func,
+  shouldFetchSuggestions: PropTypes.func.isRequired,
 }
 
 PlacesAutocomplete.defaultProps = {
-  clearItemsOnError: false,
+  clearSuggestionsOnError: false,
   onError: (status) => console.error('[react-places-autocomplete]: error happened when fetching data from Google Maps API.\nPlease check the docs here (https://developers.google.com/maps/documentation/javascript/places#place_details_responses)\nStatus: ', status),
   classNames: {},
-  autocompleteItem: ({ suggestion }) => (<div>{suggestion}</div>),
+  renderSuggestion: ({ suggestion }) => (<div>{suggestion}</div>),
   styles: {},
   options: {},
   debounce: 200,
   highlightFirstSuggestion: false,
-  googleLogo: true,
-  googleLogoType: 'default',
+  shouldFetchSuggestions: () => true,
 }
 
 export default PlacesAutocomplete

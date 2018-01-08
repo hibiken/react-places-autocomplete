@@ -54,9 +54,16 @@ describe('PlacesAutocomplete props', () => {
 
 describe('autocomplete dropdown', () => {
   let wrapper;
-  const autocompleteItem = ({ suggestion }) => (<div className="autocomplete-item">{suggestion}</div>)
+  const renderSuggestion = ({ suggestion }) => (<div className="autocomplete-item">{suggestion}</div>)
+  const renderFooter = () => (<div className="my-dropdown-footer">Footer element</div>)
   beforeEach(() => {
-    wrapper = shallow(<PlacesAutocomplete inputProps={testInputProps} autocompleteItem={autocompleteItem} />)
+    wrapper = shallow(
+      <PlacesAutocomplete
+        inputProps={testInputProps}
+        renderSuggestion={renderSuggestion}
+        renderFooter={renderFooter}
+      />
+    )
   })
 
   it('initially does not have an autocomplete dropdown', () => {
@@ -87,36 +94,23 @@ describe('autocomplete dropdown', () => {
     wrapper.setState({ autocompleteItems: data })
     expect(wrapper.find('#PlacesAutocomplete__autocomplete-container')).to.have.length(1)
     expect(wrapper.find('.autocomplete-item')).to.have.length(3)
-
-    describe('the Google logo', () => {
-      it('is displayed by default', () => {
-        wrapper = shallow(<PlacesAutocomplete inputProps={testInputProps} autocompleteItem={autocompleteItem} />)
-        wrapper.setState({ autocompleteItems: data })
-        expect(wrapper.find('#PlacesAutocomplete__google-logo')).to.have.length(1)
-      })
-
-      it('is not displayed when toggled off', () => {
-        wrapper = shallow(<PlacesAutocomplete inputProps={testInputProps} autocompleteItem={autocompleteItem} googleLogo={false} />)
-        wrapper.setState({ autocompleteItems: data })
-        expect(wrapper.find('#PlacesAutocomplete__google-logo')).to.have.length(0)
-      })
-    })
+    expect(wrapper.find('.my-dropdown-footer')).to.have.length(1)
   })
 
-  it('clears the autocomplete items when PlacesServiceStatus is not OK and clearItemsOnError prop is true', () => {
+  it('clears the autocomplete items when PlacesServiceStatus is not OK and clearSuggestionsOnError prop is true', () => {
     const initialItems = [{
         suggestion: 'San Francisco, CA',
         placeId: 1,
         active: false,
         index: 0
     }]
-    const wrapper = shallow(<PlacesAutocomplete inputProps={testInputProps} clearItemsOnError={true}/>)
+    const wrapper = shallow(<PlacesAutocomplete inputProps={testInputProps} clearSuggestionsOnError={true}/>)
     wrapper.setState({ autocompleteItems: initialItems })
     wrapper.instance().autocompleteCallback([], 'ZERO_RESULTS')
     expect(wrapper.find('.autocomplete-item')).to.have.length(0)
   })
 
-  it('does not clear the autocomplete items when PlacesServiceStatus is not OK and clearItemsOnError prop is false', () => {
+  it('does not clear the autocomplete items when PlacesServiceStatus is not OK and clearSuggestionsOnError prop is false', () => {
     const initialItems = [{
         suggestion: 'San Francisco, CA',
         placeId: 1,
@@ -168,8 +162,8 @@ describe('custom classNames, placeholder', () => {
 // TODO: test formattedSuggestion
 describe('customizable autocompleteItem', () => {
   it('lets you provide a custom autocomplete item', () => {
-    const autocompleteItem = ({ suggestion }) => (<div className="my-autocomplete-item"><i className="fa fa-map-marker"/></div>)
-    const wrapper = shallow(<PlacesAutocomplete inputProps={testInputProps} autocompleteItem={autocompleteItem}/>)
+    const renderSuggestion = ({ suggestion }) => (<div className="my-autocomplete-item"><i className="fa fa-map-marker"/></div>)
+    const wrapper = shallow(<PlacesAutocomplete inputProps={testInputProps} renderSuggestion={renderSuggestion}/>)
     wrapper.setState({ autocompleteItems: [{ suggestion: 'San Francisco, CA', placeId: 1, active: false, index: 0 }] })
     expect(wrapper.find('.my-autocomplete-item')).to.have.length(1)
     expect(wrapper.find('.my-autocomplete-item')).to.contain(<i className="fa fa-map-marker"/>)

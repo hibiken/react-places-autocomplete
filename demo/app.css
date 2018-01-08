@@ -68,6 +68,17 @@ body, #root, .page-wrapper {
   text-align: left;
 }
 
+.Demo__dropdown-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 4px;
+}
+
+.Demo__dropdown-footer-image {
+  display: inline-block;
+  width: 150px;
+}
+
 .Demo__spinner {
   color: #18bc9c;
   font-size: 30px;

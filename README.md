@@ -105,18 +105,18 @@ export default SimpleForm
 
 #### Optional Props:
 
-* [`autocompleteItem`](#autocompleteItem)
+* [`renderSuggestion`](#renderSuggestion)
+* [`renderFooter`](#renderFooter)
 * [`classNames`](#classNames)
 * [`styles`](#styles)
-* [`onError`](#onError)
-* [`clearItemsOnError`](#clearItemsOnError)
 * [`onSelect`](#onSelect)
 * [`onEnterKeyDown`](#onEnterKeyDown)
+* [`onError`](#onError)
 * [`options`](#options)
 * [`debounce`](#debounce)
 * [`highlightFirstSuggestion`](#highlightFirstSuggestion)
-* [`googleLogo`](#googleLogo)
-* [`googleLogoType`](#googleLogoType)
+* [`shouldFetchSuggestions`](#shouldFetchSuggestions)
+* [`clearSuggestionsOnError`](#clearSuggestionsOnError)
 
 <a name="inputProps"></a>
 #### inputProps
@@ -129,7 +129,7 @@ You can pass arbitrary props to the input element thorough `inputProps` object (
 
 ```js
   const inputProps = {
-    value, // `value` is required
+    value,    // `value` is required
     onChange, // `onChange` is required
     onBlur: () => {
       console.log('blur!')
@@ -140,36 +140,36 @@ You can pass arbitrary props to the input element thorough `inputProps` object (
   }
 ```
 
-<a name="autocompleteItem"></a>
-#### autocompleteItem
+<a name="renderSuggestion"></a>
+#### renderSuggestion
 Type: `Functional React Component`,
 Required: `false`
 
 The function takes props with `suggestion`, `formattedSuggestion` keys (see the example below).
-We highly recommend that you create your own custom `AutocompleteItem` and pass it as a prop.
+We highly recommend that you create your own custom list item component and pass it as a prop.
 
 ```js
 /***********************************************
  Example #1
- autocompleteItem example with `suggestion`
+ List item example with `suggestion`
 ************************************************/
 render() {
-  const AutocompleteItem = ({ suggestion }) => (<div><i className="fa fa-map-marker"/>{suggestion}</div>)
+  const renderSuggestion = ({ suggestion }) => (<div><i className="fa fa-map-marker"/>{suggestion}</div>)
 
   return (
     <PlacesAutocomplete
       inputProps={inputProps}
-      autocompleteItem={AutocompleteItem}
+      renderSuggestion={renderSuggestion}
     />
   )
 }
 
 /***************************************************
  Example #2
- autocompleteItem example with `formattedSuggestion`
+ List item example with `formattedSuggestion`
 ****************************************************/
 render() {
-  const AutocompleteItem = ({ formattedSuggestion }) => (
+  const renderSuggestion = ({ formattedSuggestion }) => (
     <div>
       <strong>{ formattedSuggestion.mainText }</strong>{' '}
       <small>{ formattedSuggestion.secondaryText }</small>
@@ -179,10 +179,34 @@ render() {
   return (
     <PlacesAutocomplete
       inputProps={inputProps}
-      autocompleteItem={AutocompleteItem}
+      renderSuggestion={renderSuggestion}
     />
   )
 }
+```
+
+<a name="renderFooter"></a>
+#### renderFooter
+Type: `Functional React Component`
+Required: `false`
+
+You can provide a component that will get rendered at the bottom of dropdown.  
+For example, you can provide a component to show "Powered by Google" logo.
+
+```js
+const renderFooter = () => (
+  <div className="dropdown-footer">
+    <div>
+      <img src={require('./images/google-logo.png')} />
+    <div>
+  <div>
+)
+
+// In render function
+<PlacesAutocomplete
+  inputProps={inputProps}
+  renderFooter={renderFooter}
+/>
 ```
 
 <a name="classNames"></a>
@@ -191,7 +215,7 @@ Type: `Object`,
 Required: `false`
 
 You can give a custom css classes to elements.
-Accepted keys are `root`, `input`, `autocompleteContainer`, `autocompleteItem`, `autocompleteItemActive`, `googleLogoContainer`, `googleLogoImage`.
+Accepted keys are `root`, `input`, `autocompleteContainer`, `autocompleteItem`, `autocompleteItemActive`.
 If you pass `classNames` props, none of the default inline styles nor inline styles from `styles` prop will
 be applied to the element, and you will have full control over styling via CSS.
 
@@ -219,8 +243,8 @@ Now you can easily apply custom CSS styles using the classNames!
 Type `Object`,
 Required: `false`
 
-You can provide custom inline styles to elements.
-Accepted keys are `root`, `input`, `autocompleteContainer`, `autocompleteItem`, `autocompleteItemActive`, `googleLogoContainer`, `googleLogoImage`.
+You can provide custom inline styles to elements.  
+Accepted keys are `root`, `input`, `autocompleteContainer`, `autocompleteItem`, `autocompleteItemActive`.
 
 ```js
 const defaultStyles = {
@@ -249,14 +273,6 @@ const defaultStyles = {
   autocompleteItemActive: {
     backgroundColor: '#fafafa'
   },
-  googleLogoContainer: {
-    textAlign: 'right',
-    padding: '1px',
-    backgroundColor: '#fafafa'
-  },
-  googleLogoImage: {
-    width: 150
-  }
 }
 ```
 
@@ -282,23 +298,6 @@ render() {
   )
 }
 ```
-
-<a name="onError"></a>
-#### onError
-Type: `Function`
-Required: `false`
-
-You can pass `onError` prop to customize the behavior when [google.maps.places.PlacesServiceStatus](https://developers.google.com/maps/documentation/javascript/places#place_details_responses) is not `OK` (e.g., no predictions are found)
-
-Function takes `status` as a parameter
-
-<a name="clearItemsOnError"></a>
-#### clearItemsOnError
-Type: `Boolean`
-Required: `false`
-Default: `false`
-
-You can pass `clearItemsOnError` prop to indicate whether the autocomplete predictions should be cleared when `google.maps.places.PlacesServiceStatus` is not OK
 
 <a name="onSelect"></a>
 #### onSelect
@@ -349,6 +348,16 @@ const handleEnter = (address) => {
 />
 ```
 
+<a name="onError"></a>
+#### onError
+Type: `Function`
+Required: `false`
+
+You can pass `onError` prop to customize the behavior when [google.maps.places.PlacesServiceStatus](https://developers.google.com/maps/documentation/javascript/places#place_details_responses) is not `OK` (e.g., no predictions are found)
+
+Function takes `status` as a parameter
+
+
 <a name="options"></a>
 #### options
 Type: `Object`
@@ -368,6 +377,7 @@ const options = {
   types: ['address']
 }
 
+// In render function
 <PlacesAutocomplete
   inputProps={inputProps}
   options={options}
@@ -380,7 +390,7 @@ Type: `Number`
 Required: `false`
 Default: `200`
 
-The number of milliseconds to delay before making a call to Google API.
+The number of milliseconds to delay before making a call to Google Maps API.
 
 <a name="highlightFirstSuggestion"></a>
 #### highlightFirstSuggestion
@@ -390,22 +400,33 @@ Default: `false`
 
 If set to `true`, first suggestion in the dropdown will be automatically highlighted.
 
-<a name="googleLogo"></a>
-#### googleLogo
+<a name="shouldFetchSuggestions"></a>
+#### shouldFetchSuggestions
+Type: `Function`
+Required: `false`
+Default: `() => true`
+
+You can pass a function to tell when to fetch suggestions from Google Maps API.  
+It takes an input `{ value }` and should return a boolean.
+
+```js
+// Only fetch suggestions when the input text is longer than 3 characters.
+const shouldFetchSuggestions = ({ value }) => value.length > 3
+
+// In render function
+<PlacesAutocomplete
+  inputProps={inputProps}
+  shouldFetchSuggestions={shouldFetchSuggestions}
+/>
+```
+
+<a name="clearSuggestionsOnError"></a>
+#### clearSuggestionsOnError
 Type: `Boolean`
 Required: `false`
-Default: `true`
+Default: `false`
 
-Allows you to toggle the "powered by Google" logo. For more information on Google's logo requirements, refer to this link: [https://developers.google.com/places/web-service/policies](https://developers.google.com/places/web-service/policies)
-
-<a name="googleLogoType"></a>
-#### googleLogoType
-Type: `String` ("default" or "inverse")
-Required: `false`
-Default: `"default"`
-
-Allows you to pick right color theme for "powered by Google" logo.
-Please see Google's API page for more information: [https://developers.google.com/places/web-service/policies](https://developers.google.com/places/web-service/policies)
+You can pass `clearSuggestionsOnError` prop to indicate whether the autocomplete suggestions should be cleared when `google.maps.places.PlacesServiceStatus` is not OK
 
 <a name="utility-functions"></a>
 ## Utility Functions
