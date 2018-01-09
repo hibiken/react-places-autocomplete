@@ -118,6 +118,11 @@ class Demo extends React.Component {
 
     const shouldFetchSuggestions = ({ value }) => value.length > 2
 
+    const onError = (status, clearSuggestions) => {
+      console.log('Error happened while fetching suggestions from Google Maps API', status)
+      clearSuggestions()
+    }
+
     return (
       <div className='page-wrapper'>
         <div className='container'>
@@ -132,6 +137,7 @@ class Demo extends React.Component {
         <div className='container'>
           <PlacesAutocomplete
             onSelect={this.handleSelect}
+            onError={onError}
             renderSuggestion={AutocompleteItem}
             renderFooter={Footer}
             onEnterKeyDown={this.handleSelect}
