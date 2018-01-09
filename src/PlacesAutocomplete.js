@@ -19,6 +19,7 @@ class PlacesAutocomplete extends Component {
     this.handleInputKeyDown = this.handleInputKeyDown.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
     this.debouncedFetchPredictions = debounce(this.fetchPredictions, this.props.debounce)
+    this.clearSuggestions = this.clearSuggestions.bind(this)
   }
 
   componentDidMount() {
@@ -36,8 +37,7 @@ class PlacesAutocomplete extends Component {
 
   autocompleteCallback(predictions, status) {
     if (status !== this.autocompleteOK) {
-      this.props.onError(status)
-      if (this.props.clearSuggestionsOnError) { this.clearAutocomplete() }
+      this.props.onError(status, this.clearSuggestions)
       return
     }
 
@@ -70,12 +70,12 @@ class PlacesAutocomplete extends Component {
     }
   }
 
-  clearAutocomplete() {
+  clearSuggestions() {
     this.setState({ autocompleteItems: [] })
   }
 
   selectAddress(address, placeId) {
-    this.clearAutocomplete()
+    this.clearSuggestions()
     this.handleSelect(address, placeId)
   }
 
@@ -105,7 +105,7 @@ class PlacesAutocomplete extends Component {
   handleEnterKeyWithoutActiveItem() {
     if (this.props.onEnterKeyDown) {
       this.props.onEnterKeyDown(this.props.inputProps.value)
-      this.clearAutocomplete()
+      this.clearSuggestions()
     } else {
       return //noop
     }
@@ -159,7 +159,7 @@ class PlacesAutocomplete extends Component {
         this.handleUpKey()
         break
       case 'Escape':
-        this.clearAutocomplete()
+        this.clearSuggestions()
         break
     }
 
@@ -184,7 +184,7 @@ class PlacesAutocomplete extends Component {
     const { value } = event.target
     this.props.inputProps.onChange(value)
     if (!value) {
-      this.clearAutocomplete()
+      this.clearSuggestions()
       return
     }
     if (this.props.shouldFetchSuggestions({ value })) {
@@ -193,7 +193,7 @@ class PlacesAutocomplete extends Component {
   }
 
   handleInputOnBlur(event) {
-    this.clearAutocomplete()
+    this.clearSuggestions()
 
     if (this.props.inputProps.onBlur) {
       this.props.inputProps.onBlur(event)
@@ -296,7 +296,6 @@ PlacesAutocomplete.propTypes = {
     }
   },
   onError: PropTypes.func,
-  clearSuggestionsOnError: PropTypes.bool,
   onSelect: PropTypes.func,
   renderSuggestion: PropTypes.func,
   classNames: PropTypes.shape({
@@ -334,8 +333,7 @@ PlacesAutocomplete.propTypes = {
 }
 
 PlacesAutocomplete.defaultProps = {
-  clearSuggestionsOnError: false,
-  onError: (status) => console.error('[react-places-autocomplete]: error happened when fetching data from Google Maps API.\nPlease check the docs here (https://developers.google.com/maps/documentation/javascript/places#place_details_responses)\nStatus: ', status),
+  onError: (status, _clearSuggestions) => console.error('[react-places-autocomplete]: error happened when fetching data from Google Maps API.\nPlease check the docs here (https://developers.google.com/maps/documentation/javascript/places#place_details_responses)\nStatus: ', status),
   classNames: {},
   renderSuggestion: ({ suggestion }) => (<div>{suggestion}</div>),
   styles: {},

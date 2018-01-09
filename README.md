@@ -116,7 +116,6 @@ export default SimpleForm
 * [`debounce`](#debounce)
 * [`highlightFirstSuggestion`](#highlightFirstSuggestion)
 * [`shouldFetchSuggestions`](#shouldFetchSuggestions)
-* [`clearSuggestionsOnError`](#clearSuggestionsOnError)
 
 <a name="inputProps"></a>
 #### inputProps
@@ -355,7 +354,21 @@ Required: `false`
 
 You can pass `onError` prop to customize the behavior when [google.maps.places.PlacesServiceStatus](https://developers.google.com/maps/documentation/javascript/places#place_details_responses) is not `OK` (e.g., no predictions are found)
 
-Function takes `status` as a parameter
+Function takes `status` (string) and `clearSuggestions` (function) as parameters
+
+```js
+// Log error status and clear dropdown when Google Maps API returns an error.
+const onError = (status, clearSuggestions) => {
+  console.log('Google Maps API returned error with status: ', status)
+  clearSuggestions()
+}
+
+// In render function
+<PlacesAutocomplete
+  inputProps={inputProps}
+  onError={onError}
+/>
+```
 
 
 <a name="options"></a>
@@ -419,14 +432,6 @@ const shouldFetchSuggestions = ({ value }) => value.length > 3
   shouldFetchSuggestions={shouldFetchSuggestions}
 />
 ```
-
-<a name="clearSuggestionsOnError"></a>
-#### clearSuggestionsOnError
-Type: `Boolean`
-Required: `false`
-Default: `false`
-
-You can pass `clearSuggestionsOnError` prop to indicate whether the autocomplete suggestions should be cleared when `google.maps.places.PlacesServiceStatus` is not OK
 
 <a name="utility-functions"></a>
 ## Utility Functions
