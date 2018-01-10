@@ -18,7 +18,7 @@ class PlacesAutocomplete extends Component {
     this.autocompleteCallback = this.autocompleteCallback.bind(this)
     this.handleInputKeyDown = this.handleInputKeyDown.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
-    this.debouncedFetchPredictions = debounce(this.fetchPredictions, this.props.debounce)
+    this.debouncedFetchPredictions = debounce(this.fetchPredictions, props.debounce)
     this.clearSuggestions = this.clearSuggestions.bind(this)
   }
 
