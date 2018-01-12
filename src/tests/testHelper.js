@@ -12,10 +12,10 @@ const google = {
     places: {
       AutocompleteService: () => {},
       PlacesServiceStatus: {
-        OK: 'OK'
-      }
-    }
-  }
+        OK: 'OK',
+      },
+    },
+  },
 }
 global.google = google
 global.window.google = google
