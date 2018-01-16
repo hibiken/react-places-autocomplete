@@ -1,11 +1,16 @@
-# react-places-autocomplete
-
-A React component to build a customized UI for Google Maps Places Autocomplete ([Demo](https://kenny-hibino.github.io/react-places-autocomplete/))
-
-
 [![travis build](https://img.shields.io/travis/kenny-hibino/react-places-autocomplete.svg?style=flat-square)](https://travis-ci.org/kenny-hibino/react-places-autocomplete)
 [![MIT-License](https://img.shields.io/npm/l/react-places-autocomplete.svg?style=flat-square)]()
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg?style=flat-square)](https://gitter.im/react-places-autocomplete/Lobby)
+
+
+# React Places Autocomplete
+
+A React component to build a customized UI for Google Maps Places Autocomplete
+
+
+### Demo
+Live demo: [kenny-hibino.github.io/react-places-autocomplete/](https://kenny-hibino.github.io/react-places-autocomplete/)
+
 
 ### Features
 1. Enable you to easily build a customized autocomplete dropdown powered by [Google Maps Places Library](https://developers.google.com/maps/documentation/javascript/places)
@@ -25,7 +30,7 @@ or
 npm install react-places-autocomplete --save
 ```
 
-The React component is exported as a default export
+React component is exported as a default export
 
 ```js
 import PlacesAutocomplete from 'react-places-autocomplete'
@@ -35,15 +40,6 @@ import PlacesAutocomplete from 'react-places-autocomplete'
 
 ```js
 import { geocodeByAddress, geocodeByPlaceId } from 'react-places-autocomplete'
-```
-
-### Demo
-See live demo: [kenny-hibino.github.io/react-places-autocomplete/](https://kenny-hibino.github.io/react-places-autocomplete/)
-
-To build the example locally, clone this repo and then run:
-
-```sh
-npm run demo
 ```
 
 
@@ -57,7 +53,7 @@ Load the library in your project
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
 ```
 
-Declare your PlacesAutocomplete component using React component
+Create your component
 
 ```js
 import React from 'react'
@@ -97,25 +93,23 @@ class SimpleForm extends React.Component {
 export default SimpleForm
 ```
 
-### Props for `PlacesAutocomplete`
+## Props
 
-#### Required Props:
+| Prop        | Type           | Required  | Description |
+| ------------- |:-------------:| :-----: |-------|
+| [`inputProps`](#inputProps) | object | :white_check_mark: | Arbitrary props to input element, `value` and `onChange` are required keys |
+| [`renderSuggestion`](#renderSuggestion) | function |  | Functional react component to render dropdown list item |
+| [`renderFooter`](#renderFooter) | function |  | Functional react component to render footer at the bottom of the dropdown list |
+| [`classNames`](#classNames) | object | | Pass CSS classes to rendered elements |
+| [`styles`](#styles) | object | | Pass CSS styles to rendered elements |
+| [`onSelect`](#onSelect) | function | | Event handler to handle user's select event |
+| [`onEnterKeyDown`](#onEnterKeyDown) | function || Event handler that gets called when user presses Enter key while input is focused |
+| [`onError`](#onError) | function | | Error handler function that gets called when Google Maps API responds with an error |
+| [`options`](#options) | object | | Options to Google Maps API  (i.e. bounds, radius) |
+|[`debounce`](#debounce) | number | | Number of milliseconds to delay before making a call to Google Maps API |
+| [`highlightFirstSuggestion`](#highlightFirstSuggestion) | boolean | | If set to `true`, first list item in the dropdown will be automatically highlighted |
+|[`shouldFetchSuggestions`](#shouldFetchSuggestions)| function | | Component will fetch suggestions from Google Maps API only when this function returns `true` |
 
-* [`inputProps`](#inputProps)
-
-#### Optional Props:
-
-* [`renderSuggestion`](#renderSuggestion)
-* [`renderFooter`](#renderFooter)
-* [`classNames`](#classNames)
-* [`styles`](#styles)
-* [`onSelect`](#onSelect)
-* [`onEnterKeyDown`](#onEnterKeyDown)
-* [`onError`](#onError)
-* [`options`](#options)
-* [`debounce`](#debounce)
-* [`highlightFirstSuggestion`](#highlightFirstSuggestion)
-* [`shouldFetchSuggestions`](#shouldFetchSuggestions)
 
 <a name="inputProps"></a>
 #### inputProps
