@@ -191,8 +191,8 @@ const renderFooter = () => (
   <div className="dropdown-footer">
     <div>
       <img src={require('./images/google-logo.png')} />
-    <div>
-  <div>
+    </div>
+  </div>
 )
 
 // In render function
