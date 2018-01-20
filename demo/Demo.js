@@ -7,7 +7,7 @@ class Demo extends React.Component {
     this.state = {
       address: '',
       geocodeResults: null,
-      loading: false
+      loading: false,
     }
     this.handleSelect = this.handleSelect.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -18,23 +18,23 @@ class Demo extends React.Component {
   handleSelect(address) {
     this.setState({
       address,
-      loading: true
+      loading: true,
     })
 
     geocodeByAddress(address)
-      .then((results) => getLatLng(results[0]))
+      .then(results => getLatLng(results[0]))
       .then(({ lat, lng }) => {
         console.log('Success Yay', { lat, lng })
         this.setState({
           geocodeResults: this.renderGeocodeSuccess(lat, lng),
-          loading: false
+          loading: false,
         })
       })
-      .catch((error) => {
+      .catch(error => {
         console.log('Oh no!', error)
         this.setState({
           geocodeResults: this.renderGeocodeFailure(error),
-          loading: false
+          loading: false,
         })
       })
 
@@ -58,7 +58,7 @@ class Demo extends React.Component {
   handleChange(address) {
     this.setState({
       address,
-      geocodeResults: null
+      geocodeResults: null,
     })
   }
 
@@ -73,7 +73,10 @@ class Demo extends React.Component {
   renderGeocodeSuccess(lat, lng) {
     return (
       <div className="alert alert-success" role="alert">
-        <strong>Success!</strong> Geocoder found latitude and longitude: <strong>{lat}, {lng}</strong>
+        <strong>Success!</strong> Geocoder found latitude and longitude:{' '}
+        <strong>
+          {lat}, {lng}
+        </strong>
       </div>
     )
   }
@@ -87,11 +90,13 @@ class Demo extends React.Component {
 
     const AutocompleteItem = ({ formattedSuggestion }) => (
       <div className="Demo__suggestion-item">
-        <i className='fa fa-map-marker Demo__suggestion-icon'/>
+        <i className="fa fa-map-marker Demo__suggestion-icon" />
         <strong>{formattedSuggestion.mainText}</strong>{' '}
-        <small className="text-muted">{formattedSuggestion.secondaryText}</small>
-      </div>)
-
+        <small className="text-muted">
+          {formattedSuggestion.secondaryText}
+        </small>
+      </div>
+    )
 
     const Footer = () => (
       <div className="Demo__dropdown-footer">
@@ -105,36 +110,52 @@ class Demo extends React.Component {
     )
 
     const inputProps = {
-      type: "text",
+      type: 'text',
       value: this.state.address,
       onChange: this.handleChange,
-      onBlur: () => { console.log('Blur event!'); },
-      onFocus: () => { console.log('Focused!'); },
+      onBlur: () => {
+        console.log('Blur event!')
+      },
+      onFocus: () => {
+        console.log('Focused!')
+      },
       autoFocus: true,
-      placeholder: "Search Places",
+      placeholder: 'Search Places',
       name: 'Demo__input',
-      id: "my-input-id",
+      id: 'my-input-id',
     }
 
     const shouldFetchSuggestions = ({ value }) => value.length > 2
 
     const onError = (status, clearSuggestions) => {
-      console.log('Error happened while fetching suggestions from Google Maps API', status)
+      console.log(
+        'Error happened while fetching suggestions from Google Maps API',
+        status
+      )
       clearSuggestions()
     }
 
     return (
-      <div className='page-wrapper'>
-        <div className='container'>
-          <h1 className='display-3'>react-places-autocomplete <i className='fa fa-map-marker header'/></h1>
-          <p className='lead'>A React component to build a customized UI for Google Maps Places Autocomplete</p>
+      <div className="page-wrapper">
+        <div className="container">
+          <h1 className="display-3">
+            react-places-autocomplete <i className="fa fa-map-marker header" />
+          </h1>
+          <p className="lead">
+            A React component to build a customized UI for Google Maps Places
+            Autocomplete
+          </p>
           <hr />
-          <a href='https://github.com/kenny-hibino/react-places-autocomplete' className='Demo__github-link' target="_blank" >
-            <span className='fa fa-github Demo__github-icon'></span>
+          <a
+            href="https://github.com/kenny-hibino/react-places-autocomplete"
+            className="Demo__github-link"
+            target="_blank"
+          >
+            <span className="fa fa-github Demo__github-icon" />
             &nbsp;View on GitHub
           </a>
         </div>
-        <div className='container'>
+        <div className="container">
           <PlacesAutocomplete
             onSelect={this.handleSelect}
             onError={onError}
@@ -145,10 +166,14 @@ class Demo extends React.Component {
             inputProps={inputProps}
             shouldFetchSuggestions={shouldFetchSuggestions}
           />
-          {this.state.loading ? <div><i className="fa fa-spinner fa-pulse fa-3x fa-fw Demo__spinner" /></div> : null}
-          {!this.state.loading && this.state.geocodeResults ?
-            <div className='geocoding-results'>{this.state.geocodeResults}</div> :
-          null}
+          {this.state.loading ? (
+            <div>
+              <i className="fa fa-spinner fa-pulse fa-3x fa-fw Demo__spinner" />
+            </div>
+          ) : null}
+          {!this.state.loading && this.state.geocodeResults ? (
+            <div className="geocoding-results">{this.state.geocodeResults}</div>
+          ) : null}
         </div>
       </div>
     )

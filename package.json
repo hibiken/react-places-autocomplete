@@ -1,6 +1,6 @@
 {
   "name": "react-places-autocomplete",
-  "version": "6.0.0-beta.1",
+  "version": "6.0.2",
   "description": "A React component for Google Maps Places Autocomplete",
   "main": "dist/index.js",
   "scripts": {
@@ -17,7 +17,8 @@
     "demo:test": "mocha demo/tests/index.spec.js --compilers js:babel-register",
     "demo:build": "rimraf demo/dist && webpack --config demo/webpack.config.js -p",
     "demo:deploy": "gh-pages -d demo/dist",
-    "postpublish": "npm run demo:deploy"
+    "postpublish": "npm run demo:deploy",
+    "prettier": "prettier --no-semi --single-quote --trailing-comma es5 --arrow-parens avoid  --write \"src/**/*.js\" \"demo/**/*.js\""
   },
   "repository": {
     "type": "git",
@@ -75,6 +76,7 @@
     "mocha": "2.5.3",
     "npm-run-all": "2.3.0",
     "nyc": "7.0.0",
+    "prettier": "1.10.2",
     "react": "^15.6.1",
     "react-addons-test-utils": "^15.6.0",
     "react-dom": "^15.6.1",

@@ -22,7 +22,7 @@ const defaultStyles = {
     cursor: 'pointer',
   },
   autocompleteItemActive: {
-    backgroundColor: '#fafafa'
+    backgroundColor: '#fafafa',
   },
 }
 
