@@ -255,6 +255,9 @@ class PlacesAutocomplete extends Component {
       onChange: event => {
         this.handleInputChange(event)
       },
+      onInput: event => {
+        this.handleInputChange(event)
+      },
       onKeyDown: event => {
         this.handleInputKeyDown(event)
       },
