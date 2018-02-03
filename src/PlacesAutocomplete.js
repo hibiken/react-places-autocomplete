@@ -276,9 +276,11 @@ class PlacesAutocomplete extends Component {
         style={this.inlineStyleFor('root')}
         className={this.classNameFor('root')}
       >
-        {this.props.hasCustomInput
-          ? React.cloneElement(this.props.children, { ...inputProps })
-          : <input {...inputProps} />}
+        {this.props.hasCustomInput ? (
+          React.cloneElement(this.props.children, { ...inputProps })
+        ) : (
+            <input {...inputProps} />
+          )}
         {autocompleteItems.length > 0 && (
           <div
             id="PlacesAutocomplete__autocomplete-container"
