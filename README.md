@@ -109,7 +109,6 @@ export default SimpleForm
 |[`debounce`](#debounce) | number | | Number of milliseconds to delay before making a call to Google Maps API |
 | [`highlightFirstSuggestion`](#highlightFirstSuggestion) | boolean | | If set to `true`, first list item in the dropdown will be automatically highlighted |
 |[`shouldFetchSuggestions`](#shouldFetchSuggestions)| function | | Component will fetch suggestions from Google Maps API only when this function returns `true` |
-| [`saveOriginalValue`](#saveOriginalValue) | boolean |  | Original entry in input will be included when iterating over autocomplete's entries |
 
 <a name="inputProps"></a>
 #### inputProps
@@ -426,16 +425,6 @@ const shouldFetchSuggestions = ({ value }) => value.length > 3
   shouldFetchSuggestions={shouldFetchSuggestions}
 />
 ```
-
-<a name="saveOriginalValue"></a>
-#### saveOriginalValue
-Type: `Boolean`
-Required: `false`
-Default: `false`
-
-Enables using original input's value as it was another entry in autocomplete. Original value is saved when no entry is chosen and we select one of them.
-When last/first entry is focused and you're about to press arrow down/up, instead of wrapping up (choosing first/last entry) input is being populated with original value.
-That way it looks like as if original input value was just another entry in autocomplete, albeit hidden.
 
 <a name="utility-functions"></a>
 ## Utility Functions
