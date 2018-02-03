@@ -109,6 +109,7 @@ export default SimpleForm
 |[`debounce`](#debounce) | number | | Number of milliseconds to delay before making a call to Google Maps API |
 | [`highlightFirstSuggestion`](#highlightFirstSuggestion) | boolean | | If set to `true`, first list item in the dropdown will be automatically highlighted |
 |[`shouldFetchSuggestions`](#shouldFetchSuggestions)| function | | Component will fetch suggestions from Google Maps API only when this function returns `true` |
+|[`hasCustomInput`](#hasCustomInput)| boolean | | If set to `true`, Pass custom input field as a children |
 
 
 <a name="inputProps"></a>
