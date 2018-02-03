@@ -276,7 +276,9 @@ class PlacesAutocomplete extends Component {
         style={this.inlineStyleFor('root')}
         className={this.classNameFor('root')}
       >
-        <input {...inputProps} />
+        {this.props.hasCustomInput
+          ? React.cloneElement(this.props.children, { ...inputProps })
+          : <input {...inputProps} />}
         {autocompleteItems.length > 0 && (
           <div
             id="PlacesAutocomplete__autocomplete-container"
@@ -295,17 +297,17 @@ class PlacesAutocomplete extends Component {
                 style={
                   p.active
                     ? this.inlineStyleFor(
-                        'autocompleteItem',
-                        'autocompleteItemActive'
-                      )
+                      'autocompleteItem',
+                      'autocompleteItemActive'
+                    )
                     : this.inlineStyleFor('autocompleteItem')
                 }
                 className={
                   p.active
                     ? this.classNameFor(
-                        'autocompleteItem',
-                        'autocompleteItemActive'
-                      )
+                      'autocompleteItem',
+                      'autocompleteItemActive'
+                    )
                     : this.classNameFor('autocompleteItem')
                 }
               >
@@ -364,6 +366,7 @@ PlacesAutocomplete.propTypes = {
   highlightFirstSuggestion: PropTypes.bool,
   renderFooter: PropTypes.func,
   shouldFetchSuggestions: PropTypes.func.isRequired,
+  hasCustomInput: PropTypes.bool.isRequired,
 }
 
 PlacesAutocomplete.defaultProps = {

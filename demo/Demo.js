@@ -165,6 +165,7 @@ class Demo extends React.Component {
             classNames={cssClasses}
             inputProps={inputProps}
             shouldFetchSuggestions={shouldFetchSuggestions}
+            hasCustomInput={false}
           />
           {this.state.loading ? (
             <div>
