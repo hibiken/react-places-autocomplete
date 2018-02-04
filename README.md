@@ -110,7 +110,6 @@ export default SimpleForm
 | [`highlightFirstSuggestion`](#highlightFirstSuggestion) | boolean | | If set to `true`, first list item in the dropdown will be automatically highlighted |
 |[`shouldFetchSuggestions`](#shouldFetchSuggestions)| function | | Component will fetch suggestions from Google Maps API only when this function returns `true` |
 
-
 <a name="inputProps"></a>
 #### inputProps
 Type: `Object`,
@@ -183,7 +182,7 @@ render() {
 Type: `Functional React Component`
 Required: `false`
 
-You can provide a component that will get rendered at the bottom of dropdown.  
+You can provide a component that will get rendered at the bottom of dropdown.
 For example, you can provide a component to show "Powered by Google" logo.
 
 ```js
@@ -236,7 +235,7 @@ Now you can easily apply custom CSS styles using the classNames!
 Type `Object`,
 Required: `false`
 
-You can provide custom inline styles to elements.  
+You can provide custom inline styles to elements.
 Accepted keys are `root`, `input`, `autocompleteContainer`, `autocompleteItem`, `autocompleteItemActive`.
 
 ```js
@@ -323,7 +322,7 @@ Type: `Function`
 Required: `false`
 Deafult: `noop`
 
-You can pass a callback function that gets called when pressing down Enter key when no item in the dropdown is selected.  
+You can pass a callback function that gets called when pressing down Enter key when no item in the dropdown is selected.
 The function takes one argument, the value in the input field.
 
 ```js
@@ -413,7 +412,7 @@ Type: `Function`
 Required: `false`
 Default: `() => true`
 
-You can pass a function to tell when to fetch suggestions from Google Maps API.  
+You can pass a function to tell when to fetch suggestions from Google Maps API.
 It takes an input `{ value }` and should return a boolean.
 
 ```js
