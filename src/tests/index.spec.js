@@ -381,7 +381,7 @@ describe('Enables using original input\'s value as it was another entry in autoc
     wrapper
       .instance()
       .handleInputKeyDown({ key: 'ArrowDown', preventDefault: () => {} })
-    expect(wrapper.state().originalInputValue).to.equal('san')
+    expect(wrapper.state().userInputValue).to.equal('san')
   })
 
   it('save value of input when pressing arrow up key and none of autocomplete entries is being focused', () => {
@@ -389,7 +389,7 @@ describe('Enables using original input\'s value as it was another entry in autoc
     wrapper
       .instance()
       .handleInputKeyDown({ key: 'ArrowUp', preventDefault: () => {} })
-    expect(wrapper.state().originalInputValue).to.equal('san')
+    expect(wrapper.state().userInputValue).to.equal('san')
   })
 
   it("don't focus on any entry when focus is on last item and arrow down key is pressed", () => {
@@ -421,7 +421,7 @@ describe('Enables using original input\'s value as it was another entry in autoc
   it('onChange function is called with appropriate value', () => {
     // Amount of entries is 3 for this test case, so when we press arrow down fourth time
     // we expect onChange function to be called with original input value
-    // being stored in `originalInputValue` state entry
+    // being stored in `userInputValue` state entry
     // rest of calls should be called with appropraite entries from autocomplete items
     wrapper.setState({ autocompleteItems: data })
     wrapper
@@ -439,7 +439,7 @@ describe('Enables using original input\'s value as it was another entry in autoc
     expect(spy.getCall(0).args[0]).to.equal(data[0].suggestion)
     expect(spy.getCall(1).args[0]).to.equal(data[1].suggestion)
     expect(spy.getCall(2).args[0]).to.equal(data[2].suggestion)
-    expect(spy.getCall(3).args[0]).to.equal(wrapper.state().originalInputValue)
+    expect(spy.getCall(3).args[0]).to.equal(wrapper.state().userInputValue)
   })
 })
 
