@@ -341,7 +341,7 @@ describe('autoFocus prop', () => {
   })
 })
 
-describe('Enables using original input\'s value as it was another entry in autocomplete', () => {
+describe("Enables using original input's value as it was another entry in autocomplete", () => {
   const data = [
     {
       suggestion: 'San Francisco, CA',
@@ -370,9 +370,7 @@ describe('Enables using original input\'s value as it was another entry in autoc
   let wrapper
 
   beforeEach(() => {
-    wrapper = shallow(
-        <PlacesAutocomplete inputProps={inputProps} />
-    )
+    wrapper = shallow(<PlacesAutocomplete inputProps={inputProps} />)
     spy.reset()
   })
 
