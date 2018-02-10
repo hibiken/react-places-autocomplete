@@ -225,7 +225,9 @@ class PlacesAutocomplete extends Component {
   }
 
   handleInputOnBlur(event) {
-    this.clearSuggestions()
+    if (!this.mousedownOnSuggestion) {
+      this.clearSuggestions()
+    }
 
     if (this.props.inputProps.onBlur) {
       this.props.inputProps.onBlur(event)
@@ -280,6 +282,30 @@ class PlacesAutocomplete extends Component {
     }
   }
 
+  handleSuggestionMouseEnter(index) {
+    this.setActiveItemAtIndex(index)
+  }
+
+  handleSuggestionMouseLeave() {
+    this.clearActive()
+  }
+
+  handleSuggestionMouseDown() {
+    this.mousedownOnSuggestion = true
+  }
+
+  handleSuggestionMouseUp() {
+    this.mousedownOnSuggestion = false
+  }
+
+  handleSuggestionClick(prediction, event) {
+    const { suggestion, placeId } = prediction
+    this.selectAddress(suggestion, placeId, event)
+    setTimeout(() => {
+      this.mousedownOnSuggestion = false
+    })
+  }
+
   render() {
     const { autocompleteItems } = this.state
     const inputProps = this.getInputProps()
@@ -300,12 +326,13 @@ class PlacesAutocomplete extends Component {
             {autocompleteItems.map((p, idx) => (
               <div
                 key={p.placeId}
-                onMouseOver={() => this.setActiveItemAtIndex(p.index)}
-                onMouseDown={e =>
-                  this.selectAddress(p.suggestion, p.placeId, e)
-                }
-                onTouchStart={() => this.setActiveItemAtIndex(p.index)}
-                onTouchEnd={e => this.selectAddress(p.suggestion, p.placeId, e)}
+                onMouseEnter={this.handleSuggestionMouseEnter.bind(this, idx)}
+                onMouseLeave={this.handleSuggestionMouseLeave.bind(this)}
+                onMouseDown={this.handleSuggestionMouseDown.bind(this)}
+                onMouseUp={this.handleSuggestionMouseUp.bind(this)}
+                onTouchStart={this.handleSuggestionMouseDown.bind(this)} // iOS doesn't trigger 'onMouseDown'
+                onTouchEnd={this.handleSuggestionMouseUp.bind(this)}
+                onClick={this.handleSuggestionClick.bind(this, p)}
                 style={
                   p.active
                     ? this.inlineStyleFor(
