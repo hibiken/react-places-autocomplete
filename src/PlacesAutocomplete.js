@@ -287,10 +287,16 @@ class PlacesAutocomplete extends Component {
   }
 
   handleSuggestionMouseLeave() {
+    this.mousedownOnSuggestion = false
     this.clearActive()
   }
 
-  handleSuggestionMouseDown() {
+  handleSuggestionMouseDown(event) {
+    event.preventDefault()
+    this.mousedownOnSuggestion = true
+  }
+
+  handleSuggestionTouchStart() {
     this.mousedownOnSuggestion = true
   }
 
@@ -330,7 +336,7 @@ class PlacesAutocomplete extends Component {
                 onMouseLeave={this.handleSuggestionMouseLeave.bind(this)}
                 onMouseDown={this.handleSuggestionMouseDown.bind(this)}
                 onMouseUp={this.handleSuggestionMouseUp.bind(this)}
-                onTouchStart={this.handleSuggestionMouseDown.bind(this)} // iOS doesn't trigger 'onMouseDown'
+                onTouchStart={this.handleSuggestionTouchStart.bind(this)}
                 onTouchEnd={this.handleSuggestionMouseUp.bind(this)}
                 onClick={this.handleSuggestionClick.bind(this, p)}
                 style={
