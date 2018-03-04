@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017 Ken Hibino.
+* Copyright (c) 2016-present, Ken Hibino.
 * Licensed under the MIT License (MIT).
 * See https://kenny-hibino.github.io/react-places-autocomplete
 */

@@ -15,7 +15,9 @@ Live demo: [kenny-hibino.github.io/react-places-autocomplete/](https://kenny-hib
 ### Features
 1. Enable you to easily build a customized autocomplete dropdown powered by [Google Maps Places Library](https://developers.google.com/maps/documentation/javascript/places)
 2. [Utility functions](#utility-functions) to geocode and get latitude and longitude using [Google Maps Geocoder API](https://developers.google.com/maps/documentation/javascript/geocoding)
-3. Pass through arbitrary props to the input element to integrate well with other libraries (e.g. Redux-Form)
+3. Pass through arbitrary props to the input element to integrate well with other libraries (e.g. Redux-Form)  
+4. Mobile friendly UX
+5. WAI-ARIA compliant
 
 ### Installation
 To install the stable version
