@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017 Ken Hibino.
+* Copyright (c) 2016-present, Ken Hibino.
 * Licensed under the MIT License (MIT).
 * See https://kenny-hibino.github.io/react-places-autocomplete
 */
@@ -259,10 +259,23 @@ class PlacesAutocomplete extends Component {
     }, '')
   }
 
+  shouldRenderDropdown() {
+    return this.state.autocompleteItems.length > 0
+  }
+
   getInputProps() {
+    const isExpanded = this.shouldRenderDropdown()
+    const activeItem = this.getActiveItem()
+    const activeItemId = activeItem ? `PlacesAutocomplete__autocomplete-item-${activeItem.placeId}` : null
     const defaultInputProps = {
       type: 'text',
       autoComplete: 'off',
+      role: 'combobox',
+      'aria-autocomplete': 'list',
+      'aria-controls': "PlacesAutocomplete__autocomplete-container",
+      'aria-expanded': isExpanded,
+      'aria-haspopup': isExpanded,
+      'aria-activedescendant': activeItemId,
     }
 
     return {
@@ -323,8 +336,9 @@ class PlacesAutocomplete extends Component {
         className={this.classNameFor('root')}
       >
         <input {...inputProps} />
-        {autocompleteItems.length > 0 && (
+        {this.shouldRenderDropdown() && (
           <div
+            role="listbox"
             id="PlacesAutocomplete__autocomplete-container"
             style={this.inlineStyleFor('autocompleteContainer')}
             className={this.classNameFor('autocompleteContainer')}
@@ -332,6 +346,8 @@ class PlacesAutocomplete extends Component {
             {autocompleteItems.map((p, idx) => (
               <div
                 key={p.placeId}
+                id={`PlacesAutocomplete__autocomplete-item-${p.placeId}`}
+                role="option"
                 onMouseEnter={this.handleSuggestionMouseEnter.bind(this, idx)}
                 onMouseLeave={this.handleSuggestionMouseLeave.bind(this)}
                 onMouseDown={this.handleSuggestionMouseDown.bind(this)}
@@ -341,18 +357,12 @@ class PlacesAutocomplete extends Component {
                 onClick={this.handleSuggestionClick.bind(this, p)}
                 style={
                   p.active
-                    ? this.inlineStyleFor(
-                        'autocompleteItem',
-                        'autocompleteItemActive'
-                      )
+                    ? this.inlineStyleFor('autocompleteItem', 'autocompleteItemActive')
                     : this.inlineStyleFor('autocompleteItem')
                 }
                 className={
                   p.active
-                    ? this.classNameFor(
-                        'autocompleteItem',
-                        'autocompleteItemActive'
-                      )
+                    ? this.classNameFor('autocompleteItem', 'autocompleteItemActive')
                     : this.classNameFor('autocompleteItem')
                 }
               >
