@@ -1,9 +1,9 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
 import { mount, shallow } from 'enzyme';
 import sinon from 'sinon';
 import { expect } from './testHelper';
-import PlacesAutocomplete, { geocodeByAddress } from '../index.js';
+import PlacesAutocomplete from '../index.js';
 
 const testInputProps = {
   value: 'San Francisco, CA',
@@ -38,7 +38,7 @@ describe('PlacesAutocomplete callbacks', () => {
     sinon.stub(console, 'error');
     const wrapper = mount(<PlacesAutocomplete inputProps={testInputProps} />);
     wrapper.instance().autocompleteCallback([], 'ZERO_RESULTS');
-    expect(console.error.calledOnce).to.equal(true);
+    expect(console.error.calledOnce).to.equal(true); // eslint-disable-line no-console
   });
 });
 
@@ -197,6 +197,7 @@ describe('customizable autocompleteItem', () => {
     const renderSuggestion = ({ suggestion }) => (
       <div className="my-autocomplete-item">
         <i className="fa fa-map-marker" />
+        <span>{suggestion}</span>
       </div>
     );
     const wrapper = shallow(
@@ -301,10 +302,7 @@ describe('AutocompletionRequest options', () => {
     value: 'Boston, MA',
   };
   it('calls getPlacePredictions with the correct options', done => {
-    global.google.maps.places.AutocompleteService.prototype.getPlacePredictions = (
-      request,
-      callback
-    ) => {};
+    global.google.maps.places.AutocompleteService.prototype.getPlacePredictions = () => {};
     const spy = sinon.spy(
       global.google.maps.places.AutocompleteService.prototype,
       'getPlacePredictions'
@@ -341,7 +339,7 @@ describe('autoFocus prop', () => {
   });
 });
 
-describe("Enables using original input's value as it was another entry in autocomplete", () => {
+describe('Enables using original input\'s value as it was another entry in autocomplete', () => {
   const data = [
     {
       suggestion: 'San Francisco, CA',
@@ -390,7 +388,7 @@ describe("Enables using original input's value as it was another entry in autoco
     expect(wrapper.state().userInputValue).to.equal('san');
   });
 
-  it("don't focus on any entry when focus is on last item and arrow down key is pressed", () => {
+  it('don\'t focus on any entry when focus is on last item and arrow down key is pressed', () => {
     const lastItemActive = data.map((item, idx) => {
       return idx === data.length - 1 ? { ...item, active: true } : item;
     });
@@ -403,7 +401,7 @@ describe("Enables using original input's value as it was another entry in autoco
     });
   });
 
-  it("don't focus on any entry when focus is on first item and arrow up key is pressed", () => {
+  it('don\'t focus on any entry when focus is on first item and arrow up key is pressed', () => {
     const firstItemActive = data.map((item, idx) => {
       return idx === 0 ? { ...item, active: true } : item;
     });

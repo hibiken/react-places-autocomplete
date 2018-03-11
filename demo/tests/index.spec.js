@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import { expect } from '../../src/tests/testHelper';
-import PlacesAutocomplete, { geocodeByAddress } from '../../src';
+import PlacesAutocomplete from '../../src';
 import Demo from '../Demo';
 
 describe('<Demo />', () => {
@@ -27,7 +27,7 @@ describe('<Demo />', () => {
     expect(wrapper.find('.loader')).to.exist;
   });
 
-  it("doesn't initially render geocoding results", () => {
+  it('doesn\'t initially render geocoding results', () => {
     expect(wrapper.find('.geocoding-results')).to.not.exist;
   });
 

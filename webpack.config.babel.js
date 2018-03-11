@@ -1,6 +1,6 @@
-import { join } from 'path'
+import { join } from 'path';
 
-const include = join(__dirname, 'src')
+const include = join(__dirname, 'src');
 
 export default {
   entry: './src/index.js',
@@ -33,4 +33,4 @@ export default {
       }
     ]
   }
-}
+};

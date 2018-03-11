@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from '../../src';
 
+/* eslint-disable react/prop-types */
 const renderSuggestion = ({ formattedSuggestion }) => (
   <div className="Demo__suggestion-item">
     <i className="fa fa-map-marker Demo__suggestion-icon" />
@@ -8,6 +9,7 @@ const renderSuggestion = ({ formattedSuggestion }) => (
     <small className="text-muted">{formattedSuggestion.secondaryText}</small>
   </div>
 );
+/* eslint-enable react/prop-types */
 
 const renderFooter = () => (
   <div className="Demo__dropdown-footer">
@@ -29,10 +31,12 @@ const cssClasses = {
 const shouldFetchSuggestions = ({ value }) => value.length > 2;
 
 const onError = (status, clearSuggestions) => {
+  /* eslint-disable no-console */
   console.log(
     'Error happened while fetching suggestions from Google Maps API',
     status
   );
+  /* eslint-enable no-console */
   clearSuggestions();
 };
 
@@ -58,14 +62,14 @@ class SearchBar extends Component {
     geocodeByAddress(address)
       .then(results => getLatLng(results[0]))
       .then(({ lat, lng }) => {
-        console.log('Geocode Success', { lat, lng });
+        console.log('Geocode Success', { lat, lng }); // eslint-disable-line no-console
         this.setState({
           geocodeResults: this.renderGeocodeSuccess(lat, lng),
           loading: false,
         });
       })
       .catch(error => {
-        console.log('Geocode Error', error);
+        console.log('Geocode Error', error); // eslint-disable-line no-console
         this.setState({
           geocodeResults: this.renderGeocodeFailure(error),
           loading: false,
@@ -105,10 +109,10 @@ class SearchBar extends Component {
       value: this.state.address,
       onChange: this.handleChange,
       onBlur: () => {
-        console.log('Blur event!');
+        console.log('Blur event!'); // eslint-disable-line no-console
       },
       onFocus: () => {
-        console.log('Focused!');
+        console.log('Focused!'); // eslint-disable-line no-console
       },
       autoFocus: true,
       placeholder: 'Search Places',

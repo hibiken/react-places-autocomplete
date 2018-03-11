@@ -7,6 +7,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
+import defaultSuggestionItem from './SuggestionItem';
 import defaultStyles from './defaultStyles';
 
 class PlacesAutocomplete extends Component {
@@ -41,8 +42,8 @@ class PlacesAutocomplete extends Component {
       );
     }
 
-    this.autocompleteService = new google.maps.places.AutocompleteService();
-    this.autocompleteOK = google.maps.places.PlacesServiceStatus.OK;
+    this.autocompleteService = new window.google.maps.places.AutocompleteService();
+    this.autocompleteOK = window.google.maps.places.PlacesServiceStatus.OK;
   }
 
   autocompleteCallback(predictions, status) {
@@ -140,8 +141,6 @@ class PlacesAutocomplete extends Component {
     if (this.props.onEnterKeyDown) {
       this.props.onEnterKeyDown(this.props.inputProps.value);
       this.clearSuggestions();
-    } else {
-      return; //noop
     }
   }
 
@@ -177,21 +176,21 @@ class PlacesAutocomplete extends Component {
 
   handleInputKeyDown(event) {
     switch (event.key) {
-      case 'Enter':
-        event.preventDefault();
-        this.handleEnterKey();
-        break;
-      case 'ArrowDown':
-        event.preventDefault(); // prevent the cursor from moving
-        this.handleDownKey();
-        break;
-      case 'ArrowUp':
-        event.preventDefault(); // prevent the cursor from moving
-        this.handleUpKey();
-        break;
-      case 'Escape':
-        this.clearSuggestions();
-        break;
+    case 'Enter':
+      event.preventDefault();
+      this.handleEnterKey();
+      break;
+    case 'ArrowDown':
+      event.preventDefault(); // prevent the cursor from moving
+      this.handleDownKey();
+      break;
+    case 'ArrowUp':
+      event.preventDefault(); // prevent the cursor from moving
+      this.handleUpKey();
+      break;
+    case 'Escape':
+      this.clearSuggestions();
+      break;
     }
 
     if (this.props.inputProps.onKeyDown) {
@@ -360,17 +359,17 @@ class PlacesAutocomplete extends Component {
                 style={
                   p.active
                     ? this.inlineStyleFor(
-                        'autocompleteItem',
-                        'autocompleteItemActive'
-                      )
+                      'autocompleteItem',
+                      'autocompleteItemActive'
+                    )
                     : this.inlineStyleFor('autocompleteItem')
                 }
                 className={
                   p.active
                     ? this.classNameFor(
-                        'autocompleteItem',
-                        'autocompleteItemActive'
-                      )
+                      'autocompleteItem',
+                      'autocompleteItemActive'
+                    )
                     : this.classNameFor('autocompleteItem')
                 }
               >
@@ -393,13 +392,14 @@ PlacesAutocomplete.propTypes = {
     const inputProps = props[propName];
 
     if (!inputProps.hasOwnProperty('value')) {
-      throw new Error("'inputProps' must have 'value'.");
+      throw new Error('\'inputProps\' must have \'value\'.');
     }
 
     if (!inputProps.hasOwnProperty('onChange')) {
-      throw new Error("'inputProps' must have 'onChange'.");
+      throw new Error('\'inputProps\' must have \'onChange\'.');
     }
   },
+  onEnterKeyDown: PropTypes.func,
   onError: PropTypes.func,
   onSelect: PropTypes.func,
   renderSuggestion: PropTypes.func,
@@ -432,13 +432,15 @@ PlacesAutocomplete.propTypes = {
 };
 
 PlacesAutocomplete.defaultProps = {
+  /* eslint-disable no-unused-vars, no-console */
   onError: (status, _clearSuggestions) =>
     console.error(
       '[react-places-autocomplete]: error happened when fetching data from Google Maps API.\nPlease check the docs here (https://developers.google.com/maps/documentation/javascript/places#place_details_responses)\nStatus: ',
       status
     ),
+  /* eslint-enable no-unused-vars, no-console */
   classNames: {},
-  renderSuggestion: ({ suggestion }) => <div>{suggestion}</div>,
+  renderSuggestion: defaultSuggestionItem,
   styles: {},
   options: {},
   debounce: 200,
