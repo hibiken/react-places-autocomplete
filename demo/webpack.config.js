@@ -1,7 +1,7 @@
-var debug = process.env.NODE_ENV !== 'production'
-var webpack = require('webpack')
-var path = require('path')
-var CopyWebpackPlugin = require('copy-webpack-plugin')
+var debug = process.env.NODE_ENV !== 'production';
+var webpack = require('webpack');
+var path = require('path');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: './demo/index.js',
@@ -64,4 +64,4 @@ module.exports = {
           new webpack.IgnorePlugin(/^\.\/locale$/, [/moment$/]),
         ]
       : [],
-}
+};

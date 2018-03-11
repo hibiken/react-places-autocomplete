@@ -1,5 +1,5 @@
-import React from 'react'
-import SearchBar from './components/SearchBar'
+import React from 'react';
+import SearchBar from './components/SearchBar';
 
 const Demo = () => (
   <div className="page-wrapper">
@@ -25,6 +25,6 @@ const Demo = () => (
       <SearchBar />
     </div>
   </div>
-)
+);
 
-export default Demo
+export default Demo;

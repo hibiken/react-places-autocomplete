@@ -5,20 +5,20 @@
 // 3. Registers babel for transpiling our code for testing.
 
 // This assures the .babelrc dev config doesn't apply for tests.
-process.env.NODE_ENV = 'production'
+process.env.NODE_ENV = 'production';
 
 // Disable webpack-specific features for tests since
 // Mocha doesn't know what to do with them.
 require.extensions['.css'] = function() {
-  return null
-}
+  return null;
+};
 require.extensions['.png'] = function() {
-  return null
-}
+  return null;
+};
 require.extensions['.jpg'] = function() {
-  return null
-}
+  return null;
+};
 
 // Register babel so that it will transpile ES6 to ES5
 // before our tests run.
-require('babel-register')()
+require('babel-register')();
