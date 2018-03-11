@@ -24,6 +24,6 @@ const defaultStyles = {
   autocompleteItemActive: {
     backgroundColor: '#fafafa',
   },
-}
+};
 
-export default defaultStyles
+export default defaultStyles;

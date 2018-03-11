@@ -1,5 +1,5 @@
-import React from 'react'
-import SearchBar from './components/SearchBar'
+import React from 'react';
+import SearchBar from './components/SearchBar';
 
 const Demo = () => (
   <div className="page-wrapper">
@@ -16,6 +16,7 @@ const Demo = () => (
         href="https://github.com/kenny-hibino/react-places-autocomplete"
         className="Demo__github-link"
         target="_blank"
+        rel="noopener noreferrer"
       >
         <span className="fa fa-github Demo__github-icon" />
         &nbsp;View on GitHub
@@ -25,6 +26,6 @@ const Demo = () => (
       <SearchBar />
     </div>
   </div>
-)
+);
 
-export default Demo
+export default Demo;
