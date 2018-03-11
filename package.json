@@ -19,7 +19,8 @@
     "demo:deploy": "gh-pages -d demo/dist",
     "postpublish": "npm run demo:deploy",
     "prettier": "prettier --single-quote --trailing-comma es5 --arrow-parens avoid  --write \"src/**/*.js\" \"demo/**/*.js\"",
-    "lint": "eslint src/**/*.js demo/**/*.js"
+    "lint": "eslint src/**/*.js demo/**/*.js",
+    "lint:fix": "eslint --fix src/**/*.js demo/**/*.js"
   },
   "repository": {
     "type": "git",
