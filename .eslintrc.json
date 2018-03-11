@@ -7,7 +7,9 @@
     },
     "extends": [
       "eslint:recommended",
-      "plugin:react/recommended"
+      "plugin:react/recommended",
+      "prettier",
+      "prettier/react"
     ],
     "parserOptions": {
         "ecmaFeatures": {
@@ -17,7 +19,8 @@
         "sourceType": "module"
     },
     "plugins": [
-        "react"
+        "react",
+        "prettier"
     ],
     "rules": {
         "indent": [
@@ -35,6 +38,7 @@
         "semi": [
             "error",
             "always"
-        ]
+        ],
+        "prettier/prettier": "error"
     }
 }

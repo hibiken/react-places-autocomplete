@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import { expect } from '../../src/tests/testHelper';
@@ -27,7 +28,7 @@ describe('<Demo />', () => {
     expect(wrapper.find('.loader')).to.exist;
   });
 
-  it('doesn\'t initially render geocoding results', () => {
+  it("doesn't initially render geocoding results", () => {
     expect(wrapper.find('.geocoding-results')).to.not.exist;
   });
 

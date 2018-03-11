@@ -175,23 +175,25 @@ class PlacesAutocomplete extends Component {
   }
 
   handleInputKeyDown(event) {
+    /* eslint-disable indent */
     switch (event.key) {
-    case 'Enter':
-      event.preventDefault();
-      this.handleEnterKey();
-      break;
-    case 'ArrowDown':
-      event.preventDefault(); // prevent the cursor from moving
-      this.handleDownKey();
-      break;
-    case 'ArrowUp':
-      event.preventDefault(); // prevent the cursor from moving
-      this.handleUpKey();
-      break;
-    case 'Escape':
-      this.clearSuggestions();
-      break;
+      case 'Enter':
+        event.preventDefault();
+        this.handleEnterKey();
+        break;
+      case 'ArrowDown':
+        event.preventDefault(); // prevent the cursor from moving
+        this.handleDownKey();
+        break;
+      case 'ArrowUp':
+        event.preventDefault(); // prevent the cursor from moving
+        this.handleUpKey();
+        break;
+      case 'Escape':
+        this.clearSuggestions();
+        break;
     }
+    /* eslint-enable indent */
 
     if (this.props.inputProps.onKeyDown) {
       this.props.inputProps.onKeyDown(event);
@@ -344,41 +346,43 @@ class PlacesAutocomplete extends Component {
             style={this.inlineStyleFor('autocompleteContainer')}
             className={this.classNameFor('autocompleteContainer')}
           >
-            {autocompleteItems.map((p, idx) => (
-              <div
-                key={p.placeId}
-                id={`PlacesAutocomplete__autocomplete-item-${p.placeId}`}
-                role="option"
-                onMouseEnter={this.handleSuggestionMouseEnter.bind(this, idx)}
-                onMouseLeave={this.handleSuggestionMouseLeave.bind(this)}
-                onMouseDown={this.handleSuggestionMouseDown.bind(this)}
-                onMouseUp={this.handleSuggestionMouseUp.bind(this)}
-                onTouchStart={this.handleSuggestionTouchStart.bind(this)}
-                onTouchEnd={this.handleSuggestionMouseUp.bind(this)}
-                onClick={this.handleSuggestionClick.bind(this, p)}
-                style={
-                  p.active
-                    ? this.inlineStyleFor(
-                      'autocompleteItem',
-                      'autocompleteItemActive'
-                    )
-                    : this.inlineStyleFor('autocompleteItem')
-                }
-                className={
-                  p.active
-                    ? this.classNameFor(
-                      'autocompleteItem',
-                      'autocompleteItemActive'
-                    )
-                    : this.classNameFor('autocompleteItem')
-                }
-              >
-                {this.props.renderSuggestion({
-                  suggestion: p.suggestion,
-                  formattedSuggestion: p.formattedSuggestion,
-                })}
-              </div>
-            ))}
+            {autocompleteItems.map((p, idx) => {
+              /* eslint-disable indent */
+              const style = p.active
+                ? this.inlineStyleFor(
+                    'autocompleteItem',
+                    'autocompleteItemActive'
+                  )
+                : this.inlineStyleFor('autocompleteItem');
+              const className = p.active
+                ? this.classNameFor(
+                    'autocompleteItem',
+                    'autocompleteItemActive'
+                  )
+                : this.classNameFor('autocompleteItem');
+              /* eslint-enable indent */
+              return (
+                <div
+                  key={p.placeId}
+                  id={`PlacesAutocomplete__autocomplete-item-${p.placeId}`}
+                  role="option"
+                  style={style}
+                  className={className}
+                  onMouseEnter={this.handleSuggestionMouseEnter.bind(this, idx)}
+                  onMouseLeave={this.handleSuggestionMouseLeave.bind(this)}
+                  onMouseDown={this.handleSuggestionMouseDown.bind(this)}
+                  onMouseUp={this.handleSuggestionMouseUp.bind(this)}
+                  onTouchStart={this.handleSuggestionTouchStart.bind(this)}
+                  onTouchEnd={this.handleSuggestionMouseUp.bind(this)}
+                  onClick={this.handleSuggestionClick.bind(this, p)}
+                >
+                  {this.props.renderSuggestion({
+                    suggestion: p.suggestion,
+                    formattedSuggestion: p.formattedSuggestion,
+                  })}
+                </div>
+              );
+            })}
             {this.props.renderFooter && this.props.renderFooter()}
           </div>
         )}
@@ -392,11 +396,11 @@ PlacesAutocomplete.propTypes = {
     const inputProps = props[propName];
 
     if (!inputProps.hasOwnProperty('value')) {
-      throw new Error('\'inputProps\' must have \'value\'.');
+      throw new Error("'inputProps' must have 'value'."); // eslint-disable-line quotes
     }
 
     if (!inputProps.hasOwnProperty('onChange')) {
-      throw new Error('\'inputProps\' must have \'onChange\'.');
+      throw new Error("'inputProps' must have 'onChange'."); // eslint-disable-line quotes
     }
   },
   onEnterKeyDown: PropTypes.func,

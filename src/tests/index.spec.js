@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+/* eslint-disable react/prop-types, quotes */
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import sinon from 'sinon';
@@ -339,7 +339,7 @@ describe('autoFocus prop', () => {
   });
 });
 
-describe('Enables using original input\'s value as it was another entry in autocomplete', () => {
+describe("Enables using original input's value as it was another entry in autocomplete", () => {
   const data = [
     {
       suggestion: 'San Francisco, CA',
@@ -388,7 +388,7 @@ describe('Enables using original input\'s value as it was another entry in autoc
     expect(wrapper.state().userInputValue).to.equal('san');
   });
 
-  it('don\'t focus on any entry when focus is on last item and arrow down key is pressed', () => {
+  it("don't focus on any entry when focus is on last item and arrow down key is pressed", () => {
     const lastItemActive = data.map((item, idx) => {
       return idx === data.length - 1 ? { ...item, active: true } : item;
     });
@@ -401,7 +401,7 @@ describe('Enables using original input\'s value as it was another entry in autoc
     });
   });
 
-  it('don\'t focus on any entry when focus is on first item and arrow up key is pressed', () => {
+  it("don't focus on any entry when focus is on first item and arrow up key is pressed", () => {
     const firstItemActive = data.map((item, idx) => {
       return idx === 0 ? { ...item, active: true } : item;
     });
