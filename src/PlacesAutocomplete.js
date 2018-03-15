@@ -338,7 +338,11 @@ class PlacesAutocomplete extends Component {
         style={this.inlineStyleFor('root')}
         className={this.classNameFor('root')}
       >
-        <input {...inputProps} />
+        {typeof this.props.renderInput === 'function' ? (
+          this.props.renderInput(inputProps)
+        ) : (
+          <input {...inputProps} />
+        )}
         {this.shouldRenderDropdown() && (
           <div
             role="listbox"
@@ -403,6 +407,7 @@ PlacesAutocomplete.propTypes = {
       throw new Error("'inputProps' must have 'onChange'."); // eslint-disable-line quotes
     }
   },
+  renderInput: PropTypes.func,
   onEnterKeyDown: PropTypes.func,
   onError: PropTypes.func,
   onSelect: PropTypes.func,

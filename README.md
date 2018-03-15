@@ -16,7 +16,7 @@ Live demo: [kenny-hibino.github.io/react-places-autocomplete/](https://kenny-hib
 ### Features
 1. Enable you to easily build a customized autocomplete dropdown powered by [Google Maps Places Library](https://developers.google.com/maps/documentation/javascript/places)
 2. [Utility functions](#utility-functions) to geocode and get latitude and longitude using [Google Maps Geocoder API](https://developers.google.com/maps/documentation/javascript/geocoding)
-3. Pass through arbitrary props to the input element to integrate well with other libraries (e.g. Redux-Form)  
+3. Pass through arbitrary props to the input element to integrate well with other libraries (e.g. Redux-Form)
 4. Mobile friendly UX
 5. WAI-ARIA compliant
 
@@ -101,6 +101,7 @@ export default SimpleForm
 | Prop        | Type           | Required  | Description |
 | ------------- |:-------------:| :-----: |-------|
 | [`inputProps`](#inputProps) | object | :white_check_mark: | Arbitrary props to input element, `value` and `onChange` are required keys |
+| [`renderInput`](#renderInput) | function |  | Functional react component to render input |
 | [`renderSuggestion`](#renderSuggestion) | function |  | Functional react component to render dropdown list item |
 | [`renderFooter`](#renderFooter) | function |  | Functional react component to render footer at the bottom of the dropdown list |
 | [`classNames`](#classNames) | object | | Pass CSS classes to rendered elements |
@@ -133,6 +134,32 @@ You can pass arbitrary props to the input element thorough `inputProps` object (
     placeholder: 'Search Places...',
     autoFocus: true,
   }
+```
+
+<a name="renderInput"></a>
+#### renderInput
+Type: `Functional React Component`,
+Required: `false`
+
+The function takes input props.
+
+```js
+render() {
+  const renderInput = (inputProps) => (
+    <div className="my-fancy-input">
+      <div className="that-need-a-very-custom-markup">
+        <input {...inputProps />
+      </div>
+    </div>
+  )
+
+  return (
+    <PlacesAutocomplete
+      inputProps={inputProps}
+      renderInput={renderInput}
+    />
+  )
+}
 ```
 
 <a name="renderSuggestion"></a>
