@@ -7,6 +7,7 @@ const defaultStyles = {
     display: 'inline-block',
     width: '100%',
     padding: '10px',
+    resize: 'none',
   },
   autocompleteContainer: {
     position: 'absolute',

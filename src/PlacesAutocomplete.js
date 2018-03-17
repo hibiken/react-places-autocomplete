@@ -329,6 +329,7 @@ class PlacesAutocomplete extends Component {
   }
 
   render() {
+    const { rows } = this.props;
     const { autocompleteItems } = this.state;
     const inputProps = this.getInputProps();
 
@@ -338,7 +339,10 @@ class PlacesAutocomplete extends Component {
         style={this.inlineStyleFor('root')}
         className={this.classNameFor('root')}
       >
-        <input {...inputProps} />
+        {rows > 1
+          ? <textarea {...inputProps} rows={rows} />
+          : <input {...inputProps} />
+        }
         {this.shouldRenderDropdown() && (
           <div
             role="listbox"
@@ -433,6 +437,7 @@ PlacesAutocomplete.propTypes = {
   highlightFirstSuggestion: PropTypes.bool,
   renderFooter: PropTypes.func,
   shouldFetchSuggestions: PropTypes.func.isRequired,
+  rows: PropTypes.number,
 };
 
 PlacesAutocomplete.defaultProps = {
@@ -450,6 +455,7 @@ PlacesAutocomplete.defaultProps = {
   debounce: 200,
   highlightFirstSuggestion: false,
   shouldFetchSuggestions: () => true,
+  rows: 1,
 };
 
 export default PlacesAutocomplete;

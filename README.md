@@ -112,6 +112,7 @@ export default SimpleForm
 |[`debounce`](#debounce) | number | | Number of milliseconds to delay before making a call to Google Maps API |
 | [`highlightFirstSuggestion`](#highlightFirstSuggestion) | boolean | | If set to `true`, first list item in the dropdown will be automatically highlighted |
 |[`shouldFetchSuggestions`](#shouldFetchSuggestions)| function | | Component will fetch suggestions from Google Maps API only when this function returns `true` |
+|[`rows`](#rows)| number | | If greater than 1, will render `textarea` instead of `input` with {rows} number of rows. |
 
 <a name="inputProps"></a>
 #### inputProps
@@ -428,6 +429,14 @@ const shouldFetchSuggestions = ({ value }) => value.length > 3
   shouldFetchSuggestions={shouldFetchSuggestions}
 />
 ```
+
+<a name="rows"></a>
+#### rows
+Type: `Number`
+Required: `false`
+Default: `1`
+
+If greater than 1, will render `textarea` instead of `input` with {rows} number of rows.
 
 <a name="utility-functions"></a>
 ## Utility Functions
