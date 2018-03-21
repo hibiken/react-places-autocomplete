@@ -64,8 +64,14 @@ body, #root, .page-wrapper {
 }
 
 .Demo__suggestion-item {
-  padding: 4px;
+  padding: 6px;
   text-align: left;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.Demo__suggestion-item--active {
+  background-color: #fafafa;
 }
 
 .Demo__dropdown-footer {

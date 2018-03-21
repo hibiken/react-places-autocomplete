@@ -57,11 +57,12 @@
   "homepage": "https://github.com/kenny-hibino/react-places-autocomplete#readme",
   "devDependencies": {
     "babel-cli": "^6.23.0",
+    "babel-eslint": "8.2.2",
     "babel-loader": "^6.3.2",
     "babel-plugin-react-transform": "^2.0.2",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-react-remove-prop-types": "^0.3.2",
-    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-env": "1.6.1",
     "babel-preset-react": "^6.23.1",
     "babel-preset-stage-0": "^6.22.0",
     "babel-register": "^6.23.0",
