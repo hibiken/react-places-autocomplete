@@ -19,3 +19,25 @@ exports[`initial render 1`] = `
   <div />
 </div>
 `;
+
+exports[`initial render with options to props-getter 1`] = `
+<div>
+  <input
+    aria-activedescendant={null}
+    aria-autocomplete="list"
+    aria-controls="PlacesAutocomplete__autocomplete-container"
+    aria-expanded={false}
+    aria-haspopup={false}
+    autoComplete="off"
+    className="my-input-classname"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onKeyDown={[Function]}
+    placeholder="Search Places..."
+    role="combobox"
+    type="text"
+    value=""
+  />
+  <div />
+</div>
+`;

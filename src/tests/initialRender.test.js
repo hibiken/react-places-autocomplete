@@ -11,15 +11,12 @@ test('initial render', () => {
   let state = {
     address: '',
   };
-  const onChangeFunc = (newAddress) => {
+  const onChangeFunc = newAddress => {
     state = { address: newAddress }; // reassian new object to state
-  }
+  };
 
   const component = renderer.create(
-    <PlacesAutocomplete
-      value={state.address}
-      onChange={onChangeFunc}
-    >
+    <PlacesAutocomplete value={state.address} onChange={onChangeFunc}>
       {({ getInputProps, suggestions, getSuggestionItemProps }) => (
         <div>
           <input {...getInputProps()} />
@@ -27,8 +24,48 @@ test('initial render', () => {
             {suggestions.map(
               suggestion => (
                 /* eslint-disable react/jsx-key */
+                <div {...getSuggestionItemProps(suggestion)}>
+                  <span>{suggestion.description}</span>
+                </div>
+              )
+              /* eslint-enable react/jsx-key */
+            )}
+          </div>
+        </div>
+      )}
+    </PlacesAutocomplete>
+  );
+
+  const tree = component.toJSON();
+  expect(tree).toMatchSnapshot();
+});
+
+test('initial render with options to props-getter', () => {
+  let state = {
+    address: '',
+  };
+  const onChangeFunc = newAddress => {
+    state = { address: newAddress }; // reassian new object to state
+  };
+
+  const component = renderer.create(
+    <PlacesAutocomplete value={state.address} onChange={onChangeFunc}>
+      {({ getInputProps, suggestions, getSuggestionItemProps }) => (
+        <div>
+          <input
+            {...getInputProps({
+              placeholder: 'Search Places...',
+              className: 'my-input-classname',
+            })}
+          />
+          <div>
+            {suggestions.map(
+              suggestion => (
+                /* eslint-disable react/jsx-key */
                 <div
-                  {...getSuggestionItemProps(suggestion)}
+                  {...getSuggestionItemProps(suggestion, {
+                    className: 'my-suggestion-item-className',
+                  })}
                 >
                   <span>{suggestion.description}</span>
                 </div>
@@ -41,6 +78,6 @@ test('initial render', () => {
     </PlacesAutocomplete>
   );
 
-  let tree = component.toJSON();
+  const tree = component.toJSON();
   expect(tree).toMatchSnapshot();
 });
