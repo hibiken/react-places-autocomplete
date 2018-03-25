@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`smoke test 1`] = `
+<div>
+  <input
+    aria-activedescendant={null}
+    aria-autocomplete="list"
+    aria-controls="PlacesAutocomplete__autocomplete-container"
+    aria-expanded={false}
+    aria-haspopup={false}
+    autoComplete="off"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onKeyDown={[Function]}
+    role="combobox"
+    type="text"
+    value=""
+  />
+  <div />
+</div>
+`;
