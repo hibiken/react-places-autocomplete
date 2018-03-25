@@ -1,28 +1,13 @@
 import React from 'react';
-import PlacesAutocomplete from '../index';
 import renderer from 'react-test-renderer';
+import PlacesAutocomplete from '../index';
+import { setupGoogleMock } from './helpers/setup';
 
-// TODO: Move this setup code to a separate file
-/*** Mock Google Maps JavaScript API ***/
-const google = {
-  maps: {
-    places: {
-      AutocompleteService: () => {},
-      PlacesServiceStatus: {
-        OK: 'OK',
-      },
-    },
-  },
-};
-global.window.google = google;
+beforeAll(() => {
+  setupGoogleMock();
+});
 
-test('smoke test', () => {
-  console.log(typeof global.window !== "undefined" ? "global.window is defined" : "No window");
-  console.log(global.window.google);
-  expect(true).toBe(true);
-})
-
-test('smoke test', () => {
+test('initial render', () => {
   let state = {
     address: '',
   };

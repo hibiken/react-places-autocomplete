@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`smoke test 1`] = `
+exports[`initial render 1`] = `
 <div>
   <input
     aria-activedescendant={null}
