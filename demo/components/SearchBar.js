@@ -1,5 +1,5 @@
 import React from 'react';
-import PlacesAutocomplete from '../../src';
+import PlacesAutocomplete, { geocodeByAddress } from '../../src';
 
 class SearchBar extends React.Component {
   constructor(props) {
@@ -11,7 +11,16 @@ class SearchBar extends React.Component {
   }
 
   handleSelect = selected => {
-    console.log('selected', selected); // eslint-disable-line no-console
+    /* eslint-disable no-console */
+    console.log('selected', selected);
+    geocodeByAddress(selected)
+      .then(res =>
+        console.log('res', JSON.stringify(res))
+      )
+      .catch(error => {
+        console.log('error', error);
+      });
+    /* eslint-enable no-console */
   };
 
   render() {

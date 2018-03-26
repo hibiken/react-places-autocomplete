@@ -5,9 +5,9 @@
   "main": "dist/index.js",
   "scripts": {
     "commit": "git-cz",
-    "watch:test": "npm t -- -w",
     "test": "jest",
     "test:update": "jest --updateSnapshot",
+    "test:watch": "jest --watch",
     "prebuild": "rimraf dist",
     "build": "npm-run-all --parallel build:*",
     "build:main": "babel --copy-files --out-dir dist --ignore *.spec.js src",
