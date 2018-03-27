@@ -205,6 +205,13 @@ class PlacesAutocomplete extends React.Component {
     }
   };
 
+  getActiveSuggestionId = () => {
+    const activeSuggestion = this.getActiveSuggestion();
+    return activeSuggestion
+      ? `PlacesAutocomplete__suggestion-${activeSuggestion.placeId}`
+      : null;
+  };
+
   getIsExpanded = () => {
     return this.state.suggestions.length > 0;
   };
@@ -222,20 +229,13 @@ class PlacesAutocomplete extends React.Component {
       );
     }
 
-    const isExpanded = this.getIsExpanded();
-    const activeSuggestion = this.getActiveSuggestion();
-    const activeSuggestionId = activeSuggestion
-      ? `PlacesAutocomplete__suggestion-${activeSuggestion.placeId}`
-      : null;
     const defaultInputProps = {
       type: 'text',
       autoComplete: 'off',
       role: 'combobox',
       'aria-autocomplete': 'list',
-      'aria-controls': 'PlacesAutocomplete__autocomplete-container',
-      'aria-expanded': isExpanded,
-      'aria-haspopup': isExpanded,
-      'aria-activedescendant': activeSuggestionId,
+      'aria-expanded': this.getIsExpanded(),
+      'aria-activedescendant': this.getActiveSuggestionId(),
     };
 
     return {
@@ -255,7 +255,7 @@ class PlacesAutocomplete extends React.Component {
     return {
       ...whitelistedOptions,
       key: suggestion.placeId,
-      id: `PlacesAutocomplete__suggestion-${suggestion.placeId}`,
+      id: this.getActiveSuggestionId(),
       role: 'option',
       onMouseEnter: this.handleSuggestionMouseEnter.bind(
         this,

@@ -14,9 +14,7 @@ class SearchBar extends React.Component {
     /* eslint-disable no-console */
     console.log('selected', selected);
     geocodeByAddress(selected)
-      .then(res =>
-        console.log('res', JSON.stringify(res))
-      )
+      .then(res => console.log('res', JSON.stringify(res)))
       .catch(error => {
         console.log('error', error);
       });

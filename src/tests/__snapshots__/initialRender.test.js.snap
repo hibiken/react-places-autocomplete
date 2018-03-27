@@ -14,9 +14,7 @@ exports[`initial render 1`] = `
     <input
       aria-activedescendant={null}
       aria-autocomplete="list"
-      aria-controls="PlacesAutocomplete__autocomplete-container"
       aria-expanded={false}
-      aria-haspopup={false}
       autoComplete="off"
       onBlur={[Function]}
       onChange={[Function]}
@@ -44,9 +42,7 @@ exports[`initial render with options to props-getter 1`] = `
     <input
       aria-activedescendant={null}
       aria-autocomplete="list"
-      aria-controls="PlacesAutocomplete__autocomplete-container"
       aria-expanded={false}
-      aria-haspopup={false}
       autoComplete="off"
       className="my-input-classname"
       onBlur={[Function]}
