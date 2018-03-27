@@ -1,5 +1,5 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import { mount } from 'enzyme';
 import PlacesAutocomplete from '../index';
 import { setupGoogleMock } from './helpers/setup';
 
@@ -15,7 +15,7 @@ test('initial render', () => {
     state = { address: newAddress }; // reassian new object to state
   };
 
-  const component = renderer.create(
+  const component = mount(
     <PlacesAutocomplete value={state.address} onChange={onChangeFunc}>
       {({ getInputProps, suggestions, getSuggestionItemProps }) => (
         <div>
@@ -36,8 +36,7 @@ test('initial render', () => {
     </PlacesAutocomplete>
   );
 
-  const tree = component.toJSON();
-  expect(tree).toMatchSnapshot();
+  expect(component).toMatchSnapshot();
 });
 
 test('initial render with options to props-getter', () => {
@@ -48,7 +47,7 @@ test('initial render with options to props-getter', () => {
     state = { address: newAddress }; // reassian new object to state
   };
 
-  const component = renderer.create(
+  const component = mount(
     <PlacesAutocomplete value={state.address} onChange={onChangeFunc}>
       {({ getInputProps, suggestions, getSuggestionItemProps }) => (
         <div>
@@ -78,6 +77,5 @@ test('initial render with options to props-getter', () => {
     </PlacesAutocomplete>
   );
 
-  const tree = component.toJSON();
-  expect(tree).toMatchSnapshot();
+  expect(component).toMatchSnapshot();
 });
