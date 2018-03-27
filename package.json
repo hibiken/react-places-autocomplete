@@ -119,8 +119,8 @@
     "react": ">=0.14.7"
   },
   "jest": {
-    "collectCoverageFrom": [
-      "src/*.js"
-    ]
+    "setupFiles": ["./src/tests/helpers/jestSetup.js"],
+    "snapshotSerializers": ["enzyme-to-json/serializer"],
+    "collectCoverageFrom": ["src/*.js"]
   }
 }
