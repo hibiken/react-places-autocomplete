@@ -68,7 +68,6 @@
     "babel-preset-env": "1.6.1",
     "babel-preset-react": "^6.23.1",
     "babel-preset-stage-0": "^6.22.0",
-    "babel-register": "^6.23.0",
     "commitizen": "2.8.2",
     "copy-webpack-plugin": "^4.0.1",
     "cz-conventional-changelog": "1.1.6",
@@ -86,7 +85,6 @@
     "jest": "22.4.3",
     "json-loader": "0.5.4",
     "npm-run-all": "2.3.0",
-    "nyc": "7.0.0",
     "prettier": "1.10.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
@@ -119,8 +117,14 @@
     "react": ">=0.14.7"
   },
   "jest": {
-    "setupFiles": ["./src/tests/helpers/jestSetup.js"],
-    "snapshotSerializers": ["enzyme-to-json/serializer"],
-    "collectCoverageFrom": ["src/*.js"]
+    "setupFiles": [
+      "./src/tests/helpers/jestSetup.js"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
+    "collectCoverageFrom": [
+      "src/*.js"
+    ]
   }
 }
