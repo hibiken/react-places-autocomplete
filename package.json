@@ -8,6 +8,7 @@
     "test": "jest",
     "test:update": "jest --updateSnapshot",
     "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
     "prebuild": "rimraf dist",
     "build": "npm-run-all --parallel build:*",
     "build:main": "babel --copy-files --out-dir dist --ignore *.spec.js src",
@@ -113,5 +114,10 @@
   },
   "peerDependencies": {
     "react": ">=0.14.7"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/*.js"
+    ]
   }
 }
