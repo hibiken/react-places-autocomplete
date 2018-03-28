@@ -79,3 +79,35 @@ test('initial render with options to props-getter', () => {
 
   expect(component).toMatchSnapshot();
 });
+
+test('initial render with initial input value', () => {
+  let state = {
+    address: 'San Francisco, CA',
+  };
+  const onChangeFunc = newAddress => {
+    state = { address: newAddress }; // reassian new object to state
+  };
+
+  const component = mount(
+    <PlacesAutocomplete value={state.address} onChange={onChangeFunc}>
+      {({ getInputProps, suggestions, getSuggestionItemProps }) => (
+        <div>
+          <input {...getInputProps()} />
+          <div>
+            {suggestions.map(
+              suggestion => (
+                /* eslint-disable react/jsx-key */
+                <div {...getSuggestionItemProps(suggestion)}>
+                  <span>{suggestion.description}</span>
+                </div>
+              )
+              /* eslint-enable react/jsx-key */
+            )}
+          </div>
+        </div>
+      )}
+    </PlacesAutocomplete>
+  );
+
+  expect(component).toMatchSnapshot();
+});
