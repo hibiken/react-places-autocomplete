@@ -21,6 +21,11 @@ class SearchBar extends React.Component {
     /* eslint-enable no-console */
   };
 
+  handleCloseClick = (e) => {
+    console.log(e);
+    this.setState({ address: '' });
+  }
+
   render() {
     return (
       <PlacesAutocomplete
@@ -35,12 +40,20 @@ class SearchBar extends React.Component {
         {({ getInputProps, suggestions, getSuggestionItemProps }) => {
           return (
             <div>
-              <input
-                {...getInputProps({
-                  placeholder: 'Search Places...',
-                  className: 'Demo__search-input',
-                })}
-              />
+              <div className="Demo__search-input-container">
+                <input
+                  {...getInputProps({
+                    placeholder: 'Search Places...',
+                    className: 'Demo__search-input',
+                  })}
+                />
+                {this.state.address.length > 0 && (
+                  <button
+                    className="Demo__clear-button"
+                    onClick={this.handleCloseClick}
+                  >x</button>
+                )}
+              </div>
               <div className="Demo__autocomplete-container">
                 {suggestions.map(
                   suggestion => (

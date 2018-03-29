@@ -41,6 +41,10 @@ body, #root, .page-wrapper {
   color: #e53935;
 }
 
+.Demo__search-input-container {
+  position: relative;
+}
+
 .Demo__search-input,
 .Demo__search-input:focus,
 .Demo__search-input:active {
@@ -52,6 +56,20 @@ body, #root, .page-wrapper {
   font-size: 16px;
   border-radius: 2px;
   outline: none;
+}
+
+.Demo__clear-button,
+.Demo__clear-button:active,
+.Demo__clear-button:focus {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  outline: none;
+  font-weight: 600;
+  color: #999;
 }
 
 .Demo__autocomplete-container {
