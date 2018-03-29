@@ -1,3 +1,6 @@
+import React from 'react';
+import { mount } from 'enzyme';
+import PlacesAutocomplete from '../..';
 import { GEOCODE_RESULT } from './googlePayloads';
 
 class GeocoderMock {
@@ -57,4 +60,29 @@ export const setupGoogleMock = () => {
     },
   };
   global.window.google = google;
+};
+
+export const mountComponent = props => {
+  const { value, onChange } = props;
+  const wrapper = mount(
+    <PlacesAutocomplete value={value} onChange={onChange}>
+      {({ getInputProps, suggestions, getSuggestionItemProps }) => (
+        <div>
+          <input {...getInputProps()} />
+          <div>
+            {suggestions.map(
+              suggestion => (
+                /* eslint-disable react/jsx-key */
+                <div {...getSuggestionItemProps(suggestion)}>
+                  <span>{suggestion.description}</span>
+                </div>
+              )
+              /* eslint-enable react/jsx-key */
+            )}
+          </div>
+        </div>
+      )}
+    </PlacesAutocomplete>
+  );
+  return wrapper;
 };
