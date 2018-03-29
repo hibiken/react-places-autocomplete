@@ -55,11 +55,15 @@ class PlacesAutocomplete extends React.Component {
     const { highlightFirstSuggestion } = this.props;
     this.setState({
       suggestions: predictions.map((p, idx) => ({
+        id: p.id,
         description: p.description,
         placeId: p.place_id,
         active: highlightFirstSuggestion && idx === 0 ? true : false,
         index: idx,
         formattedSuggestion: formattedSuggestion(p.structured_formatting),
+        matchedSubstrings: p.matched_substrings,
+        terms: p.terms,
+        types: p.types,
       })),
     });
   };
