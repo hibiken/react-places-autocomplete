@@ -1,5 +1,6 @@
 /* eslint-disable quotes */
-/*
+
+/**
  * Simulates User typing 'San Francisco' in input,
  * and getting results back from Google Maps API,
  * populating `suggesions` state.

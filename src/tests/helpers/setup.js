@@ -62,8 +62,14 @@ export const setupGoogleMock = () => {
   global.window.google = google;
 };
 
-export const mountComponent = props => {
-  const { value, onChange } = props;
+const DEFAULT_PROPS = {
+  value: '',
+  onChange: () => {},
+};
+
+export const mountComponent = (props = {}) => {
+  const _props = { ...DEFAULT_PROPS, ...props };
+  const { value, onChange } = _props;
   const wrapper = mount(
     <PlacesAutocomplete value={value} onChange={onChange}>
       {({ getInputProps, suggestions, getSuggestionItemProps }) => (
