@@ -258,7 +258,7 @@ class PlacesAutocomplete extends React.Component {
     const whitelistedOptions = pick(options, 'className', 'style');
     return {
       ...whitelistedOptions,
-      key: suggestion.placeId,
+      key: suggestion.id,
       id: this.getActiveSuggestionId(),
       role: 'option',
       onMouseEnter: this.handleSuggestionMouseEnter.bind(
