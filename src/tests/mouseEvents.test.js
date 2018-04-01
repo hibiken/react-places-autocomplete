@@ -21,16 +21,4 @@ describe('mouse event handlers', () => {
     suggestions = wrapper.state().suggestions;
     expect(suggestions[0].active).toEqual(false);
   });
-
-  test('suggesion item handles click event', () => {
-    const onSelectHandler = jest.fn();
-    const wrapper = mountComponent({ onSelect: onSelectHandler });
-    simulateSearch(wrapper);
-
-    const suggestionItem = wrapper
-      .find('[data-test="suggestion-item"]')
-      .first();
-    suggestionItem.simulate('click');
-    expect(onSelectHandler).toHaveBeenCalledTimes(1);
-  })
 });
