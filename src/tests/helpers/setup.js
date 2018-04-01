@@ -65,13 +65,16 @@ export const setupGoogleMock = () => {
 const DEFAULT_PROPS = {
   value: '',
   onChange: () => {},
+  onSelect: () => {},
+  debounce: 200,
+  highlightFirstSuggestion: true,
+  shouldFetchSuggestions: true,
 };
 
 export const mountComponent = (props = {}) => {
   const _props = { ...DEFAULT_PROPS, ...props };
-  const { value, onChange } = _props;
   const wrapper = mount(
-    <PlacesAutocomplete value={value} onChange={onChange}>
+    <PlacesAutocomplete {..._props}>
       {({ getInputProps, suggestions, getSuggestionItemProps }) => (
         <div>
           <input {...getInputProps()} />
@@ -79,7 +82,11 @@ export const mountComponent = (props = {}) => {
             {suggestions.map(
               suggestion => (
                 /* eslint-disable react/jsx-key */
-                <div {...getSuggestionItemProps(suggestion)}>
+                <div
+                  {...getSuggestionItemProps(suggestion, {
+                    'data-test': 'suggestion-item',
+                  })}
+                >
                   <span>{suggestion.description}</span>
                 </div>
               )

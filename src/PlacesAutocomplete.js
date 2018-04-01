@@ -7,7 +7,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
-import { compose, pick } from './helpers';
+import { compose } from './helpers';
 
 // transform snake_case to camelCase
 const formattedSuggestion = structured_formatting => ({
@@ -255,9 +255,10 @@ class PlacesAutocomplete extends React.Component {
   };
 
   getSuggestionItemProps = (suggestion, options = {}) => {
-    const whitelistedOptions = pick(options, 'className', 'style');
+    // TODO: whitelist options OR allow all options and compose
+    // event handlers
     return {
-      ...whitelistedOptions,
+      ...options,
       key: suggestion.id,
       id: this.getActiveSuggestionId(),
       role: 'option',

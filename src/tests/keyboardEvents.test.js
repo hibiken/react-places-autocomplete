@@ -34,7 +34,7 @@ describe('keyboard events handlers', () => {
     input.simulate('keydown', { key: 'ArrowDown' }); // index 0 active
     input.simulate('keydown', { key: 'ArrowDown' }); // index 1 active
     input.simulate('keydown', { key: 'ArrowDown' }); // index 2 active
-    input.simulate('keydown', { key: 'ArrowUp' });   // index 1 active
+    input.simulate('keydown', { key: 'ArrowUp' }); // index 1 active
     const { suggestions } = wrapper.state();
     expect(suggestions[1].active).toEqual(true);
   });
