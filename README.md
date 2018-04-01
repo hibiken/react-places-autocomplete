@@ -81,31 +81,24 @@ class LocationSearchInput extends React.Component {
         onSelect={this.handleSelect}
       >
         {({ getInputProps, suggestions, getSuggestionItemProps }) => (
-            <div>
-              <input
-                {...getInputProps({
-                  placeholder: 'Search Places...',
-                  className: 'search-input',
-                })}
-              />
-              <div className="autocomplete-container">
-                {suggestions.map(suggestion => (
-                   <div
-                      {...getSuggestionItemProps(suggestion, {
-                        className: `suggestion-item${
-                          suggestion.active
-                            ? ' suggestion-item--active'
-                            : ''
-                        }`,
-                      })}
-                   >
-                   <span>
-                     {suggestion.description}
-                   </span>
-                 </div>
-                ))}
-              </div>
+          <div>
+            <input
+              {...getInputProps({
+                placeholder: 'Search Places ...',
+                className: 'location-search-input'
+              })}
+            />
+            <div className="autocomplete-dropdown-container">
+              {suggestions.map(suggestion => {
+                const className = suggestion.active ? 'suggestion-item--active' : 'suggestion-item';
+                return (
+                  <div {...getSuggestionItemProps(suggestion, { className })}>
+                    <span>{suggestion.description}</span>
+                  </div>
+                )
+              })}
             </div>
+          </div>
         )}
       </PlacesAutocomplete>
     );
@@ -130,13 +123,13 @@ PlacesAutocomplete is a [Controlled Component](https://facebook.github.io/react/
 |[`shouldFetchSuggestions`](#shouldFetchSuggestions)| boolean | | Component will hit Google Maps API only if this flag is set `true` |
 
 <a name="value"></a>
-#### value
+### value
 Type: `string`,
 Required: `true`
 
 
 <a name="onChange"></a>
-#### onChange
+### onChange
 Type: `function`,
 Required: `true`
 
@@ -152,7 +145,7 @@ Typically this event handler will update `value` state.
 ```
 
 <a name="children"></a>
-#### children
+### children
 Type: `function`
 Required: `true`
 
@@ -247,7 +240,7 @@ An example of a suggestion object.
 ```
 
 <a name="onSelect"></a>
-#### onSelect
+### onSelect
 Type: `Function`
 Required: `false`,
 Default: `null`
@@ -275,7 +268,7 @@ const handleSelect = (address, placeId) => {
 ```
 
 <a name="onError"></a>
-#### onError
+### onError
 Type: `Function`
 Required: `false`
 
@@ -301,7 +294,7 @@ const onError = (status, clearSuggestions) => {
 
 
 <a name="searchOptions"></a>
-#### searchOptions
+### searchOptions
 Type: `Object`
 Required: `false`
 Default: `{}`
@@ -329,7 +322,7 @@ const searchOptions = {
 ```
 
 <a name="debounce"></a>
-#### debounce
+### debounce
 Type: `Number`
 Required: `false`
 Default: `200`
@@ -337,15 +330,15 @@ Default: `200`
 The number of milliseconds to delay before making a call to Google Maps API.
 
 <a name="highlightFirstSuggestion"></a>
-#### highlightFirstSuggestion
+### highlightFirstSuggestion
 Type: `boolean`
 Required: `false`
 Default: `false`
 
-If set to `true`, first suggestion in the dropdown will be automatically highlighted.
+If set to `true`, first suggestion in the dropdown will be automatically set to be active.
 
 <a name="shouldFetchSuggestions"></a>
-#### shouldFetchSuggestions
+### shouldFetchSuggestions
 Type: `boolean`
 Required: `false`
 Default: `true`
