@@ -67,7 +67,7 @@ const DEFAULT_PROPS = {
   onChange: () => {},
   onSelect: () => {},
   debounce: 200,
-  highlightFirstSuggestion: true,
+  highlightFirstSuggestion: false,
   shouldFetchSuggestions: true,
 };
 
