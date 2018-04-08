@@ -7,8 +7,11 @@ class SearchBar extends React.Component {
     this.state = {
       address: '',
     };
-    this.handleChange = address => this.setState({ address });
   }
+
+  handleChange = address => {
+    this.setState({ address });
+  };
 
   handleSelect = selected => {
     /* eslint-disable no-console */
@@ -21,10 +24,9 @@ class SearchBar extends React.Component {
     /* eslint-enable no-console */
   };
 
-  handleCloseClick = (e) => {
-    console.log(e);
+  handleCloseClick = () => {
     this.setState({ address: '' });
-  }
+  };
 
   render() {
     return (
@@ -51,7 +53,9 @@ class SearchBar extends React.Component {
                   <button
                     className="Demo__clear-button"
                     onClick={this.handleCloseClick}
-                  >x</button>
+                  >
+                    x
+                  </button>
                 )}
               </div>
               <div className="Demo__autocomplete-container">
