@@ -1,7 +1,6 @@
 [![travis build](https://img.shields.io/travis/kenny-hibino/react-places-autocomplete.svg?style=flat-square)](https://travis-ci.org/kenny-hibino/react-places-autocomplete)
 [![MIT-License](https://img.shields.io/npm/l/react-places-autocomplete.svg?style=flat-square)]()
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg?style=flat-square)](https://gitter.im/react-places-autocomplete/Lobby)
-[![Open Source Helpers](https://www.codetriage.com/kenny-hibino/react-places-autocomplete/badges/users.svg)](https://www.codetriage.com/kenny-hibino/react-places-autocomplete)
 
 
 # React Places Autocomplete
@@ -245,20 +244,19 @@ An example of a suggestion object.
 
 <a name="onSelect"></a>
 ### onSelect
-Type: `Function`
+Type: `function`
 Required: `false`,
 Default: `null`
 
 You can pass a function that gets called instead of `onChange` function when user
-hits the Enter key or clicks on an autocomplete item.
+hits the Enter key or clicks on a suggestion item.
 
 The function takes two positional arguments. First argument is `address`, second is `placeId`.
 
 ```js
-const handleSelect = (address, placeId) => {
-  this.setState({ address, placeId })
-
-  // You can do other things with address string or placeId. For example, geocode :)
+// NOTE: `placeId` is null when user hits Enter key with no suggestion item selected.
+const handleSelect = (address: string, placeId: ?string) => {
+  // Do something with address and placeId
 }
 
 // Pass this function via onSelect prop.
@@ -273,7 +271,7 @@ const handleSelect = (address, placeId) => {
 
 <a name="onError"></a>
 ### onError
-Type: `Function`
+Type: `function`
 Required: `false`
 
 You can pass `onError` prop to customize the behavior when [google.maps.places.PlacesServiceStatus](https://developers.google.com/maps/documentation/javascript/places#place_details_responses) is not `OK` (e.g., no predictions are found)
@@ -327,7 +325,7 @@ const searchOptions = {
 
 <a name="debounce"></a>
 ### debounce
-Type: `Number`
+Type: `number`
 Required: `false`
 Default: `200`
 
