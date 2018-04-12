@@ -13,11 +13,6 @@ body, #root, .page-wrapper {
   background-color: #fcfcfc;
 }
 
-.btn:hover {
-  background-color: #e53935;
-  border-color: #e53935;
-}
-
 .Demo__github-icon {
   font-size: 24px;
 }
@@ -39,6 +34,12 @@ body, #root, .page-wrapper {
 
 .fa.fa-map-marker.header {
   color: #e53935;
+}
+
+.Demo__search-bar-container {
+  width: 90%;
+  max-width: 500px;
+  margin: 40px auto 0;
 }
 
 .Demo__search-input-container {
@@ -106,6 +107,15 @@ body, #root, .page-wrapper {
 .Demo__spinner {
   color: #18bc9c;
   font-size: 30px;
+}
+
+.Demo__error-message {
+  color: red;
+}
+
+.Demo__geocode-result-header {
+  font-size: 20px;
+  color: #222222;
 }
 
 @media (max-width: 480px) {
