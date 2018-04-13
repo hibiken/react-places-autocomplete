@@ -44,7 +44,10 @@ describe('onSelect prop', () => {
     input.simulate('keydown', { key: 'ArrowDown' }); // index 0 active
     input.simulate('keydown', { key: 'Enter' });
     expect(onSelectHandler).toHaveBeenCalledTimes(1);
-    expect(onSelectHandler).toBeCalledWith(mockSuggestions[0].description, mockSuggestions[0].placeId);
+    expect(onSelectHandler).toBeCalledWith(
+      mockSuggestions[0].description,
+      mockSuggestions[0].placeId
+    );
   });
 
   test('pressing Enter when mouse hovers over one of the suggestion items', () => {
@@ -54,11 +57,16 @@ describe('onSelect prop', () => {
     });
     simulateSearch(wrapper);
 
-    const suggestionItem = wrapper.find('[data-test="suggestion-item"]').first();
+    const suggestionItem = wrapper
+      .find('[data-test="suggestion-item"]')
+      .first();
     const input = wrapper.find('input');
     suggestionItem.simulate('mouseenter');
     input.simulate('keydown', { key: 'Enter' });
     expect(onSelectHandler).toHaveBeenCalledTimes(1);
-    expect(onSelectHandler).toBeCalledWith(mockSuggestions[0].description, mockSuggestions[0].placeId);
+    expect(onSelectHandler).toBeCalledWith(
+      mockSuggestions[0].description,
+      mockSuggestions[0].placeId
+    );
   });
-})
+});

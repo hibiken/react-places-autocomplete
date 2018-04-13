@@ -43,7 +43,7 @@ class SearchBar extends React.Component {
     this.setState({
       address: '',
       latitude: null,
-      longitude: null
+      longitude: null,
     });
   };
 
@@ -52,10 +52,16 @@ class SearchBar extends React.Component {
     this.setState({ errorMessage: status }, () => {
       clearSuggestions();
     });
-  }
+  };
 
   render() {
-    const { address, errorMessage, latitude, longitude, isGeocoding } = this.state;
+    const {
+      address,
+      errorMessage,
+      latitude,
+      longitude,
+      isGeocoding,
+    } = this.state;
 
     return (
       <div>
@@ -98,7 +104,9 @@ class SearchBar extends React.Component {
                           }`,
                         })}
                       >
-                        <strong>{suggestion.formattedSuggestion.mainText}</strong>{' '}
+                        <strong>
+                          {suggestion.formattedSuggestion.mainText}
+                        </strong>{' '}
                         <small>
                           {suggestion.formattedSuggestion.secondaryText}
                         </small>
@@ -107,18 +115,15 @@ class SearchBar extends React.Component {
                     /* eslint-enable react/jsx-key */
                   )}
                 </div>
-
               </div>
             );
           }}
         </PlacesAutocomplete>
         {errorMessage.length > 0 && (
-          <div className="Demo__error-message">
-            {this.state.errorMessage}
-          </div>
+          <div className="Demo__error-message">{this.state.errorMessage}</div>
         )}
 
-        {((latitude && longitude) || (isGeocoding)) && (
+        {((latitude && longitude) || isGeocoding) && (
           <div>
             <h3 className="Demo__geocode-result-header">Geocode result</h3>
             {isGeocoding ? (
@@ -128,10 +133,12 @@ class SearchBar extends React.Component {
             ) : (
               <div>
                 <div className="Demo__geocode-result-item--lat">
-                  <label>Latitude:</label><span>{latitude}</span>
+                  <label>Latitude:</label>
+                  <span>{latitude}</span>
                 </div>
                 <div className="Demo__geocode-result-item--lng">
-                  <label>Longitude:</label><span>{longitude}</span>
+                  <label>Longitude:</label>
+                  <span>{longitude}</span>
                 </div>
               </div>
             )}

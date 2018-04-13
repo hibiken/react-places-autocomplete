@@ -58,8 +58,7 @@ export const mockSuggestions = [
   },
   {
     active: false,
-    description:
-      "San Francisco Int'l Airport Station, San Francisco, CA, USA",
+    description: "San Francisco Int'l Airport Station, San Francisco, CA, USA",
     id: 'fd59fa62088bda5c2747abbae2614bd7f6525154',
     index: 3,
     placeId: 'ChIJVVVVVYx3j4ARyN7qnq2JceQ',
@@ -74,12 +73,7 @@ export const mockSuggestions = [
       { offset: 52, value: 'CA' },
       { offset: 56, value: 'USA' },
     ],
-    types: [
-      'transit_station',
-      'point_of_interest',
-      'establishment',
-      'geocode',
-    ],
+    types: ['transit_station', 'point_of_interest', 'establishment', 'geocode'],
   },
   {
     active: false,
