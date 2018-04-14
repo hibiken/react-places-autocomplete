@@ -5,7 +5,7 @@ const Demo = () => (
   <div className="page-wrapper">
     <div className="container">
       <h1 className="display-3">
-        react-places-autocomplete <i className="fa fa-map-marker header" />
+        react-places-autocomplete <i className="fa fa-map-marker header Demo__map-maker-icon" />
       </h1>
       <p className="lead">
         A React component to build a customized UI for Google Maps Places

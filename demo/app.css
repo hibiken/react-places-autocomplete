@@ -13,6 +13,10 @@ body, #root, .page-wrapper {
   background-color: #fcfcfc;
 }
 
+.Demo__map-maker-icon {
+  color: #FD6C6C;
+}
+
 .Demo__github-icon {
   font-size: 24px;
 }
@@ -30,10 +34,6 @@ body, #root, .page-wrapper {
 
 .Demo__suggestion-icon {
   margin-right: 8px;
-}
-
-.fa.fa-map-marker.header {
-  color: #e53935;
 }
 
 .Demo__search-bar-container {
@@ -83,7 +83,7 @@ body, #root, .page-wrapper {
 }
 
 .Demo__suggestion-item {
-  padding: 6px;
+  padding: 8px;
   text-align: left;
   background-color: #fff;
   cursor: pointer;
@@ -147,33 +147,4 @@ body, #root, .page-wrapper {
     margin-top: 5rem;
     width: 50%;
   }
-}
-
-.geocoding-results {
-  text-align: left;
-}
-
-@keyframes fadein {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-@-moz-keyframes fadein {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-@-webkit-keyframes fadein {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-@-ms-keyframes fadein {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-@-o-keyframes fadein {
-  from { opacity: 0; }
-  to   { opacity: 1; }
 }

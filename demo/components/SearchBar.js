@@ -91,30 +91,40 @@ class SearchBar extends React.Component {
                     </button>
                   )}
                 </div>
-                <div className="Demo__autocomplete-container">
-                  {suggestions.map(
-                    suggestion => (
-                      /* eslint-disable react/jsx-key */
-                      <div
-                        {...getSuggestionItemProps(suggestion, {
-                          className: `Demo__suggestion-item${
-                            suggestion.active
-                              ? ' Demo__suggestion-item--active'
-                              : ''
-                          }`,
-                        })}
-                      >
-                        <strong>
-                          {suggestion.formattedSuggestion.mainText}
-                        </strong>{' '}
-                        <small>
-                          {suggestion.formattedSuggestion.secondaryText}
-                        </small>
+                {suggestions.length > 0 && (
+                  <div className="Demo__autocomplete-container">
+                    {suggestions.map(
+                      suggestion => (
+                        /* eslint-disable react/jsx-key */
+                        <div
+                          {...getSuggestionItemProps(suggestion, {
+                            className: `Demo__suggestion-item${
+                              suggestion.active
+                                ? ' Demo__suggestion-item--active'
+                                : ''
+                            }`,
+                          })}
+                        >
+                          <strong>
+                            {suggestion.formattedSuggestion.mainText}
+                          </strong>{' '}
+                          <small>
+                            {suggestion.formattedSuggestion.secondaryText}
+                          </small>
+                        </div>
+                      )
+                      /* eslint-enable react/jsx-key */
+                    )}
+                    <div className="Demo__dropdown-footer">
+                      <div>
+                        <img
+                          src={require('../images/powered_by_google_default.png')}
+                          className="Demo__dropdown-footer-image"
+                        />
                       </div>
-                    )
-                    /* eslint-enable react/jsx-key */
-                  )}
-                </div>
+                    </div>
+                  </div>
+                )}
               </div>
             );
           }}
