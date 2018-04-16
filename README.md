@@ -1,7 +1,6 @@
 [![travis build](https://img.shields.io/travis/kenny-hibino/react-places-autocomplete.svg?style=flat-square)](https://travis-ci.org/kenny-hibino/react-places-autocomplete)
 [![MIT-License](https://img.shields.io/npm/l/react-places-autocomplete.svg?style=flat-square)]()
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg?style=flat-square)](https://gitter.im/react-places-autocomplete/Lobby)
-[![Open Source Helpers](https://www.codetriage.com/kenny-hibino/react-places-autocomplete/badges/users.svg)](https://www.codetriage.com/kenny-hibino/react-places-autocomplete)
 
 
 # React Places Autocomplete
@@ -16,7 +15,7 @@ Live demo: [kenny-hibino.github.io/react-places-autocomplete/](https://kenny-hib
 ### Features
 1. Enable you to easily build a customized autocomplete dropdown powered by [Google Maps Places Library](https://developers.google.com/maps/documentation/javascript/places)
 2. [Utility functions](#utility-functions) to geocode and get latitude and longitude using [Google Maps Geocoder API](https://developers.google.com/maps/documentation/javascript/geocoding)
-3. Pass through arbitrary props to the input element to integrate well with other libraries (e.g. Redux-Form)  
+3. Full control over rendering to integrate well with other libraries (e.g. Redux-Form)  
 4. Mobile friendly UX
 5. WAI-ARIA compliant
 
@@ -24,13 +23,7 @@ Live demo: [kenny-hibino.github.io/react-places-autocomplete/](https://kenny-hib
 To install the stable version
 
 ```sh
-yarn add react-places-autocomplete
-```
-
-or
-
-```sh
-npm install react-places-autocomplete --save
+npm install --save react-places-autocomplete
 ```
 
 React component is exported as a default export
@@ -39,10 +32,10 @@ React component is exported as a default export
 import PlacesAutocomplete from 'react-places-autocomplete'
 ```
 
-`geocodeByAddress` and `geocodeByPlaceId` utility functions are named exports
+utility functions are named exports
 
 ```js
-import { geocodeByAddress, geocodeByPlaceId } from 'react-places-autocomplete'
+import { geocodeByAddress, geocodeByPlaceId, getLatLng } from 'react-places-autocomplete'
 ```
 
 
@@ -62,290 +55,223 @@ Create your component
 import React from 'react'
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
 
-class SimpleForm extends React.Component {
+class LocationSearchInput extends React.Component {
   constructor(props) {
-    super(props)
-    this.state = { address: 'San Francisco, CA' }
-    this.onChange = (address) => this.setState({ address })
+    super(props);  
+    this.state = { address: '' }
   }
 
-  handleFormSubmit = (event) => {
-    event.preventDefault()
+  handleChange = (address) => {
+    this.setState({ address })
+  }
 
-    geocodeByAddress(this.state.address)
+  handleSelect = (address) => {
+    geocodeByAddress(address)
       .then(results => getLatLng(results[0]))
       .then(latLng => console.log('Success', latLng))
       .catch(error => console.error('Error', error))
   }
 
   render() {
-    const inputProps = {
-      value: this.state.address,
-      onChange: this.onChange,
-    }
-
     return (
-      <form onSubmit={this.handleFormSubmit}>
-        <PlacesAutocomplete inputProps={inputProps} />
-        <button type="submit">Submit</button>
-      </form>
-    )
+      <PlacesAutocomplete
+        value={this.state.address}
+        onChange={this.handleChange}
+        onSelect={this.handleSelect}
+      >
+        {({ getInputProps, suggestions, getSuggestionItemProps }) => (
+          <div>
+            <input
+              {...getInputProps({
+                placeholder: 'Search Places ...',
+                className: 'location-search-input'
+              })}
+            />
+            <div className="autocomplete-dropdown-container">
+              {suggestions.map(suggestion => {
+                const className = suggestion.active ? 'suggestion-item--active' : 'suggestion-item';
+                // inline style for demonstration purpose
+                const style = suggestion.active
+                            ? { backgroundColor: '#fafafa', cursor: 'pointer' }
+                            : { backgroundColor: '#ffffff', cursor: 'pointer' };
+                return (
+                  <div {...getSuggestionItemProps(suggestion, { className, style })}>
+                    <span>{suggestion.description}</span>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        )}
+      </PlacesAutocomplete>
+    );
   }
 }
-
-export default SimpleForm
 ```
 
 ## Props
 
+PlacesAutocomplete is a [Controlled Component](https://facebook.github.io/react/docs/forms.html#controlled-components) with a [Render Prop](https://reactjs.org/docs/render-props.html). Therefore, you MUST pass at least `value` and `onChange` callback to the input element, and render function via `children`.
+
 | Prop        | Type           | Required  | Description |
 | ------------- |:-------------:| :-----: |-------|
-| [`inputProps`](#inputProps) | object | :white_check_mark: | Arbitrary props to input element, `value` and `onChange` are required keys |
-| [`renderSuggestion`](#renderSuggestion) | function |  | Functional react component to render dropdown list item |
-| [`renderFooter`](#renderFooter) | function |  | Functional react component to render footer at the bottom of the dropdown list |
-| [`classNames`](#classNames) | object | | Pass CSS classes to rendered elements |
-| [`styles`](#styles) | object | | Pass CSS styles to rendered elements |
+| [`value`](#value) | string | :white_check_mark: | `value` for the input element |
+| [`onChange`](#onChange) | function | :white_check_mark: | `onChange` function for the input element |
+| [`children`](#children) | function | :white_check_mark: | Render function to specify the rendering |
 | [`onSelect`](#onSelect) | function | | Event handler to handle user's select event |
-| [`onEnterKeyDown`](#onEnterKeyDown) | function || Event handler that gets called when user presses Enter key while input is focused |
 | [`onError`](#onError) | function | | Error handler function that gets called when Google Maps API responds with an error |
-| [`options`](#options) | object | | Options to Google Maps API  (i.e. bounds, radius) |
+| [`searchOptions`](#searchOptions) | object | | Options to Google Maps API  (i.e. bounds, radius) |
 |[`debounce`](#debounce) | number | | Number of milliseconds to delay before making a call to Google Maps API |
 | [`highlightFirstSuggestion`](#highlightFirstSuggestion) | boolean | | If set to `true`, first list item in the dropdown will be automatically highlighted |
-|[`shouldFetchSuggestions`](#shouldFetchSuggestions)| function | | Component will fetch suggestions from Google Maps API only when this function returns `true` |
+|[`shouldFetchSuggestions`](#shouldFetchSuggestions)| boolean | | Component will hit Google Maps API only if this flag is set `true` |
 
-<a name="inputProps"></a>
-#### inputProps
-Type: `Object`,
+<a name="value"></a>
+### value
+Type: `string`,
 Required: `true`
 
-PlacesAutocomplete is a [controlled component](https://facebook.github.io/react/docs/forms.html#controlled-components). Therefore, you MUST pass at least `value` and `onChange` callback to the input element.
 
-You can pass arbitrary props to the input element thorough `inputProps` object (NOTE: `className` and `style` props for the input element should be passed through `classNames.input` and `styles.input` respectively).
+<a name="onChange"></a>
+### onChange
+Type: `function`,
+Required: `true`
+
+Typically this event handler will update `value` state.
 
 ```js
-  const inputProps = {
-    value,    // `value` is required
-    onChange, // `onChange` is required
-    onBlur: () => {
-      console.log('blur!')
-    },
-    type: 'search',
-    placeholder: 'Search Places...',
-    autoFocus: true,
-  }
+<PlacesAutocomplete
+  value={this.state.value}
+  onChange={value => this.setState({ value })}
+>
+  {/* custom render function */}
+</PlacesAutocomplete>
 ```
 
-<a name="renderSuggestion"></a>
-#### renderSuggestion
-Type: `Functional React Component`,
-Required: `false`
+<a name="children"></a>
+### children
+Type: `function`
+Required: `true`
 
-The function takes props with `suggestion`, `formattedSuggestion` keys (see the example below).
-We highly recommend that you create your own custom list item component and pass it as a prop.
+This is where you render whatever you want to based on the state of `PlacesAutocomplete`.
+The function will take an object with the following keys.
+- `getInputProps` : function
+- `getSuggestionItemProps` : function
+- `suggestions` : array
 
+Simple example
 ```js
-/***********************************************
- Example #1
- List item example with `suggestion`
-************************************************/
-render() {
-  const renderSuggestion = ({ suggestion }) => (<div><i className="fa fa-map-marker"/>{suggestion}</div>)
-
-  return (
-    <PlacesAutocomplete
-      inputProps={inputProps}
-      renderSuggestion={renderSuggestion}
-    />
-  )
-}
-
-/***************************************************
- Example #2
- List item example with `formattedSuggestion`
-****************************************************/
-render() {
-  const renderSuggestion = ({ formattedSuggestion }) => (
-    <div>
-      <strong>{ formattedSuggestion.mainText }</strong>{' '}
-      <small>{ formattedSuggestion.secondaryText }</small>
-    </div>
-  )
-
-  return (
-    <PlacesAutocomplete
-      inputProps={inputProps}
-      renderSuggestion={renderSuggestion}
-    />
-  )
-}
-```
-
-<a name="renderFooter"></a>
-#### renderFooter
-Type: `Functional React Component`
-Required: `false`
-
-You can provide a component that will get rendered at the bottom of dropdown.
-For example, you can provide a component to show "Powered by Google" logo.
-
-```js
-const renderFooter = () => (
-  <div className="dropdown-footer">
-    <div>
-      <img src={require('./images/google-logo.png')} />
+const renderFunc = ({ getInputProps, getSuggestionItemProps, suggestions }) => (
+  <div className="autocomplete-root">
+    <input {...getInputProps()} />
+    <div className="autocomplete-dropdown-container">
+      {suggestions.map(suggestion => (
+        <div {...getSuggestionItemProps(suggestion)}>
+          <span>{suggestion.description}</span>
+        </div>  
+      ))}
     </div>
   </div>
-)
+);
 
 // In render function
 <PlacesAutocomplete
-  inputProps={inputProps}
-  renderFooter={renderFooter}
-/>
+  value={this.state.value}
+  onChange={this.handleChange}
+>
+  {renderFunc}
+</PlacesAutocomplete>
 ```
 
-<a name="classNames"></a>
-#### classNames
-Type: `Object`,
-Required: `false`
-
-You can give a custom css classes to elements.
-Accepted keys are `root`, `input`, `autocompleteContainer`, `autocompleteItem`, `autocompleteItemActive`.
-If you pass `classNames` props, none of the default inline styles nor inline styles from `styles` prop will
-be applied to the element, and you will have full control over styling via CSS.
+#### getInputProps
+This function will return the props that you can spread over the `<input />` element.
+You can optionally call the function with an object to pass other props to the input.
 
 ```js
-// classNames example
-render() {
-  const cssClasses = {
-    root: 'form-group',
-    input: 'form-control',
-    autocompleteContainer: 'my-autocomplete-container'
-  }
-
-  return (
-    <PlacesAutocomplete
-      inputProps={inputProps}
-      classNames={cssClasses}
-    />
-  )
-}
-```
-Now you can easily apply custom CSS styles using the classNames!
-
-<a name="styles"></a>
-#### styles
-Type `Object`,
-Required: `false`
-
-You can provide custom inline styles to elements.
-Accepted keys are `root`, `input`, `autocompleteContainer`, `autocompleteItem`, `autocompleteItemActive`.
-
-```js
-const defaultStyles = {
-  root: {
-    position: 'relative',
-    paddingBottom: '0px',
-  },
-  input: {
-    display: 'inline-block',
-    width: '100%',
-    padding: '10px',
-  },
-  autocompleteContainer: {
-    position: 'absolute',
-    top: '100%',
-    backgroundColor: 'white',
-    border: '1px solid #555555',
-    width: '100%',
-  },
-  autocompleteItem: {
-    backgroundColor: '#ffffff',
-    padding: '10px',
-    color: '#555555',
-    cursor: 'pointer',
-  },
-  autocompleteItemActive: {
-    backgroundColor: '#fafafa'
-  },
-}
+// In render function
+<input {...getInputProps({ className: 'my-input', autoFocus: true })} />
 ```
 
-Object passed via `styles` prop will be merged in with the above defaults and applied to their respective elements.
-NOTE: Passing `classNames` will disable any inline styling for respective elements.
+#### getSuggestionItemProps
+This function will return the props that you can spread over each suggestion item in your
+autocomplete dropdown. You MUST call it with `suggestion` object as an argument, and optionally pass an object to pass other props to the element.
 
 ```js
-// custom style examples
-render() {
-  const myStyles = {
-    root: { position: 'absolute' },
-    input: { width: '100%' },
-    autocompleteContainer: { backgroundColor: 'green' },
-    autocompleteItem: { color: 'black' },
-    autocompleteItemActive: { color: 'blue' }
-  }
+// Simple example
+<div className="autocomplete-dropdown">
+  {suggestions.map(suggestion => (
+    <div {...getSuggestionItemProps(suggesions)}>
+      {suggesion.description}
+    </div>
+  ))}
+</div>
 
-  return (
-    <PlacesAutocomplete
-      inputProps={inputProps}
-      styles={myStyles}
-    />
-  )
+// Pass options as a second argument
+<div className="autocomplete-dropdown">
+  {suggestions.map(suggestion => {
+    const className = suggestion.active ? 'suggestion-item--active' : 'suggesion-item';
+    return (
+      <div {...getSuggestionItemProps(suggestion, { className })}>
+        {suggestion.description}
+      </div>
+    );
+  })}
+</div>
+
+```
+
+#### suggestions
+This is an array of suggestion objects each containing all the data from Google Maps API and other metadata.
+
+An example of a suggestion object.
+
+```js
+{
+  active: false,
+  description: "San Francisco, CA, USA",
+  formattedSuggestion: { mainText: "San Francisco", secondaryText: "CA, USA" },
+  id: "1b9ea3c094d3ac23c9a3afa8cd4d8a41f05de50a",
+  index: 0,
+  matchedSubstrings: [ {length: 8, offset: 0} ],
+  placeId: "ChIJIQBpAG2ahYAR_6128GcTUEo",
+  terms: [
+    { offset: 0, value: "San Francisco" },
+    { offset: 15, value: "CA" },
+    { offset: 19, value: "USA" }
+  ],
+  types: ["locality", "political", "geocode"]
 }
 ```
 
 <a name="onSelect"></a>
-#### onSelect
-Type: `Function`
+### onSelect
+Type: `function`
 Required: `false`,
 Default: `null`
 
 You can pass a function that gets called instead of `onChange` function when user
-hits the Enter key or clicks on an autocomplete item.
+hits the Enter key or clicks on a suggestion item.
 
 The function takes two positional arguments. First argument is `address`, second is `placeId`.
 
 ```js
-const handleSelect = (address, placeId) => {
-  this.setState({ address, placeId })
-
-  // You can do other things with address string or placeId. For example, geocode :)
+// NOTE: `placeId` is null when user hits Enter key with no suggestion item selected.
+const handleSelect = (address: string, placeId: ?string) => {
+  // Do something with address and placeId
 }
 
 // Pass this function via onSelect prop.
 <PlacesAutocomplete
-  inputProps={inputProps}
+  value={this.state.value}
+  onChange={this.handleChange}
   onSelect={this.handleSelect}
-/>
-```
-
-<a name="onEnterKeyDown"></a>
-#### onEnterKeyDown
-Type: `Function`
-Required: `false`
-Deafult: `noop`
-
-You can pass a callback function that gets called when pressing down Enter key when no item in the dropdown is selected.
-The function takes one argument, the value in the input field.
-
-```js
-const handleEnter = (address) => {
-  geocodeByAddress(address)
-    .then(results => {
-      console.log('results', results)
-    })
-}
-
-// Pass this function via onEnterKeyDown prop.
-<PlacesAutocomplete
-  inputProps={inputProps}
-  onEnterKeyDown={this.handleEnter}
-/>
+>
+  {/* Custom render function */}
+</PlacesAutocomplete>
 ```
 
 <a name="onError"></a>
-#### onError
-Type: `Function`
+### onError
+Type: `function`
 Required: `false`
 
 You can pass `onError` prop to customize the behavior when [google.maps.places.PlacesServiceStatus](https://developers.google.com/maps/documentation/javascript/places#place_details_responses) is not `OK` (e.g., no predictions are found)
@@ -359,74 +285,75 @@ const onError = (status, clearSuggestions) => {
   clearSuggestions()
 }
 
-// In render function
 <PlacesAutocomplete
-  inputProps={inputProps}
+  value={this.state.value}
+  onChange={this.handleChange}
   onError={onError}
-/>
+>
+  {/* Custom render function */}
+</PlacesAutocomplete>
 ```
 
 
-<a name="options"></a>
-#### options
+<a name="searchOptions"></a>
+### searchOptions
 Type: `Object`
 Required: `false`
 Default: `{}`
 
-You can fine-tune the settings passed to the AutocompleteService class with `options` prop.
+You can fine-tune the settings passed to the AutocompleteService class with `searchOptions` prop.
 This prop accepts an object following the same format as [google.maps.places.AutocompletionRequest](https://developers.google.com/maps/documentation/javascript/reference#AutocompletionRequest)
 (except for `input`, which comes from the value of the input field).
 
 ```js
 // these options will bias the autocomplete predictions toward Sydney, Australia with a radius of 2000 meters,
 // and limit the results to addresses only
-const options = {
+const searchOptions = {
   location: new google.maps.LatLng(-34, 151),
   radius: 2000,
   types: ['address']
 }
 
-// In render function
 <PlacesAutocomplete
-  inputProps={inputProps}
-  options={options}
-/>
+  value={this.state.value}
+  onChange={this.handleChange}
+  searchOptions={searchOptions}
+>
+  {/* Custom render function */}
+</PlacesAutocomplete>
 ```
 
 <a name="debounce"></a>
-#### debounce
-Type: `Number`
+### debounce
+Type: `number`
 Required: `false`
 Default: `200`
 
 The number of milliseconds to delay before making a call to Google Maps API.
 
 <a name="highlightFirstSuggestion"></a>
-#### highlightFirstSuggestion
-Type: `Boolean`
+### highlightFirstSuggestion
+Type: `boolean`
 Required: `false`
 Default: `false`
 
-If set to `true`, first suggestion in the dropdown will be automatically highlighted.
+If set to `true`, first suggestion in the dropdown will be automatically set to be active.
 
 <a name="shouldFetchSuggestions"></a>
-#### shouldFetchSuggestions
-Type: `Function`
+### shouldFetchSuggestions
+Type: `boolean`
 Required: `false`
-Default: `() => true`
-
-You can pass a function to tell when to fetch suggestions from Google Maps API.
-It takes an input `{ value }` and should return a boolean.
+Default: `true`
 
 ```js
 // Only fetch suggestions when the input text is longer than 3 characters.
-const shouldFetchSuggestions = ({ value }) => value.length > 3
-
-// In render function
 <PlacesAutocomplete
-  inputProps={inputProps}
-  shouldFetchSuggestions={shouldFetchSuggestions}
-/>
+  value={this.state.address}
+  onChange={this.handleChange}
+  shouldFetchSuggestions={this.state.address.length > 3}
+>
+  {/* custom render function */}
+</PlacesAutocomplete>
 ```
 
 <a name="utility-functions"></a>

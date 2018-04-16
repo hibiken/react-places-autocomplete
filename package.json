@@ -5,8 +5,10 @@
   "main": "dist/index.js",
   "scripts": {
     "commit": "git-cz",
-    "watch:test": "npm t -- -w",
-    "test": "mocha src/tests/setup.js src/tests/index.spec.js",
+    "test": "jest",
+    "test:update": "jest --updateSnapshot",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
     "prebuild": "rimraf dist",
     "build": "npm-run-all --parallel build:*",
     "build:main": "babel --copy-files --out-dir dist --ignore *.spec.js src",
@@ -17,6 +19,7 @@
     "demo:test": "mocha demo/tests/index.spec.js --compilers js:babel-register",
     "demo:build": "rimraf demo/dist && webpack --config demo/webpack.config.js -p",
     "demo:deploy": "gh-pages -d demo/dist",
+    "prepublish": "npm run build",
     "postpublish": "npm run demo:deploy",
     "prettier": "prettier --write \"src/**/*.js\" \"demo/**/*.js\"",
     "lint": "eslint .",
@@ -57,20 +60,22 @@
   "homepage": "https://github.com/kenny-hibino/react-places-autocomplete#readme",
   "devDependencies": {
     "babel-cli": "^6.23.0",
+    "babel-eslint": "8.2.2",
+    "babel-jest": "22.4.3",
     "babel-loader": "^6.3.2",
     "babel-plugin-react-transform": "^2.0.2",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-react-remove-prop-types": "^0.3.2",
-    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-env": "1.6.1",
     "babel-preset-react": "^6.23.1",
     "babel-preset-stage-0": "^6.22.0",
-    "babel-register": "^6.23.0",
-    "chai": "3.5.0",
-    "chai-enzyme": "0.5.0",
+    "babel-register": "6.26.0",
     "commitizen": "2.8.2",
     "copy-webpack-plugin": "^4.0.1",
     "cz-conventional-changelog": "1.1.6",
-    "enzyme": "2.4.1",
+    "enzyme": "3.3.0",
+    "enzyme-adapter-react-16": "1.1.1",
+    "enzyme-to-json": "3.3.3",
     "eslint": "4.18.2",
     "eslint-config-prettier": "2.9.0",
     "eslint-plugin-prettier": "2.6.0",
@@ -79,18 +84,15 @@
     "gh-pages": "^0.12.0",
     "ghooks": "1.3.2",
     "image-webpack-loader": "3.3.1",
-    "jsdom": "9.4.1",
+    "jest": "22.4.3",
     "json-loader": "0.5.4",
-    "mocha": "2.5.3",
     "npm-run-all": "2.3.0",
-    "nyc": "7.0.0",
     "prettier": "1.10.2",
-    "react": "^15.6.1",
-    "react-addons-test-utils": "^15.6.0",
-    "react-dom": "^15.6.1",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-test-renderer": "16.2.0",
     "rimraf": "2.5.3",
     "semantic-release": "^4.3.5",
-    "sinon": "1.17.4",
     "webpack": "^1.14.0",
     "webpack-dev-server": "^1.16.2"
   },
@@ -115,5 +117,16 @@
   },
   "peerDependencies": {
     "react": ">=0.14.7"
+  },
+  "jest": {
+    "setupFiles": [
+      "./src/tests/helpers/jestSetup.js"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
+    "collectCoverageFrom": [
+      "src/*.js"
+    ]
   }
 }

@@ -3,7 +3,7 @@
         "browser": true,
         "es6": true,
         "node": true,
-        "mocha": true
+        "jest": true
     },
     "extends": [
       "eslint:recommended",
@@ -11,6 +11,7 @@
       "prettier",
       "prettier/react"
     ],
+    "parser": "babel-eslint",
     "parserOptions": {
         "ecmaFeatures": {
             "experimentalObjectRestSpread": true,

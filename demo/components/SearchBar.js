@@ -1,144 +1,158 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from '../../src';
 
-/* eslint-disable react/prop-types */
-const renderSuggestion = ({ formattedSuggestion }) => (
-  <div className="Demo__suggestion-item">
-    <i className="fa fa-map-marker Demo__suggestion-icon" />
-    <strong>{formattedSuggestion.mainText}</strong>{' '}
-    <small className="text-muted">{formattedSuggestion.secondaryText}</small>
-  </div>
-);
-/* eslint-enable react/prop-types */
-
-const renderFooter = () => (
-  <div className="Demo__dropdown-footer">
-    <div>
-      <img
-        src={require('../images/powered_by_google_default.png')}
-        className="Demo__dropdown-footer-image"
-      />
-    </div>
-  </div>
-);
-
-const cssClasses = {
-  root: 'form-group',
-  input: 'Demo__search-input',
-  autocompleteContainer: 'Demo__autocomplete-container',
-};
-
-const shouldFetchSuggestions = ({ value }) => value.length > 2;
-
-const onError = (status, clearSuggestions) => {
-  /* eslint-disable no-console */
-  console.log(
-    'Error happened while fetching suggestions from Google Maps API',
-    status
-  );
-  /* eslint-enable no-console */
-  clearSuggestions();
-};
-
-class SearchBar extends Component {
+class SearchBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       address: '',
-      geocodeResults: null,
-      loading: false,
+      errorMessage: '',
+      latitude: null,
+      longitude: null,
+      isGeocoding: false,
     };
-
-    this.handleSelect = this.handleSelect.bind(this);
-    this.handleChange = this.handleChange.bind(this);
   }
 
-  handleSelect(address) {
+  handleChange = address => {
     this.setState({
       address,
-      loading: true,
+      latitude: null,
+      longitude: null,
+      errorMessage: '',
     });
+  };
 
-    geocodeByAddress(address)
-      .then(results => getLatLng(results[0]))
+  handleSelect = selected => {
+    this.setState({ isGeocoding: true });
+    geocodeByAddress(selected)
+      .then(res => getLatLng(res[0]))
       .then(({ lat, lng }) => {
-        console.log('Geocode Success', { lat, lng }); // eslint-disable-line no-console
         this.setState({
-          geocodeResults: this.renderGeocodeSuccess(lat, lng),
-          loading: false,
+          latitude: lat,
+          longitude: lng,
+          isGeocoding: false,
         });
       })
       .catch(error => {
-        console.log('Geocode Error', error); // eslint-disable-line no-console
-        this.setState({
-          geocodeResults: this.renderGeocodeFailure(error),
-          loading: false,
-        });
+        this.setState({ isGeocoding: false });
+        console.log('error', error); // eslint-disable-line no-console
       });
-  }
+  };
 
-  handleChange(address) {
+  handleCloseClick = () => {
     this.setState({
-      address,
-      geocodeResults: null,
+      address: '',
+      latitude: null,
+      longitude: null,
     });
-  }
+  };
 
-  renderGeocodeFailure(err) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        <strong>Error!</strong> {err}
-      </div>
-    );
-  }
-
-  renderGeocodeSuccess(lat, lng) {
-    return (
-      <div className="alert alert-success" role="alert">
-        <strong>Success!</strong> Geocoder found latitude and longitude:{' '}
-        <strong>
-          {lat}, {lng}
-        </strong>
-      </div>
-    );
-  }
+  handleError = (status, clearSuggestions) => {
+    console.log('Error from Google Maps API', status); // eslint-disable-line no-console
+    this.setState({ errorMessage: status }, () => {
+      clearSuggestions();
+    });
+  };
 
   render() {
-    const inputProps = {
-      type: 'text',
-      value: this.state.address,
-      onChange: this.handleChange,
-      onBlur: () => {
-        console.log('Blur event!'); // eslint-disable-line no-console
-      },
-      onFocus: () => {
-        console.log('Focused!'); // eslint-disable-line no-console
-      },
-      autoFocus: true,
-      placeholder: 'Search Places',
-      name: 'Demo__input',
-      id: 'my-input-id',
-    };
+    const {
+      address,
+      errorMessage,
+      latitude,
+      longitude,
+      isGeocoding,
+    } = this.state;
 
     return (
       <div>
         <PlacesAutocomplete
-          renderSuggestion={renderSuggestion}
-          renderFooter={renderFooter}
-          inputProps={inputProps}
-          classNames={cssClasses}
+          onChange={this.handleChange}
+          value={address}
           onSelect={this.handleSelect}
-          onEnterKeyDown={this.handleSelect}
-          onError={onError}
-          shouldFetchSuggestions={shouldFetchSuggestions}
-        />
-        {this.state.loading && (
-          <div>
-            <i className="fa fa-spinner fa-pulse fa-3x fa-fw Demo__spinner" />
-          </div>
+          onError={this.handleError}
+          shouldFetchSuggestions={address.length > 2}
+        >
+          {({ getInputProps, suggestions, getSuggestionItemProps }) => {
+            return (
+              <div className="Demo__search-bar-container">
+                <div className="Demo__search-input-container">
+                  <input
+                    {...getInputProps({
+                      placeholder: 'Search Places...',
+                      className: 'Demo__search-input',
+                    })}
+                  />
+                  {this.state.address.length > 0 && (
+                    <button
+                      className="Demo__clear-button"
+                      onClick={this.handleCloseClick}
+                    >
+                      x
+                    </button>
+                  )}
+                </div>
+                {suggestions.length > 0 && (
+                  <div className="Demo__autocomplete-container">
+                    {suggestions.map(
+                      suggestion => (
+                        /* eslint-disable react/jsx-key */
+                        <div
+                          {...getSuggestionItemProps(suggestion, {
+                            className: `Demo__suggestion-item${
+                              suggestion.active
+                                ? ' Demo__suggestion-item--active'
+                                : ''
+                            }`,
+                          })}
+                        >
+                          <strong>
+                            {suggestion.formattedSuggestion.mainText}
+                          </strong>{' '}
+                          <small>
+                            {suggestion.formattedSuggestion.secondaryText}
+                          </small>
+                        </div>
+                      )
+                      /* eslint-enable react/jsx-key */
+                    )}
+                    <div className="Demo__dropdown-footer">
+                      <div>
+                        <img
+                          src={require('../images/powered_by_google_default.png')}
+                          className="Demo__dropdown-footer-image"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          }}
+        </PlacesAutocomplete>
+        {errorMessage.length > 0 && (
+          <div className="Demo__error-message">{this.state.errorMessage}</div>
         )}
-        {this.state.geocodeResults && (
-          <div className="geocoding-results">{this.state.geocodeResults}</div>
+
+        {((latitude && longitude) || isGeocoding) && (
+          <div>
+            <h3 className="Demo__geocode-result-header">Geocode result</h3>
+            {isGeocoding ? (
+              <div>
+                <i className="fa fa-spinner fa-pulse fa-3x fa-fw Demo__spinner" />
+              </div>
+            ) : (
+              <div>
+                <div className="Demo__geocode-result-item--lat">
+                  <label>Latitude:</label>
+                  <span>{latitude}</span>
+                </div>
+                <div className="Demo__geocode-result-item--lng">
+                  <label>Longitude:</label>
+                  <span>{longitude}</span>
+                </div>
+              </div>
+            )}
+          </div>
         )}
       </div>
     );

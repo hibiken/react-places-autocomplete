@@ -4,41 +4,42 @@
 * See https://kenny-hibino.github.io/react-places-autocomplete
 */
 
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
-import defaultSuggestionItem from './SuggestionItem';
-import defaultStyles from './defaultStyles';
+import { compose } from './helpers';
 
-class PlacesAutocomplete extends Component {
+// transform snake_case to camelCase
+const formattedSuggestion = structured_formatting => ({
+  mainText: structured_formatting.main_text,
+  secondaryText: structured_formatting.secondary_text,
+});
+
+class PlacesAutocomplete extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      autocompleteItems: [],
-      userInputValue: props.inputProps.value,
+      suggestions: [],
+      userInputValue: props.value,
     };
 
-    this.autocompleteCallback = this.autocompleteCallback.bind(this);
-    this.handleInputKeyDown = this.handleInputKeyDown.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
     this.debouncedFetchPredictions = debounce(
       this.fetchPredictions,
       this.props.debounce
     );
-    this.clearSuggestions = this.clearSuggestions.bind(this);
   }
 
   componentDidMount() {
     if (!window.google) {
       throw new Error(
-        'Google Maps JavaScript API library must be loaded. See: https://github.com/kenny-hibino/react-places-autocomplete#load-google-library'
+        '[react-places-autocomplete]: Google Maps JavaScript API library must be loaded. See: https://github.com/kenny-hibino/react-places-autocomplete#load-google-library'
       );
     }
 
     if (!window.google.maps.places) {
       throw new Error(
-        'Google Maps Places library must be loaded. Please add `libraries=places` to the src URL. See: https://github.com/kenny-hibino/react-places-autocomplete#load-google-library'
+        '[react-places-autocomplete]: Google Maps Places library must be loaded. Please add `libraries=places` to the src URL. See: https://github.com/kenny-hibino/react-places-autocomplete#load-google-library'
       );
     }
 
@@ -46,135 +47,116 @@ class PlacesAutocomplete extends Component {
     this.autocompleteOK = window.google.maps.places.PlacesServiceStatus.OK;
   }
 
-  autocompleteCallback(predictions, status) {
+  autocompleteCallback = (predictions, status) => {
     if (status !== this.autocompleteOK) {
       this.props.onError(status, this.clearSuggestions);
       return;
     }
-
-    // transform snake_case to camelCase
-    const formattedSuggestion = structured_formatting => ({
-      mainText: structured_formatting.main_text,
-      secondaryText: structured_formatting.secondary_text,
-    });
-
     const { highlightFirstSuggestion } = this.props;
-
     this.setState({
-      autocompleteItems: predictions.map((p, idx) => ({
-        suggestion: p.description,
+      suggestions: predictions.map((p, idx) => ({
+        id: p.id,
+        description: p.description,
         placeId: p.place_id,
         active: highlightFirstSuggestion && idx === 0 ? true : false,
         index: idx,
         formattedSuggestion: formattedSuggestion(p.structured_formatting),
+        matchedSubstrings: p.matched_substrings,
+        terms: p.terms,
+        types: p.types,
       })),
     });
-  }
+  };
 
-  fetchPredictions() {
-    const { value } = this.props.inputProps;
+  fetchPredictions = () => {
+    const { value } = this.props;
     if (value.length) {
       this.autocompleteService.getPlacePredictions(
         {
-          ...this.props.options,
+          ...this.props.searchOptions,
           input: value,
         },
         this.autocompleteCallback
       );
     }
-  }
+  };
 
-  clearSuggestions() {
-    this.setState({ autocompleteItems: [] });
-  }
+  clearSuggestions = () => {
+    this.setState({ suggestions: [] });
+  };
 
-  clearActive() {
+  clearActive = () => {
     this.setState({
-      autocompleteItems: this.state.autocompleteItems.map(item => ({
-        ...item,
+      suggestions: this.state.suggestions.map(suggestion => ({
+        ...suggestion,
         active: false,
       })),
     });
-  }
+  };
 
-  selectAddress(address, placeId, e) {
-    if (e !== undefined) {
-      e.preventDefault();
-    }
+  handleSelect = (address, placeId) => {
     this.clearSuggestions();
-    this.handleSelect(address, placeId);
-  }
+    this.props.onChange(address);
+    this.props.onSelect && this.props.onSelect(address, placeId);
+  };
 
-  handleSelect(address, placeId) {
-    this.props.onSelect
-      ? this.props.onSelect(address, placeId)
-      : this.props.inputProps.onChange(address);
-  }
+  getActiveSuggestion = () => {
+    return this.state.suggestions.find(suggestion => suggestion.active);
+  };
 
-  getActiveItem() {
-    return this.state.autocompleteItems.find(item => item.active);
-  }
+  selectActiveAtIndex = index => {
+    const activeName = this.state.suggestions.find(
+      suggestion => suggestion.index === index
+    ).description;
+    this.setActiveAtIndex(index);
+    this.props.onChange(activeName);
+  };
 
-  selectActiveItemAtIndex(index) {
-    const activeName = this.state.autocompleteItems.find(
-      item => item.index === index
-    ).suggestion;
-    this.setActiveItemAtIndex(index);
-    this.props.inputProps.onChange(activeName);
-  }
-
-  selectUserInputValue() {
+  selectUserInputValue = () => {
     this.clearActive();
-    this.props.inputProps.onChange(this.state.userInputValue);
-  }
+    this.props.onChange(this.state.userInputValue);
+  };
 
-  handleEnterKey() {
-    const activeItem = this.getActiveItem();
-    if (activeItem === undefined) {
-      this.handleEnterKeyWithoutActiveItem();
+  handleEnterKey = () => {
+    const activeSuggestion = this.getActiveSuggestion();
+    if (activeSuggestion === undefined) {
+      this.handleSelect(this.props.value, null);
     } else {
-      this.selectAddress(activeItem.suggestion, activeItem.placeId);
+      this.handleSelect(activeSuggestion.description, activeSuggestion.placeId);
     }
-  }
+  };
 
-  handleEnterKeyWithoutActiveItem() {
-    if (this.props.onEnterKeyDown) {
-      this.props.onEnterKeyDown(this.props.inputProps.value);
-      this.clearSuggestions();
-    }
-  }
-
-  handleDownKey() {
-    if (this.state.autocompleteItems.length === 0) {
+  handleDownKey = () => {
+    if (this.state.suggestions.length === 0) {
       return;
     }
 
-    const activeItem = this.getActiveItem();
-    if (activeItem === undefined) {
-      this.selectActiveItemAtIndex(0);
-    } else if (activeItem.index === this.state.autocompleteItems.length - 1) {
+    const activeSuggestion = this.getActiveSuggestion();
+    if (activeSuggestion === undefined) {
+      this.selectActiveAtIndex(0);
+    } else if (activeSuggestion.index === this.state.suggestions.length - 1) {
       this.selectUserInputValue();
     } else {
-      this.selectActiveItemAtIndex(activeItem.index + 1);
+      this.selectActiveAtIndex(activeSuggestion.index + 1);
     }
-  }
+  };
 
-  handleUpKey() {
-    if (this.state.autocompleteItems.length === 0) {
+  handleUpKey = () => {
+    if (this.state.suggestions.length === 0) {
       return;
     }
 
-    const activeItem = this.getActiveItem();
-    if (activeItem === undefined) {
-      this.selectActiveItemAtIndex(this.state.autocompleteItems.length - 1);
-    } else if (activeItem.index === 0) {
+    const activeSuggestion = this.getActiveSuggestion();
+    if (activeSuggestion === undefined) {
+      this.selectActiveAtIndex(this.state.suggestions.length - 1);
+    } else if (activeSuggestion.index === 0) {
       this.selectUserInputValue();
     } else {
-      this.selectActiveItemAtIndex(activeItem.index - 1);
+      this.selectActiveAtIndex(activeSuggestion.index - 1);
     }
-  }
+  };
 
-  handleInputKeyDown(event) {
+  handleInputKeyDown = event => {
     /* eslint-disable indent */
     switch (event.key) {
       case 'Enter':
@@ -194,234 +176,154 @@ class PlacesAutocomplete extends Component {
         break;
     }
     /* eslint-enable indent */
+  };
 
-    if (this.props.inputProps.onKeyDown) {
-      this.props.inputProps.onKeyDown(event);
-    }
-  }
-
-  setActiveItemAtIndex(index) {
+  setActiveAtIndex = index => {
     this.setState({
-      autocompleteItems: this.state.autocompleteItems.map((item, idx) => {
+      suggestions: this.state.suggestions.map((suggestion, idx) => {
         if (idx === index) {
-          return { ...item, active: true };
+          return { ...suggestion, active: true };
         } else {
-          return { ...item, active: false };
+          return { ...suggestion, active: false };
         }
       }),
     });
-  }
+  };
 
-  handleInputChange(event) {
+  handleInputChange = event => {
     const { value } = event.target;
-    this.props.inputProps.onChange(value);
+    this.props.onChange(value);
     this.setState({ userInputValue: value });
     if (!value) {
       this.clearSuggestions();
       return;
     }
-    if (this.props.shouldFetchSuggestions({ value })) {
+    if (this.props.shouldFetchSuggestions) {
       this.debouncedFetchPredictions();
     }
-  }
+  };
 
-  handleInputOnBlur(event) {
+  handleInputOnBlur = () => {
     if (!this.mousedownOnSuggestion) {
       this.clearSuggestions();
     }
+  };
 
-    if (this.props.inputProps.onBlur) {
-      this.props.inputProps.onBlur(event);
-    }
-  }
-
-  inlineStyleFor(...props) {
-    const { classNames, styles } = this.props;
-    // No inline style if className is passed via props for the element.
-    if (props.some(prop => classNames.hasOwnProperty(prop))) {
-      return {};
-    }
-
-    return props.reduce((acc, prop) => {
-      return {
-        ...acc,
-        ...defaultStyles[prop],
-        ...styles[prop],
-      };
-    }, {});
-  }
-
-  classNameFor(...props) {
-    const { classNames } = this.props;
-
-    return props.reduce((acc, prop) => {
-      const name = classNames[prop] || '';
-      return name ? `${acc} ${name}` : acc;
-    }, '');
-  }
-
-  shouldRenderDropdown() {
-    return this.state.autocompleteItems.length > 0;
-  }
-
-  getInputProps() {
-    const isExpanded = this.shouldRenderDropdown();
-    const activeItem = this.getActiveItem();
-    const activeItemId = activeItem
-      ? `PlacesAutocomplete__autocomplete-item-${activeItem.placeId}`
+  getActiveSuggestionId = () => {
+    const activeSuggestion = this.getActiveSuggestion();
+    return activeSuggestion
+      ? `PlacesAutocomplete__suggestion-${activeSuggestion.placeId}`
       : null;
+  };
+
+  getIsExpanded = () => {
+    return this.state.suggestions.length > 0;
+  };
+
+  getInputProps = (options = {}) => {
+    if (options.hasOwnProperty('value')) {
+      throw new Error(
+        '[react-places-autocomplete]: getInputProps does not accept `value`. Use `value` prop instead'
+      );
+    }
+
+    if (options.hasOwnProperty('onChange')) {
+      throw new Error(
+        '[react-places-autocomplete]: getInputProps does not accept `onChange`. Use `onChange` prop instead'
+      );
+    }
+
     const defaultInputProps = {
       type: 'text',
       autoComplete: 'off',
       role: 'combobox',
       'aria-autocomplete': 'list',
-      'aria-controls': 'PlacesAutocomplete__autocomplete-container',
-      'aria-expanded': isExpanded,
-      'aria-haspopup': isExpanded,
-      'aria-activedescendant': activeItemId,
+      'aria-expanded': this.getIsExpanded(),
+      'aria-activedescendant': this.getActiveSuggestionId(),
     };
 
     return {
       ...defaultInputProps,
-      ...this.props.inputProps,
+      ...options,
+      onKeyDown: compose(this.handleInputKeyDown, options.onKeyDown),
+      onBlur: compose(this.handleInputOnBlur, options.onBlur),
+      value: this.props.value,
       onChange: event => {
         this.handleInputChange(event);
       },
-      onKeyDown: event => {
-        this.handleInputKeyDown(event);
-      },
-      onBlur: event => {
-        this.handleInputOnBlur(event);
-      },
-      style: this.inlineStyleFor('input'),
-      className: this.classNameFor('input'),
     };
-  }
+  };
 
-  handleSuggestionMouseEnter(index) {
-    this.setActiveItemAtIndex(index);
-  }
+  getSuggestionItemProps = (suggestion, options = {}) => {
+    // TODO: whitelist options OR allow all options and compose
+    // event handlers
+    return {
+      ...options,
+      key: suggestion.id,
+      id: this.getActiveSuggestionId(),
+      role: 'option',
+      onMouseEnter: this.handleSuggestionMouseEnter.bind(
+        this,
+        suggestion.index
+      ),
+      onMouseLeave: this.handleSuggestionMouseLeave,
+      onMouseDown: this.handleSuggestionMouseDown,
+      onMouseUp: this.handleSuggestionMouseUp,
+      onTouchStart: this.handleSuggestionTouchStart,
+      onTouchEnd: this.handleSuggestionMouseUp,
+      onClick: this.handleSuggestionClick.bind(this, suggestion),
+    };
+  };
 
-  handleSuggestionMouseLeave() {
+  handleSuggestionMouseEnter = index => {
+    this.setActiveAtIndex(index);
+  };
+
+  handleSuggestionMouseLeave = () => {
     this.mousedownOnSuggestion = false;
     this.clearActive();
-  }
+  };
 
-  handleSuggestionMouseDown(event) {
+  handleSuggestionMouseDown = event => {
     event.preventDefault();
     this.mousedownOnSuggestion = true;
-  }
+  };
 
-  handleSuggestionTouchStart() {
+  handleSuggestionTouchStart = () => {
     this.mousedownOnSuggestion = true;
-  }
+  };
 
-  handleSuggestionMouseUp() {
+  handleSuggestionMouseUp = () => {
     this.mousedownOnSuggestion = false;
-  }
+  };
 
-  handleSuggestionClick(prediction, event) {
-    const { suggestion, placeId } = prediction;
-    this.selectAddress(suggestion, placeId, event);
+  handleSuggestionClick = (suggestion, event) => {
+    if (event && event.preventDefault) {
+      event.preventDefault();
+    }
+    const { description, placeId } = suggestion;
+    this.handleSelect(description, placeId);
     setTimeout(() => {
       this.mousedownOnSuggestion = false;
     });
-  }
+  };
 
   render() {
-    const { autocompleteItems } = this.state;
-    const inputProps = this.getInputProps();
-
-    return (
-      <div
-        id="PlacesAutocomplete__root"
-        style={this.inlineStyleFor('root')}
-        className={this.classNameFor('root')}
-      >
-        <input {...inputProps} />
-        {this.shouldRenderDropdown() && (
-          <div
-            role="listbox"
-            id="PlacesAutocomplete__autocomplete-container"
-            style={this.inlineStyleFor('autocompleteContainer')}
-            className={this.classNameFor('autocompleteContainer')}
-          >
-            {autocompleteItems.map((p, idx) => {
-              /* eslint-disable indent */
-              const style = p.active
-                ? this.inlineStyleFor(
-                    'autocompleteItem',
-                    'autocompleteItemActive'
-                  )
-                : this.inlineStyleFor('autocompleteItem');
-              const className = p.active
-                ? this.classNameFor(
-                    'autocompleteItem',
-                    'autocompleteItemActive'
-                  )
-                : this.classNameFor('autocompleteItem');
-              /* eslint-enable indent */
-              return (
-                <div
-                  key={p.placeId}
-                  id={`PlacesAutocomplete__autocomplete-item-${p.placeId}`}
-                  role="option"
-                  style={style}
-                  className={className}
-                  onMouseEnter={this.handleSuggestionMouseEnter.bind(this, idx)}
-                  onMouseLeave={this.handleSuggestionMouseLeave.bind(this)}
-                  onMouseDown={this.handleSuggestionMouseDown.bind(this)}
-                  onMouseUp={this.handleSuggestionMouseUp.bind(this)}
-                  onTouchStart={this.handleSuggestionTouchStart.bind(this)}
-                  onTouchEnd={this.handleSuggestionMouseUp.bind(this)}
-                  onClick={this.handleSuggestionClick.bind(this, p)}
-                >
-                  {this.props.renderSuggestion({
-                    suggestion: p.suggestion,
-                    formattedSuggestion: p.formattedSuggestion,
-                  })}
-                </div>
-              );
-            })}
-            {this.props.renderFooter && this.props.renderFooter()}
-          </div>
-        )}
-      </div>
-    );
+    return this.props.children({
+      getInputProps: this.getInputProps,
+      getSuggestionItemProps: this.getSuggestionItemProps,
+      suggestions: this.state.suggestions,
+    });
   }
 }
 
 PlacesAutocomplete.propTypes = {
-  inputProps: (props, propName) => {
-    const inputProps = props[propName];
-
-    if (!inputProps.hasOwnProperty('value')) {
-      throw new Error("'inputProps' must have 'value'."); // eslint-disable-line quotes
-    }
-
-    if (!inputProps.hasOwnProperty('onChange')) {
-      throw new Error("'inputProps' must have 'onChange'."); // eslint-disable-line quotes
-    }
-  },
-  onEnterKeyDown: PropTypes.func,
+  onChange: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired,
+  children: PropTypes.func.isRequired,
   onError: PropTypes.func,
   onSelect: PropTypes.func,
-  renderSuggestion: PropTypes.func,
-  classNames: PropTypes.shape({
-    root: PropTypes.string,
-    input: PropTypes.string,
-    autocompleteContainer: PropTypes.string,
-    autocompleteItem: PropTypes.string,
-    autocompleteItemActive: PropTypes.string,
-  }),
-  styles: PropTypes.shape({
-    root: PropTypes.object,
-    input: PropTypes.object,
-    autocompleteContainer: PropTypes.object,
-    autocompleteItem: PropTypes.object,
-    autocompleteItemActive: PropTypes.object,
-  }),
-  options: PropTypes.shape({
+  searchOptions: PropTypes.shape({
     bounds: PropTypes.object,
     componentRestrictions: PropTypes.object,
     location: PropTypes.object,
@@ -431,8 +333,7 @@ PlacesAutocomplete.propTypes = {
   }),
   debounce: PropTypes.number,
   highlightFirstSuggestion: PropTypes.bool,
-  renderFooter: PropTypes.func,
-  shouldFetchSuggestions: PropTypes.func.isRequired,
+  shouldFetchSuggestions: PropTypes.bool,
 };
 
 PlacesAutocomplete.defaultProps = {
@@ -443,13 +344,10 @@ PlacesAutocomplete.defaultProps = {
       status
     ),
   /* eslint-enable no-unused-vars, no-console */
-  classNames: {},
-  renderSuggestion: defaultSuggestionItem,
-  styles: {},
-  options: {},
+  searchOptions: {},
   debounce: 200,
   highlightFirstSuggestion: false,
-  shouldFetchSuggestions: () => true,
+  shouldFetchSuggestions: true,
 };
 
 export default PlacesAutocomplete;
