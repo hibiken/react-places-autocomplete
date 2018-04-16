@@ -255,21 +255,33 @@ class PlacesAutocomplete extends React.Component {
   };
 
   getSuggestionItemProps = (suggestion, options = {}) => {
+    const handleSuggestionMouseEnter = this.handleSuggestionMouseEnter.bind(
+      this,
+      suggestion.index
+    );
+    const handleSuggestionClick = this.handleSuggestionClick.bind(
+      this,
+      suggestion
+    );
+
     return {
       ...options,
       key: suggestion.id,
       id: this.getActiveSuggestionId(),
       role: 'option',
-      onMouseEnter: this.handleSuggestionMouseEnter.bind(
-        this,
-        suggestion.index
+      onMouseEnter: compose(handleSuggestionMouseEnter, options.onMouseEnter),
+      onMouseLeave: compose(
+        this.handleSuggestionMouseLeave,
+        options.onMouseLeave
       ),
-      onMouseLeave: this.handleSuggestionMouseLeave,
-      onMouseDown: this.handleSuggestionMouseDown,
-      onMouseUp: this.handleSuggestionMouseUp,
-      onTouchStart: this.handleSuggestionTouchStart,
-      onTouchEnd: this.handleSuggestionMouseUp,
-      onClick: this.handleSuggestionClick.bind(this, suggestion),
+      onMouseDown: compose(this.handleSuggestionMouseDown, options.onMouseDown),
+      onMouseUp: compose(this.handleSuggestionMouseUp, options.onMouseUp),
+      onTouchStart: compose(
+        this.handleSuggestionTouchStart,
+        options.onTouchStart
+      ),
+      onTouchEnd: compose(this.handleSuggestionMouseUp, options.onTouchEnd),
+      onClick: compose(handleSuggestionClick, options.onClick),
     };
   };
 

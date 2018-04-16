@@ -94,29 +94,26 @@ class SearchBar extends React.Component {
                 </div>
                 {suggestions.length > 0 && (
                   <div className="Demo__autocomplete-container">
-                    {suggestions.map(
-                      suggestion => {
-                        const className = classnames(
-                          'Demo__suggestion-item',
-                          { 'Demo__suggestion-item--active': suggestion.active }
-                        );
+                    {suggestions.map(suggestion => {
+                      const className = classnames('Demo__suggestion-item', {
+                        'Demo__suggestion-item--active': suggestion.active,
+                      });
 
-                        return (
-                          /* eslint-disable react/jsx-key */
-                          <div
-                            {...getSuggestionItemProps(suggestion, { className })}
-                          >
-                            <strong>
-                              {suggestion.formattedSuggestion.mainText}
-                            </strong>{' '}
-                            <small>
-                              {suggestion.formattedSuggestion.secondaryText}
-                            </small>
-                          </div>
-                        )
-                        /* eslint-enable react/jsx-key */
-                      }
-                    )}
+                      return (
+                        /* eslint-disable react/jsx-key */
+                        <div
+                          {...getSuggestionItemProps(suggestion, { className })}
+                        >
+                          <strong>
+                            {suggestion.formattedSuggestion.mainText}
+                          </strong>{' '}
+                          <small>
+                            {suggestion.formattedSuggestion.secondaryText}
+                          </small>
+                        </div>
+                      );
+                      /* eslint-enable react/jsx-key */
+                    })}
                     <div className="Demo__dropdown-footer">
                       <div>
                         <img
