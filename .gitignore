@@ -1,5 +1,0 @@
-logs
-*.log
-node_modules
-coverage/
-dist/
