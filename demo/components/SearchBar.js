@@ -1,5 +1,6 @@
 import React from 'react';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from '../../src';
+import { classnames } from '../helpers';
 
 class SearchBar extends React.Component {
   constructor(props) {
@@ -93,17 +94,15 @@ class SearchBar extends React.Component {
                 </div>
                 {suggestions.length > 0 && (
                   <div className="Demo__autocomplete-container">
-                    {suggestions.map(
-                      suggestion => (
+                    {suggestions.map(suggestion => {
+                      const className = classnames('Demo__suggestion-item', {
+                        'Demo__suggestion-item--active': suggestion.active,
+                      });
+
+                      return (
                         /* eslint-disable react/jsx-key */
                         <div
-                          {...getSuggestionItemProps(suggestion, {
-                            className: `Demo__suggestion-item${
-                              suggestion.active
-                                ? ' Demo__suggestion-item--active'
-                                : ''
-                            }`,
-                          })}
+                          {...getSuggestionItemProps(suggestion, { className })}
                         >
                           <strong>
                             {suggestion.formattedSuggestion.mainText}
@@ -112,9 +111,9 @@ class SearchBar extends React.Component {
                             {suggestion.formattedSuggestion.secondaryText}
                           </small>
                         </div>
-                      )
+                      );
                       /* eslint-enable react/jsx-key */
-                    )}
+                    })}
                     <div className="Demo__dropdown-footer">
                       <div>
                         <img
