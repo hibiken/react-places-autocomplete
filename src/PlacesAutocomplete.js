@@ -255,8 +255,6 @@ class PlacesAutocomplete extends React.Component {
   };
 
   getSuggestionItemProps = (suggestion, options = {}) => {
-    // TODO: whitelist options OR allow all options and compose
-    // event handlers
     return {
       ...options,
       key: suggestion.id,
