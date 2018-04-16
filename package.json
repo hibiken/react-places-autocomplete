@@ -19,6 +19,7 @@
     "demo:test": "mocha demo/tests/index.spec.js --compilers js:babel-register",
     "demo:build": "rimraf demo/dist && webpack --config demo/webpack.config.js -p",
     "demo:deploy": "gh-pages -d demo/dist",
+    "prepublish": "npm run build",
     "postpublish": "npm run demo:deploy",
     "prettier": "prettier --write \"src/**/*.js\" \"demo/**/*.js\"",
     "lint": "eslint .",
