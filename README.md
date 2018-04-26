@@ -18,6 +18,7 @@ Live demo: [kenny-hibino.github.io/react-places-autocomplete/](https://kenny-hib
 3. Full control over rendering to integrate well with other libraries (e.g. Redux-Form)  
 4. Mobile friendly UX
 5. WAI-ARIA compliant
+6. Support Asynchronous Google script loading
 
 ### Installation
 To install the stable version
@@ -124,6 +125,8 @@ PlacesAutocomplete is a [Controlled Component](https://facebook.github.io/react/
 |[`debounce`](#debounce) | number | | Number of milliseconds to delay before making a call to Google Maps API |
 | [`highlightFirstSuggestion`](#highlightFirstSuggestion) | boolean | | If set to `true`, first list item in the dropdown will be automatically highlighted |
 |[`shouldFetchSuggestions`](#shouldFetchSuggestions)| boolean | | Component will hit Google Maps API only if this flag is set `true` |
+|[`googleCallbackName`](#googleCallbackName)| string | | You can provide a callback name to initialize `PlacesAutocomplete` after google script is loaded |
+
 
 <a name="value"></a>
 ### value
@@ -354,6 +357,67 @@ Default: `true`
 >
   {/* custom render function */}
 </PlacesAutocomplete>
+```
+
+<a name="googleCallbackName"></a>
+### googleCallbackName
+Type: `string`
+Required: `false`
+Default: `undefined`
+
+If provided, component will initialize after the browser has finished downloading google script.
+
+**IMPORTANT**: To enable this async mode, you need to provide the same callback name to google script via `callback=[YOUR CALLBACK NAME]`.
+
+Example:
+```html
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places&callback=myCallbackFunc"></script>
+```
+
+Then, provide `googleCallbackName` prop to `PlacesAutocomplete`.
+
+```js
+<PlacesAutocomplete
+  value={this.state.value}
+  onChange={this.handleChange}
+  googleCallbackName="myCallbackFunc"
+>
+  {/* custom render function */}
+</PlacesAutocomplete>
+```
+
+**NOTE**: If there are more than one `PlacesAutocomplete` components rendered in the page,
+set up a callback function that calls a callback function for each component.
+
+Example:
+```html
+<script>
+window.myCallbackFunc = function() {
+  window.initOne && window.initOne();
+  window.initTwo && window.initTwo();
+}
+</script>
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places&callback=myCallbackFunc"></script>
+```
+
+```js
+<PlacesAutocomplete
+  value={this.state.value}
+  onChange={this.handleChange}
+  googleCallbackName="initOne"
+>
+  {/* custom render function */}
+</PlacesAutocomplete>
+
+<PlacesAutocomplete
+  value={this.state.value}
+  onChange={this.handleChange}
+  googleCallbackName="initTwo"
+>
+  {/* custom render function */}
+</PlacesAutocomplete>
+
 ```
 
 <a name="utility-functions"></a>

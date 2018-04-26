@@ -22,6 +22,7 @@ class PlacesAutocomplete extends React.Component {
     this.state = {
       suggestions: [],
       userInputValue: props.value,
+      ready: !props.googleCallbackName,
     };
 
     this.debouncedFetchPredictions = debounce(
@@ -31,6 +32,26 @@ class PlacesAutocomplete extends React.Component {
   }
 
   componentDidMount() {
+    const { googleCallbackName } = this.props;
+    if (googleCallbackName) {
+      if (!window.google) {
+        window[googleCallbackName] = this.init;
+      } else {
+        this.init();
+      }
+    } else {
+      this.init();
+    }
+  }
+
+  componentWillUnmount() {
+    const { googleCallbackName } = this.props;
+    if (googleCallbackName && window[googleCallbackName]) {
+      delete window[googleCallbackName];
+    }
+  }
+
+  init = () => {
     if (!window.google) {
       throw new Error(
         '[react-places-autocomplete]: Google Maps JavaScript API library must be loaded. See: https://github.com/kenny-hibino/react-places-autocomplete#load-google-library'
@@ -45,7 +66,14 @@ class PlacesAutocomplete extends React.Component {
 
     this.autocompleteService = new window.google.maps.places.AutocompleteService();
     this.autocompleteOK = window.google.maps.places.PlacesServiceStatus.OK;
-  }
+    this.setState(state => {
+      if (state.ready) {
+        return null;
+      } else {
+        return { ready: true };
+      }
+    });
+  };
 
   autocompleteCallback = (predictions, status) => {
     if (status !== this.autocompleteOK) {
@@ -240,6 +268,7 @@ class PlacesAutocomplete extends React.Component {
       'aria-autocomplete': 'list',
       'aria-expanded': this.getIsExpanded(),
       'aria-activedescendant': this.getActiveSuggestionId(),
+      disabled: !this.state.ready,
     };
 
     return {
@@ -344,6 +373,7 @@ PlacesAutocomplete.propTypes = {
   debounce: PropTypes.number,
   highlightFirstSuggestion: PropTypes.bool,
   shouldFetchSuggestions: PropTypes.bool,
+  googleCallbackName: PropTypes.string,
 };
 
 PlacesAutocomplete.defaultProps = {
