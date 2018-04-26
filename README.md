@@ -386,6 +386,40 @@ Then, provide `googleCallbackName` prop to `PlacesAutocomplete`.
 </PlacesAutocomplete>
 ```
 
+**NOTE**: If there are more than one `PlacesAutocomplete` components rendered in the page,
+set up a callback function that calls a callback function for each component.
+
+Example:
+```html
+<script>
+window.myCallbackFunc = function() {
+  window.initOne && window.initOne();
+  window.initTwo && window.initTwo();
+}
+</script>
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places&callback=myCallbackFunc"></script>
+```
+
+```js
+<PlacesAutocomplete
+  value={this.state.value}
+  onChange={this.handleChange}
+  googleCallbackName="initOne"
+>
+  {/* custom render function */}
+</PlacesAutocomplete>
+
+<PlacesAutocomplete
+  value={this.state.value}
+  onChange={this.handleChange}
+  googleCallbackName="initTwo"
+>
+  {/* custom render function */}
+</PlacesAutocomplete>
+
+```
+
 <a name="utility-functions"></a>
 ## Utility Functions
 * [`geocodeByAddress`](#geocode-by-address)
