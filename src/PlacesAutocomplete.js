@@ -124,8 +124,11 @@ class PlacesAutocomplete extends React.Component {
 
   handleSelect = (address, placeId) => {
     this.clearSuggestions();
-    this.props.onChange(address);
-    this.props.onSelect && this.props.onSelect(address, placeId);
+    if (this.props.onSelect) {
+      this.props.onSelect(address, placeId);
+    } else {
+      this.props.onChange(address);
+    }
   };
 
   getActiveSuggestion = () => {
