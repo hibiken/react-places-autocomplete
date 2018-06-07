@@ -202,8 +202,8 @@ autocomplete dropdown. You MUST call it with `suggestion` object as an argument,
 // Simple example
 <div className="autocomplete-dropdown">
   {suggestions.map(suggestion => (
-    <div {...getSuggestionItemProps(suggesions)}>
-      {suggesion.description}
+    <div {...getSuggestionItemProps(suggestion)}>
+      {suggestion.description}
     </div>
   ))}
 </div>
@@ -211,7 +211,7 @@ autocomplete dropdown. You MUST call it with `suggestion` object as an argument,
 // Pass options as a second argument
 <div className="autocomplete-dropdown">
   {suggestions.map(suggestion => {
-    const className = suggestion.active ? 'suggestion-item--active' : 'suggesion-item';
+    const className = suggestion.active ? 'suggestion-item--active' : 'suggestion-item';
     return (
       <div {...getSuggestionItemProps(suggestion, { className })}>
         {suggestion.description}
