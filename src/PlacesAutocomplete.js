@@ -20,6 +20,7 @@ class PlacesAutocomplete extends React.Component {
     super(props);
 
     this.state = {
+      loading: false,
       suggestions: [],
       userInputValue: props.value,
       ready: !props.googleCallbackName,
@@ -76,6 +77,7 @@ class PlacesAutocomplete extends React.Component {
   };
 
   autocompleteCallback = (predictions, status) => {
+    this.setState({ loading: false });
     if (status !== this.autocompleteOK) {
       this.props.onError(status, this.clearSuggestions);
       return;
@@ -99,6 +101,7 @@ class PlacesAutocomplete extends React.Component {
   fetchPredictions = () => {
     const { value } = this.props;
     if (value.length) {
+      this.setState({ loading: true });
       this.autocompleteService.getPlacePredictions(
         {
           ...this.props.searchOptions,
@@ -354,6 +357,7 @@ class PlacesAutocomplete extends React.Component {
     return this.props.children({
       getInputProps: this.getInputProps,
       getSuggestionItemProps: this.getSuggestionItemProps,
+      loading: this.state.loading,
       suggestions: this.state.suggestions,
     });
   }
