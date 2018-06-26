@@ -15,7 +15,7 @@ Live demo: [kenny-hibino.github.io/react-places-autocomplete/](https://kenny-hib
 ### Features
 1. Enable you to easily build a customized autocomplete dropdown powered by [Google Maps Places Library](https://developers.google.com/maps/documentation/javascript/places)
 2. [Utility functions](#utility-functions) to geocode and get latitude and longitude using [Google Maps Geocoder API](https://developers.google.com/maps/documentation/javascript/geocoding)
-3. Full control over rendering to integrate well with other libraries (e.g. Redux-Form)  
+3. Full control over rendering to integrate well with other libraries (e.g. Redux-Form)
 4. Mobile friendly UX
 5. WAI-ARIA compliant
 6. Support Asynchronous Google script loading
@@ -58,7 +58,7 @@ import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-au
 
 class LocationSearchInput extends React.Component {
   constructor(props) {
-    super(props);  
+    super(props);
     this.state = { address: '' }
   }
 
@@ -80,7 +80,7 @@ class LocationSearchInput extends React.Component {
         onChange={this.handleChange}
         onSelect={this.handleSelect}
       >
-        {({ getInputProps, suggestions, getSuggestionItemProps }) => (
+        {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
           <div>
             <input
               {...getInputProps({
@@ -89,6 +89,7 @@ class LocationSearchInput extends React.Component {
               })}
             />
             <div className="autocomplete-dropdown-container">
+              { loading && <div>Loading...</div>}
               {suggestions.map(suggestion => {
                 const className = suggestion.active ? 'suggestion-item--active' : 'suggestion-item';
                 // inline style for demonstration purpose
@@ -159,6 +160,7 @@ This is where you render whatever you want to based on the state of `PlacesAutoc
 The function will take an object with the following keys.
 - `getInputProps` : function
 - `getSuggestionItemProps` : function
+- `loading` : boolean
 - `suggestions` : array
 
 Simple example
@@ -167,10 +169,11 @@ const renderFunc = ({ getInputProps, getSuggestionItemProps, suggestions }) => (
   <div className="autocomplete-root">
     <input {...getInputProps()} />
     <div className="autocomplete-dropdown-container">
+      {loading && <div>Loading...</div>}
       {suggestions.map(suggestion => (
         <div {...getSuggestionItemProps(suggestion)}>
           <span>{suggestion.description}</span>
-        </div>  
+        </div>
       ))}
     </div>
   </div>
@@ -221,6 +224,9 @@ autocomplete dropdown. You MUST call it with `suggestion` object as an argument,
 </div>
 
 ```
+
+#### loading
+This is a boolean flag indicating whether or not the request is pending, or has completed.
 
 #### suggestions
 This is an array of suggestion objects each containing all the data from Google Maps API and other metadata.
