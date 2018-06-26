@@ -31,12 +31,18 @@ class GeocoderMock {
   }
 }
 
+class AutocompleteServiceMock {
+  getPlacePredictions(_filters, callback) {
+    callback([], 'OK');
+  }
+}
+
 export const setupGoogleMock = () => {
   /*** Mock Google Maps JavaScript API ***/
   const google = {
     maps: {
       places: {
-        AutocompleteService: () => {},
+        AutocompleteService: AutocompleteServiceMock,
         PlacesServiceStatus: {
           INVALID_REQUEST: 'INVALID_REQUEST',
           NOT_FOUND: 'NOT_FOUND',
