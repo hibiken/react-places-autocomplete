@@ -151,10 +151,11 @@ class PlacesAutocomplete extends React.Component {
     this.props.onChange(this.state.userInputValue);
   };
 
-  handleEnterKey = () => {
+  handleEnterKey = (e) => {
     const activeSuggestion = this.getActiveSuggestion();
     if (activeSuggestion === undefined) {
       this.handleSelect(this.props.value, null);
+      this.props.onKeyDown && this.props.onKeyDown(e);
     } else {
       this.handleSelect(activeSuggestion.description, activeSuggestion.placeId);
     }
@@ -195,7 +196,7 @@ class PlacesAutocomplete extends React.Component {
     switch (event.key) {
       case 'Enter':
         event.preventDefault();
-        this.handleEnterKey();
+        this.handleEnterKey(event);
         break;
       case 'ArrowDown':
         event.preventDefault(); // prevent the cursor from moving
