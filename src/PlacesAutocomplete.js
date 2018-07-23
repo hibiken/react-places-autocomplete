@@ -13,6 +13,8 @@ import { compose } from './helpers';
 const formattedSuggestion = structured_formatting => ({
   mainText: structured_formatting.main_text,
   secondaryText: structured_formatting.secondary_text,
+  mainTextMatchedSubstrings: structured_formatting.main_text_matched_substrings,
+  secondaryTextMatchedSubstrings: structured_formatting.secondary_text_matched_substrings
 });
 
 class PlacesAutocomplete extends React.Component {
