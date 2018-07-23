@@ -13,8 +13,6 @@ import { compose } from './helpers';
 const formattedSuggestion = structured_formatting => ({
   mainText: structured_formatting.main_text,
   secondaryText: structured_formatting.secondary_text,
-  mainTextMatchedSubstrings: structured_formatting.main_text_matched_substrings,
-  secondaryTextMatchedSubstrings: structured_formatting.secondary_text_matched_substrings
 });
 
 class PlacesAutocomplete extends React.Component {
@@ -94,6 +92,10 @@ class PlacesAutocomplete extends React.Component {
         index: idx,
         formattedSuggestion: formattedSuggestion(p.structured_formatting),
         matchedSubstrings: p.matched_substrings,
+        mainTextMatchedSubstrings:
+          p.structured_formatting.main_text_matched_substrings,
+        secondaryTextMatchedSubstrings:
+          p.structured_formatting.secondary_text_matched_substrings,
         terms: p.terms,
         types: p.types,
       })),
