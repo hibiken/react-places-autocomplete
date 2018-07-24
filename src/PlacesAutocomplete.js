@@ -125,10 +125,10 @@ class PlacesAutocomplete extends React.Component {
     });
   };
 
-  handleSelect = (address, placeId) => {
+  handleSelect = (address, placeId, suggestion) => {
     this.clearSuggestions();
     if (this.props.onSelect) {
-      this.props.onSelect(address, placeId);
+      this.props.onSelect(address, placeId, suggestion);
     } else {
       this.props.onChange(address);
     }
@@ -154,9 +154,9 @@ class PlacesAutocomplete extends React.Component {
   handleEnterKey = () => {
     const activeSuggestion = this.getActiveSuggestion();
     if (activeSuggestion === undefined) {
-      this.handleSelect(this.props.value, null);
+      this.handleSelect(this.props.value, null, null);
     } else {
-      this.handleSelect(activeSuggestion.description, activeSuggestion.placeId);
+      this.handleSelect(activeSuggestion.description, activeSuggestion.placeId, activeSuggestion);
     }
   };
 
@@ -347,7 +347,7 @@ class PlacesAutocomplete extends React.Component {
       event.preventDefault();
     }
     const { description, placeId } = suggestion;
-    this.handleSelect(description, placeId);
+    this.handleSelect(description, placeId, suggestion);
     setTimeout(() => {
       this.mousedownOnSuggestion = false;
     });
