@@ -411,6 +411,9 @@ If provided, component will initialize after the browser has finished downloadin
 Example:
 
 ```html
+<script>
+  window.myCallbackFunc = function (){} // should be placed before where react will render, like the head of index.html
+</script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places&callback=myCallbackFunc"></script>
 ```
 
