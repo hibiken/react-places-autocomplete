@@ -72,7 +72,6 @@ class SearchBar extends React.Component {
           onSelect={this.handleSelect}
           onError={this.handleError}
           shouldFetchSuggestions={address.length > 2}
-          hideOnBlur={false}
         >
           {({ getInputProps, suggestions, getSuggestionItemProps }) => {
             return (
