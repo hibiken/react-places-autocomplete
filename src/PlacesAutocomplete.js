@@ -238,7 +238,7 @@ class PlacesAutocomplete extends React.Component {
   };
 
   handleInputOnBlur = () => {
-    if (!this.mousedownOnSuggestion) {
+    if (this.props.hideOnBlur && !this.mousedownOnSuggestion) {
       this.clearSuggestions();
     }
   };
@@ -381,6 +381,7 @@ PlacesAutocomplete.propTypes = {
   highlightFirstSuggestion: PropTypes.bool,
   shouldFetchSuggestions: PropTypes.bool,
   googleCallbackName: PropTypes.string,
+  hideOnBlur: PropTypes.bool,
 };
 
 PlacesAutocomplete.defaultProps = {
@@ -395,6 +396,7 @@ PlacesAutocomplete.defaultProps = {
   debounce: 200,
   highlightFirstSuggestion: false,
   shouldFetchSuggestions: true,
+  hideOnBlur: true,
 };
 
 export default PlacesAutocomplete;
