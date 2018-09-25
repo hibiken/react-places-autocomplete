@@ -28,7 +28,7 @@ class PlacesAutocomplete extends React.Component {
 
     this.debouncedFetchPredictions = debounce(
       this.fetchPredictions,
-      this.props.debounce
+      props.debounce
     );
   }
 
