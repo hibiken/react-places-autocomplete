@@ -224,8 +224,8 @@ class PlacesAutocomplete extends React.Component {
     });
   };
 
-  handleInputChange = event => {
-    const { value } = event.target;
+  handleInputChange = input => {
+    const value = input instanceof Event ? input.target.value : input;
     this.props.onChange(value);
     this.setState({ userInputValue: value });
     if (!value) {
@@ -283,8 +283,8 @@ class PlacesAutocomplete extends React.Component {
       onKeyDown: compose(this.handleInputKeyDown, options.onKeyDown),
       onBlur: compose(this.handleInputOnBlur, options.onBlur),
       value: this.props.value,
-      onChange: event => {
-        this.handleInputChange(event);
+      onChange: input => {
+        this.handleInputChange(input);
       },
     };
   };
