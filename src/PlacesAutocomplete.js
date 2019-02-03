@@ -8,6 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
 import { compose } from './helpers';
+import { validateGooglePlacesApi } from './utils';
 
 // transform snake_case to camelCase
 const formattedSuggestion = structured_formatting => ({
@@ -27,7 +28,7 @@ class PlacesAutocomplete extends React.Component {
     };
 
     this.debouncedFetchPredictions = debounce(
-      this.fetchPredictions,
+      this.loadPredictions,
       this.props.debounce
     );
   }
@@ -52,21 +53,8 @@ class PlacesAutocomplete extends React.Component {
     }
   }
 
-  init = () => {
-    if (!window.google) {
-      throw new Error(
-        '[react-places-autocomplete]: Google Maps JavaScript API library must be loaded. See: https://github.com/kenny-hibino/react-places-autocomplete#load-google-library'
-      );
-    }
-
-    if (!window.google.maps.places) {
-      throw new Error(
-        '[react-places-autocomplete]: Google Maps Places library must be loaded. Please add `libraries=places` to the src URL. See: https://github.com/kenny-hibino/react-places-autocomplete#load-google-library'
-      );
-    }
-
-    this.autocompleteService = new window.google.maps.places.AutocompleteService();
-    this.autocompleteOK = window.google.maps.places.PlacesServiceStatus.OK;
+  init = () => {    
+    this.autocompleteOK = 'OK';
     this.setState(state => {
       if (state.ready) {
         return null;
@@ -98,17 +86,11 @@ class PlacesAutocomplete extends React.Component {
     });
   };
 
-  fetchPredictions = () => {
-    const { value } = this.props;
+  loadPredictions = () => {
+    const { value, fetchPredictions } = this.props;
     if (value.length) {
       this.setState({ loading: true });
-      this.autocompleteService.getPlacePredictions(
-        {
-          ...this.props.searchOptions,
-          input: value,
-        },
-        this.autocompleteCallback
-      );
+      fetchPredictions(value, this.props.searchOptions, this.autocompleteCallback);
     }
   };
 
@@ -367,6 +349,7 @@ PlacesAutocomplete.propTypes = {
   onChange: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
   children: PropTypes.func.isRequired,
+  fetchPredictions: PropTypes.func,
   onError: PropTypes.func,
   onSelect: PropTypes.func,
   searchOptions: PropTypes.shape({
@@ -385,6 +368,17 @@ PlacesAutocomplete.propTypes = {
 
 PlacesAutocomplete.defaultProps = {
   /* eslint-disable no-unused-vars, no-console */
+  fetchPredictions: (value, searchOptions, callback) => {
+    validateGooglePlacesApi();
+    let autocompleteService = new window.google.maps.places.AutocompleteService();
+    autocompleteService.getPlacePredictions(
+      {
+        ...searchOptions,
+        input: value,
+      },
+      callback
+    );
+  },
   onError: (status, _clearSuggestions) =>
     console.error(
       '[react-places-autocomplete]: error happened when fetching data from Google Maps API.\nPlease check the docs here (https://developers.google.com/maps/documentation/javascript/places#place_details_responses)\nStatus: ',

@@ -29,7 +29,7 @@ test('loading prop check', () => {
 
   // simulate fetching predictions
   const el = component.find(PlacesAutocomplete);
-  el.instance().fetchPredictions();
+  el.instance().loadPredictions();
 
   // there are 2 setStates in the callback, so we end up with 4 renders
   expect(childProp).toHaveBeenCalledTimes(4);
