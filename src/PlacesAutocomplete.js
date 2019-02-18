@@ -247,7 +247,7 @@ class PlacesAutocomplete extends React.Component {
     const activeSuggestion = this.getActiveSuggestion();
     return activeSuggestion
       ? `PlacesAutocomplete__suggestion-${activeSuggestion.placeId}`
-      : null;
+      : undefined;
   };
 
   getIsExpanded = () => {

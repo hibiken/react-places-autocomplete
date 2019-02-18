@@ -12,7 +12,6 @@ exports[`initial render 1`] = `
 >
   <div>
     <input
-      aria-activedescendant={null}
       aria-autocomplete="list"
       aria-expanded={false}
       autoComplete="off"
@@ -41,7 +40,6 @@ exports[`initial render with initial input value 1`] = `
 >
   <div>
     <input
-      aria-activedescendant={null}
       aria-autocomplete="list"
       aria-expanded={false}
       autoComplete="off"
@@ -70,7 +68,6 @@ exports[`initial render with options to props-getter 1`] = `
 >
   <div>
     <input
-      aria-activedescendant={null}
       aria-autocomplete="list"
       aria-expanded={false}
       autoComplete="off"
