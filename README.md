@@ -51,7 +51,7 @@ To use this component, you are going to need to load [Google Maps JavaScript API
 Load the library in your project
 
 ```html
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
 ```
 
 Create your component
