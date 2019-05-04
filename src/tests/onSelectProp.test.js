@@ -30,7 +30,7 @@ describe('onSelect prop', () => {
     expect(onSelectHandler).toHaveBeenCalledTimes(1);
     // first argument is input value,
     // second argument is placeId, null in this case.
-    expect(onSelectHandler).toBeCalledWith('San Francisco', null);
+    expect(onSelectHandler).toBeCalledWith('San Francisco', null, null);
   });
 
   test('pressing Enter when one of the suggestion items is active', () => {
@@ -46,7 +46,8 @@ describe('onSelect prop', () => {
     expect(onSelectHandler).toHaveBeenCalledTimes(1);
     expect(onSelectHandler).toBeCalledWith(
       mockSuggestions[0].description,
-      mockSuggestions[0].placeId
+      mockSuggestions[0].placeId,
+      mockSuggestions[0].formattedSuggestion.mainText
     );
   });
 
@@ -66,7 +67,8 @@ describe('onSelect prop', () => {
     expect(onSelectHandler).toHaveBeenCalledTimes(1);
     expect(onSelectHandler).toBeCalledWith(
       mockSuggestions[0].description,
-      mockSuggestions[0].placeId
+      mockSuggestions[0].placeId,
+      mockSuggestions[0].formattedSuggestion.mainText
     );
   });
 });

@@ -282,11 +282,11 @@ Default: `null`
 You can pass a function that gets called instead of `onChange` function when user
 hits the Enter key or clicks on a suggestion item.
 
-The function takes two positional arguments. First argument is `address`, second is `placeId`.
+The function takes two positional arguments. First argument is `address`, second is `placeId`, third is `placeName`
 
 ```js
-// NOTE: `placeId` is null when user hits Enter key with no suggestion item selected.
-const handleSelect = (address: string, placeId: ?string) => {
+// NOTE: `placeId`, `placeName` is null when user hits Enter key with no suggestion item selected.
+const handleSelect = (address: string, placeId: ?string, placeName: ?string) => {
   // Do something with address and placeId
 }
 
