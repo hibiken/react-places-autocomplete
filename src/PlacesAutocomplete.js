@@ -243,11 +243,11 @@ class PlacesAutocomplete extends React.Component {
     }
   };
 
+  formatSuggestionId = suggestion => `PlacesAutocomplete__suggestion-${suggestion.placeId}`;
+
   getActiveSuggestionId = () => {
     const activeSuggestion = this.getActiveSuggestion();
-    return activeSuggestion
-      ? `PlacesAutocomplete__suggestion-${activeSuggestion.placeId}`
-      : undefined;
+    return activeSuggestion ? this.formatSuggestionId(activeSuggestion) : undefined;
   };
 
   getIsExpanded = () => {
@@ -302,7 +302,7 @@ class PlacesAutocomplete extends React.Component {
     return {
       ...options,
       key: suggestion.id,
-      id: this.getActiveSuggestionId(),
+      id: this.formatSuggestionId(suggestion),
       role: 'option',
       onMouseEnter: compose(handleSuggestionMouseEnter, options.onMouseEnter),
       onMouseLeave: compose(

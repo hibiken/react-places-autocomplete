@@ -6,7 +6,7 @@ beforeAll(() => {
 });
 
 describe('mouse event handlers', () => {
-  test('suggesion item handles mouse enter and leave event', () => {
+  test('suggestion item handles mouse enter and leave event', () => {
     const wrapper = mountComponent();
     simulateSearch(wrapper);
 
@@ -20,5 +20,15 @@ describe('mouse event handlers', () => {
     suggestionItem.simulate('mouseleave');
     suggestions = wrapper.state().suggestions;
     expect(suggestions[0].active).toEqual(false);
+  });
+
+  test('suggestion item should have a unique id on mouse enter', () => {
+    const wrapper = mountComponent();
+    simulateSearch(wrapper);
+
+    wrapper.find('[data-test="suggestion-item"]').forEach(suggestion => {
+      const suggestionId = suggestion.prop('id');
+      expect(wrapper.find(`#${suggestionId}`).length).toBe(1);
+    });
   });
 });
