@@ -2,7 +2,7 @@
   "name": "react-places-autocomplete",
   "version": "7.2.1",
   "description": "A React component for Google Maps Places Autocomplete",
-  "main": "./src/index.js",
+  "main": "dist/index.js",
   "scripts": {
     "commit": "git-cz",
     "test": "jest",
