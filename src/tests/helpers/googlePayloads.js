@@ -31,7 +31,7 @@ export const GEOCODE_RESULT = {
           north: 37.9298239,
           east: -122.28178000000003,
         },
-        location: { lat: 37.7749295, lng: -122.41941550000001 },
+        location: { lat: () => 37.7749295, lng: () => -122.41941550000001 },
         location_type: 'APPROXIMATE',
         viewport: {
           south: 37.70339999999999,

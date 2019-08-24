@@ -46,8 +46,8 @@ Array [
         "west": -123.17382499999997,
       },
       "location": Object {
-        "lat": 37.7749295,
-        "lng": -122.41941550000001,
+        "lat": [Function],
+        "lng": [Function],
       },
       "location_type": "APPROXIMATE",
       "viewport": Object {
@@ -112,8 +112,8 @@ Array [
         "west": -123.17382499999997,
       },
       "location": Object {
-        "lat": 37.7749295,
-        "lng": -122.41941550000001,
+        "lat": [Function],
+        "lng": [Function],
       },
       "location_type": "APPROXIMATE",
       "viewport": Object {
