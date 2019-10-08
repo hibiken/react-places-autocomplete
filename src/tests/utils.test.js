@@ -1,4 +1,8 @@
-import { geocodeByAddress, geocodeByPlaceId } from '../utils';
+import {
+  geocodeByAddress,
+  geocodeByPlaceId,
+  geocodeByLocation,
+} from '../utils';
 import { setupGoogleMock } from './helpers/setup';
 
 beforeAll(() => {
@@ -26,6 +30,19 @@ describe('geocodeByPlaceId', () => {
     expect.assertions(1);
     /* placeID of San Francisco */
     return geocodeByPlaceId('ChIJIQBpAG2ahYAR_6128GcTUEo').then(results => {
+      expect(results).toMatchSnapshot();
+    });
+  });
+});
+
+describe('geocodeByLocation', () => {
+  it('geocode valid location', () => {
+    expect.assertions(1);
+    /* location of San Francisco */
+    return geocodeByLocation({
+      lat: 37.7749295,
+      lng: -122.41941550000001,
+    }).then(results => {
       expect(results).toMatchSnapshot();
     });
   });

@@ -1,6 +1,11 @@
 import PlacesAutocomplete from './PlacesAutocomplete';
-import { geocodeByAddress, geocodeByPlaceId, getLatLng } from './utils';
+import {
+  geocodeByAddress,
+  geocodeByPlaceId,
+  geocodeByLocation,
+  getLatLng,
+} from './utils';
 
-export { geocodeByAddress, geocodeByPlaceId, getLatLng };
+export { geocodeByAddress, geocodeByPlaceId, geocodeByLocation, getLatLng };
 
 export default PlacesAutocomplete;
