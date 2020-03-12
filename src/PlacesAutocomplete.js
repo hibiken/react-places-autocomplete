@@ -8,6 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
 import { compose } from './helpers';
+import { geocodeByAddress } from './utils';
 
 // transform snake_case to camelCase
 const formattedSuggestion = structured_formatting => ({
@@ -76,10 +77,30 @@ class PlacesAutocomplete extends React.Component {
     });
   };
 
+  geocoderFallback = () => {
+    const { value, highlightFirstSuggestion } = this.props;
+    geocodeByAddress(value).then(
+      results => {
+        this.setState({
+          suggestions: results.map((r, idx) => {
+            return {
+              id: r.place_id,
+              description: r.formatted_address,
+              placeId: r.place_id,
+              active: highlightFirstSuggestion && idx === 0 ? true : false,
+              index: idx,
+            };
+          })
+        });
+      },
+      error => this.props.onError(error, this.clearSuggestions),
+    );
+  }
+
   autocompleteCallback = (predictions, status) => {
     this.setState({ loading: false });
     if (status !== this.autocompleteOK) {
-      this.props.onError(status, this.clearSuggestions);
+      this.geocoderFallback();
       return;
     }
     const { highlightFirstSuggestion } = this.props;
