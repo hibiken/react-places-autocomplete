@@ -1,0 +1,87 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`initial render 1`] = `
+<PlacesAutocomplete
+  debounce={200}
+  highlightFirstSuggestion={false}
+  onChange={[Function]}
+  onError={[Function]}
+  searchOptions={Object {}}
+  shouldFetchSuggestions={true}
+  value=""
+>
+  <div>
+    <input
+      aria-autocomplete="list"
+      aria-expanded={false}
+      autoComplete="off"
+      disabled={false}
+      onBlur={[Function]}
+      onChange={[Function]}
+      onKeyDown={[Function]}
+      role="combobox"
+      type="text"
+      value=""
+    />
+    <div />
+  </div>
+</PlacesAutocomplete>
+`;
+
+exports[`initial render with initial input value 1`] = `
+<PlacesAutocomplete
+  debounce={200}
+  highlightFirstSuggestion={false}
+  onChange={[Function]}
+  onError={[Function]}
+  searchOptions={Object {}}
+  shouldFetchSuggestions={true}
+  value="San Francisco, CA"
+>
+  <div>
+    <input
+      aria-autocomplete="list"
+      aria-expanded={false}
+      autoComplete="off"
+      disabled={false}
+      onBlur={[Function]}
+      onChange={[Function]}
+      onKeyDown={[Function]}
+      role="combobox"
+      type="text"
+      value="San Francisco, CA"
+    />
+    <div />
+  </div>
+</PlacesAutocomplete>
+`;
+
+exports[`initial render with options to props-getter 1`] = `
+<PlacesAutocomplete
+  debounce={200}
+  highlightFirstSuggestion={false}
+  onChange={[Function]}
+  onError={[Function]}
+  searchOptions={Object {}}
+  shouldFetchSuggestions={true}
+  value=""
+>
+  <div>
+    <input
+      aria-autocomplete="list"
+      aria-expanded={false}
+      autoComplete="off"
+      className="my-input-classname"
+      disabled={false}
+      onBlur={[Function]}
+      onChange={[Function]}
+      onKeyDown={[Function]}
+      placeholder="Search Places..."
+      role="combobox"
+      type="text"
+      value=""
+    />
+    <div />
+  </div>
+</PlacesAutocomplete>
+`;
