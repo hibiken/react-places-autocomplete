@@ -74,6 +74,10 @@ class PlacesAutocomplete extends React.Component {
         return { ready: true };
       }
     });
+    
+    if (this.props.value && this.props.shouldFetchSuggestions) {
+        this.fetchPredictions()
+      }
   };
 
   autocompleteCallback = (predictions, status) => {
