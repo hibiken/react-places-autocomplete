@@ -149,7 +149,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	      });
 	
-	      if (_this.props.value && _this.props.shouldFetchSuggestions) {
+	      if (_this.props.value && _this.props.shouldFetchSuggestions && _this.props.shouldFetchSuggestionsOnInit) {
 	        _this.fetchPredictions();
 	      }
 	    };
@@ -487,6 +487,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  debounce: _propTypes2.default.number,
 	  highlightFirstSuggestion: _propTypes2.default.bool,
 	  shouldFetchSuggestions: _propTypes2.default.bool,
+	  shouldFetchSuggestionsOnInit: _propTypes2.default.bool,
 	  googleCallbackName: _propTypes2.default.string
 	};
 	

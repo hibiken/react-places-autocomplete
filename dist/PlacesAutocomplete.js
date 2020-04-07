@@ -69,7 +69,7 @@ var PlacesAutocomplete = function (_React$Component) {
         }
       });
 
-      if (_this.props.value && _this.props.shouldFetchSuggestions) {
+      if (_this.props.value && _this.props.shouldFetchSuggestions && _this.props.shouldFetchSuggestionsOnInit) {
         _this.fetchPredictions();
       }
     };
@@ -407,6 +407,7 @@ PlacesAutocomplete.propTypes = {
   debounce: _propTypes2.default.number,
   highlightFirstSuggestion: _propTypes2.default.bool,
   shouldFetchSuggestions: _propTypes2.default.bool,
+  shouldFetchSuggestionsOnInit: _propTypes2.default.bool,
   googleCallbackName: _propTypes2.default.string
 };
 
