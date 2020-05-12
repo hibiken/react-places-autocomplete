@@ -3,9 +3,8 @@
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg?style=flat-square)](https://gitter.im/react-places-autocomplete/Lobby)
 [![Maintainers Wanted](https://img.shields.io/badge/maintainers-wanted-orange)](https://github.com/hibiken/react-places-autocomplete/issues/296#issuecomment-583764730)
 
-### Future Development
 
-Are you interested in becoming a maintainer and privileged contributor of this project? Do you know of a well-maintained fork which should be listed in this README? [Please contact the project owner.](https://github.com/hibiken/react-places-autocomplete/issues/296#issuecomment-583764730)
+In order to ensure active development going forward, we are looking for maintainers to join the project. [Please contact the project owner if you are interested.](https://github.com/hibiken/react-places-autocomplete/issues/296#issuecomment-583764730)
 
 # React Places Autocomplete
 
