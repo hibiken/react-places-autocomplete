@@ -30,7 +30,7 @@ describe('onSelect prop', () => {
     expect(onSelectHandler).toHaveBeenCalledTimes(1);
     // first argument is input value,
     // second argument is placeId, null in this case.
-    expect(onSelectHandler).toBeCalledWith('San Francisco', null);
+    expect(onSelectHandler).toBeCalledWith('San Francisco', null, null);
   });
 
   test('pressing Enter when one of the suggestion items is active', () => {
@@ -38,15 +38,22 @@ describe('onSelect prop', () => {
     const wrapper = mountComponent({
       onSelect: onSelectHandler,
     });
-    simulateSearch(wrapper); // suggestions state is populated by mockSuggestions
 
+    simulateSearch(wrapper); // suggestions state is populated by mockSuggestions
     const input = wrapper.find('input');
     input.simulate('keydown', { key: 'ArrowDown' }); // index 0 active
     input.simulate('keydown', { key: 'Enter' });
+
+    const activeMockSuggestion = {
+      ...mockSuggestions[0],
+      active: true,
+    };
+
     expect(onSelectHandler).toHaveBeenCalledTimes(1);
     expect(onSelectHandler).toBeCalledWith(
-      mockSuggestions[0].description,
-      mockSuggestions[0].placeId
+      activeMockSuggestion.description,
+      activeMockSuggestion.placeId,
+      activeMockSuggestion
     );
   });
 
@@ -55,18 +62,51 @@ describe('onSelect prop', () => {
     const wrapper = mountComponent({
       onSelect: onSelectHandler,
     });
-    simulateSearch(wrapper);
 
+    simulateSearch(wrapper);
     const suggestionItem = wrapper
       .find('[data-test="suggestion-item"]')
       .first();
     const input = wrapper.find('input');
     suggestionItem.simulate('mouseenter');
     input.simulate('keydown', { key: 'Enter' });
+
+    const activeMockSuggestion = {
+      ...mockSuggestions[0],
+      active: true,
+    };
+
     expect(onSelectHandler).toHaveBeenCalledTimes(1);
     expect(onSelectHandler).toBeCalledWith(
-      mockSuggestions[0].description,
-      mockSuggestions[0].placeId
+      activeMockSuggestion.description,
+      activeMockSuggestion.placeId,
+      activeMockSuggestion
+    );
+  });
+
+  test('clicking on a suggestion will call onSelect handler with the correct arguments', () => {
+    const onSelectHandler = jest.fn();
+    const wrapper = mountComponent({
+      onSelect: onSelectHandler,
+    });
+
+    simulateSearch(wrapper);
+    const suggestionItem = wrapper
+      .find('[data-test="suggestion-item"]')
+      .first();
+    suggestionItem.simulate('mouseenter');
+    suggestionItem.simulate('click');
+
+    const activeMockSuggestion = {
+      ...mockSuggestions[0],
+      active: true,
+    };
+
+    expect(onSelectHandler).toHaveBeenCalledTimes(1);
+    expect(onSelectHandler).toBeCalledWith(
+      activeMockSuggestion.description,
+      activeMockSuggestion.placeId,
+      activeMockSuggestion
     );
   });
 });
