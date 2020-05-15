@@ -88,7 +88,7 @@ class PlacesAutocomplete extends React.Component {
         id: p.id,
         description: p.description,
         placeId: p.place_id,
-        active: highlightFirstSuggestion && idx === 0,
+        active: highlightFirstSuggestion && idx === 0 ? true : false,
         index: idx,
         formattedSuggestion: formattedSuggestion(p.structured_formatting),
         matchedSubstrings: p.matched_substrings,
