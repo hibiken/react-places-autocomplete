@@ -35,7 +35,9 @@ class PlacesAutocomplete extends React.Component {
   componentDidMount() {
     const { googleCallbackName } = this.props;
     if (googleCallbackName) {
-      if (!window.google) {
+      const isPlacesLoaded =
+        window.google && window.google.maps && window.google.maps.places;
+      if (!isPlacesLoaded) {
         window[googleCallbackName] = this.init;
       } else {
         this.init();
