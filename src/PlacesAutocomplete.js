@@ -377,6 +377,7 @@ PlacesAutocomplete.propTypes = {
   onSelect: PropTypes.func,
   searchOptions: PropTypes.shape({
     bounds: PropTypes.object,
+    strictBounds: PropTypes.bool,
     componentRestrictions: PropTypes.object,
     location: PropTypes.object,
     offset: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
