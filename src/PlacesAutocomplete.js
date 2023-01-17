@@ -233,14 +233,15 @@ class PlacesAutocomplete extends React.Component {
   handleInputChange = event => {
     const { value } = event.target;
     this.props.onChange(value);
-    this.setState({ userInputValue: value });
-    if (!value) {
-      this.clearSuggestions();
-      return;
-    }
-    if (this.props.shouldFetchSuggestions) {
-      this.debouncedFetchPredictions();
-    }
+    this.setState({ userInputValue: value }, () => {
+      if (!value) {
+        this.clearSuggestions();
+        return;
+      }
+      if (this.props.shouldFetchSuggestions) {
+        this.debouncedFetchPredictions();
+      }
+    });
   };
 
   handleInputOnBlur = () => {
