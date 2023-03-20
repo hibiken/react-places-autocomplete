@@ -92,7 +92,7 @@
     "react-dom": "^16.2.0",
     "react-test-renderer": "16.2.0",
     "rimraf": "2.5.3",
-    "semantic-release": "^4.3.5",
+    "semantic-release": "^17.2.3",
     "webpack": "^1.14.0",
     "webpack-dev-server": "^1.16.2"
   },
