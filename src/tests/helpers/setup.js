@@ -4,11 +4,13 @@ import PlacesAutocomplete from '../..';
 import { GEOCODE_RESULT } from './googlePayloads';
 
 class GeocoderMock {
-  geocode({ address, placeId }, callback) {
+  geocode({ address, placeId, location }, callback) {
     if (address) {
       this._geocodeAddress(address, callback);
     } else if (placeId) {
       this._geocodePlaceID(placeId, callback);
+    } else if (location) {
+      this._geocodeLocation(location, callback);
     } else {
       callback({}, 'ZERO_RESULTS');
     }
@@ -24,6 +26,14 @@ class GeocoderMock {
 
   _geocodePlaceID(placeId, callback) {
     if (placeId === 'ChIJIQBpAG2ahYAR_6128GcTUEo') {
+      callback(GEOCODE_RESULT['San Francisco'], 'OK');
+    } else {
+      callback([], 'ZERO_RESULTS');
+    }
+  }
+
+  _geocodeLocation(location, callback) {
+    if (location.lat === 37.7749295 && location.lng === -122.41941550000001) {
       callback(GEOCODE_RESULT['San Francisco'], 'OK');
     } else {
       callback([], 'ZERO_RESULTS');

@@ -44,6 +44,7 @@ utility functions are named exports
 import {
   geocodeByAddress,
   geocodeByPlaceId,
+  geocodeByLocation,
   getLatLng,
 } from 'react-places-autocomplete';
 ```
@@ -471,6 +472,7 @@ src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places&c
 
 * [`geocodeByAddress`](#geocode-by-address)
 * [`geocodeByPlaceId`](#geocode-by-place-id)
+* [`geocodeByLocation`](#geocode-by-location)
 * [`getLatLng`](#get-lat-lng)
 
 <a name="geocode-by-address"></a>
@@ -527,6 +529,35 @@ import { geocodeByPlaceId } from 'react-places-autocomplete';
 
 // `results` is an entire payload from Google API.
 geocodeByPlaceId('ChIJE9on3F3HwoAR9AhGJW_fL-I')
+  .then(results => console.log(results))
+  .catch(error => console.error(error));
+```
+
+<a name="geocode-by-location"></a>
+
+### `geocodeByLocation` API
+
+```js
+/**
+ * Returns a promise
+ * @param {Object} location
+ * @return {Promise}
+ */
+geocodeByLocation(location);
+```
+
+#### location
+
+Type: `Object`,
+Required: `true`
+
+Location object that gets passed to Google Maps [Geocoder](https://developers.google.com/maps/documentation/javascript/geocoding)
+
+```js
+import { geocodeByLocation } from 'react-places-autocomplete';
+
+// `results` is an entire payload from Google API.
+geocodeByLocation({ lat: 40.731, lng: -73.997 })
   .then(results => console.log(results))
   .catch(error => console.error(error));
 ```
