@@ -190,7 +190,7 @@ The function will take an object with the following keys.
 Simple example
 
 ```js
-const renderFunc = ({ getInputProps, getSuggestionItemProps, suggestions }) => (
+const renderFunc = ({ getInputProps, getSuggestionItemProps, suggestions, loading }) => (
   <div className="autocomplete-root">
     <input {...getInputProps()} />
     <div className="autocomplete-dropdown-container">
