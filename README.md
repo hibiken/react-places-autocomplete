@@ -102,7 +102,7 @@ class LocationSearchInput extends React.Component {
             />
             <div className="autocomplete-dropdown-container">
               {loading && <div>Loading...</div>}
-              {suggestions.map(suggestion => {
+              {suggestions.map((suggestion, i) => {
                 const className = suggestion.active
                   ? 'suggestion-item--active'
                   : 'suggestion-item';
@@ -116,6 +116,7 @@ class LocationSearchInput extends React.Component {
                       className,
                       style,
                     })}
+                    key={i}
                   >
                     <span>{suggestion.description}</span>
                   </div>
