@@ -71,21 +71,28 @@ import PlacesAutocomplete, {
 class LocationSearchInput extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { address: '' };
+    this.state = { address: '', showDropdown: false };
   }
 
   handleChange = address => {
-    this.setState({ address });
+    this.setState((prevState) => ({ ...prevState, address }));
   };
 
   handleSelect = address => {
+    this.handleChange(address);
+
+    // example usage
     geocodeByAddress(address)
       .then(results => getLatLng(results[0]))
       .then(latLng => console.log('Success', latLng))
       .catch(error => console.error('Error', error));
+
+    // this.props.onSelect(address);
   };
 
   render() {
+    const shouldShowDropdown = this.state.showDropdown && this.state.address;
+
     return (
       <PlacesAutocomplete
         value={this.state.address}
@@ -98,10 +105,22 @@ class LocationSearchInput extends React.Component {
               {...getInputProps({
                 placeholder: 'Search Places ...',
                 className: 'location-search-input',
+                onFocus: () => {
+                  this.setState((s) => ({ ...s, showDropdown: true }));
+                },
+                onBlur: () => {
+                  this.setState((s) => ({ ...s, showDropdown: false }));
+                },
               })}
             />
-            <div className="autocomplete-dropdown-container">
+            <div
+              className="autocomplete-dropdown-container"
+              style={{
+                ...(shouldShowDropdown && suggestions?.length > 0 ? {} : { display: 'none' }),
+              }}
+            >
               {loading && <div>Loading...</div>}
+
               {suggestions.map(suggestion => {
                 const className = suggestion.active
                   ? 'suggestion-item--active'
@@ -110,6 +129,7 @@ class LocationSearchInput extends React.Component {
                 const style = suggestion.active
                   ? { backgroundColor: '#fafafa', cursor: 'pointer' }
                   : { backgroundColor: '#ffffff', cursor: 'pointer' };
+
                 return (
                   <div
                     {...getSuggestionItemProps(suggestion, {
